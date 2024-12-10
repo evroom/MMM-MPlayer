@@ -20,14 +20,14 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
         position: "top_left",
         header: "MPlayer",
 	config: {
-	  useTwoWindows: true, // Use two windows
-	  layout: 'row',  // Can be 'row' or 'column'
-	  windowSize: { width: 525, height: 295 },  // Window size for both windows
-	  windowPosition: { x: 12, y: 575 },  // Position of the first window (window1) [window2 is either 5px below or to the right of this window, depending on layout]
+	  useTwoWindows: true,
+	  layout: 'row',
+	  windowSize: { width: 525, height: 295 },
+	  windowPosition: { x: 12, y: 575 },
 	  streamInterval: 30000,
 	  streams: {
 		window1: [
-		  'somthing_else.mp4',
+		  'something_else.mp4',
 		  'something.mp4'
 		],
 		window2: [
@@ -43,7 +43,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | Option | Description | Default |
 | ------------- | ------------- | ------------- |
 | `useTwoWindows`  | Use two windows | true |
-| `useTwoWindows`  | Can be 'row' or 'column' | row |
+| `layout`  | Can be 'row' or 'column' | row |
 | `windowSize`  | Window size for both windows | { width: 525, height: 295 } |
 | `windowPosition`  | Position of the first window (window1)<br>[window2 is either 5px below or to the right of this window, depending on layout] | { x: 12, y: 575 } |
 | `streamInterval`  |  | 30000 |
