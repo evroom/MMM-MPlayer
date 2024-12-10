@@ -32,5 +32,5 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 },
 ```
 ###
-Initial code provided by user 'myfingersarecold'.
+Initial code provided by user 'myfingersarecold'.<br>
 https://forum.magicmirror.builders/user/myfingersarecold
