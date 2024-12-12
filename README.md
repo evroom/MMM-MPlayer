@@ -69,5 +69,5 @@ This procedure has been tested on:
 - Magic Mirror version: 2.30.0
 
 ## Contributions
-Initial code provided by user 'myfingersarecold'.<br>
+Code provided by user 'myfingersarecold'.<br>
 https://forum.magicmirror.builders/user/myfingersarecold
