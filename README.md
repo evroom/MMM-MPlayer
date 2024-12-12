@@ -2,8 +2,7 @@
 A MagicMirror module that uses MPlayer to display rtsp streams
 
 ## Project Status
-This module is still under development.<br>
-It might not work, can show incorrect results, etc.
+This module is working, but still under development.
 
 ## Installation of mplayer
 ### Verify if mplayer is already installed
