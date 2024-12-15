@@ -10,7 +10,7 @@ Module.register('MMM-MPlayer', {
       layout: 'column',
       rotate: 0,
       windowSize: { width: 640, height: 480 },
-      windowPosition: { x: 0, y: 0 }, 
+      windowPosition: { x: 5, y: 225 }, 
       streamInterval:30000,
       streams: {
         window1: [
