@@ -40,8 +40,8 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 	  streamInterval: 30000,
 	  streams: {
 		window1: [
-		  'something_else.mp4',
-		  'something.mp4'
+		  'something.mp4',
+		  'something_else.mp4'
 		],
 		window2: [
 		  'rtsp://foo',
