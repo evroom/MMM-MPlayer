@@ -113,7 +113,7 @@ module.exports = NodeHelper.create({
     const mplayerProcess = spawn(`mplayer`, ['-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
 
     Log.info(`[MMM-Mplayer] Launched mplayer process for ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-Mplayer] mplayer -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} '-geometry' ${position.x}:${position.y} -xy ${size.width} ${size.height} ${stream}`);
+    Log.info(`[MMM-Mplayer] mplayer -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height} ${stream}`);
 
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
