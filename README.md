@@ -33,6 +33,8 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 	config: {
 	  useTwoWindows: true,
 	  layout: 'row',
+	  monitorAspect: 0;
+	  rortate: 0;
 	  windowSize: { width: 640, height: 360 },
 	  windowPosition: { x: 5, y: 225 },
 	  streamInterval: 30000,
@@ -55,6 +57,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | ------------- | ------------- | ------------- |
 | `useTwoWindows`  | Use two windows | true |
 | `layout`  | Can be 'row' or 'column' | row |
+| `monitorAspect`  | Set the aspect ratio of your monitor or TV screen<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
 | `rotate`  | Rotate window<br>0: Rotate by 90 degrees clockwise and flip (default).<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | 0 |
 | `windowSize`  | Window size for both windows | { width: 640, height: 360 } |
 | `windowPosition`  | Position of the first window (window1)<br>[window2 is either 5px below or to the right of this window, depending on layout] | { x: 5, y: 225 } |

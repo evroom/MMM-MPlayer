@@ -103,13 +103,14 @@ module.exports = NodeHelper.create({
 
   // Launch a new mplayer process for the window using spawn
   launchMPlayer: function(stream, window) {
-    const rotate = this.config.rotate || 0; // Values can be 0, 1, 2, or 3
+    const monitorAspect = this.config.monitorAspect || 0;
+    const rotate = this.config.rotate || 0; 
     const size = this.config.windowSize;
-    const position = this.config[`${window}Position`] || this.config.windowPosition; // Use specific or general window position
+    const position = this.config[`${window}Position`] || this.config.windowPosition;
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`, ['-noborder', '-monitoraspect', `0`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env}); //C,
+    const mplayerProcess = spawn(`mplayer`, ['-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
 
     Log.info(`Launched mplayer process for ${window} with PID ${mplayerProcess.pid}`);
 
