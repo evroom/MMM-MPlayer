@@ -7,9 +7,10 @@ Module.register('MMM-MPlayer', {
     // Define the module's defaults
     defaults: {
       useTwoWindows: true,
-      layout: 'column',  // Can be 'row' or 'column'
+      layout: 'column',
+      rotate: 0,
       windowSize: { width: 640, height: 480 },
-      windowPosition: { x: 0, y: 0 },  // Position of the first window
+      windowPosition: { x: 0, y: 0 }, 
       streamInterval:30000,
       streams: {
         window1: [
