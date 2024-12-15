@@ -108,7 +108,7 @@ module.exports = NodeHelper.create({
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`, ['-noborder', '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env}); //C, 
+    const mplayerProcess = spawn(`mplayer`, ['-noborder', '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env}); //C,
 
     Log.info(`Launched mplayer process for ${window} with PID ${mplayerProcess.pid}`);
 
