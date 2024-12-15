@@ -34,7 +34,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 	  useTwoWindows: true,
 	  layout: 'row',
 	  monitorAspect: 0;
-	  rortate: 0;
+	  rotate: 0;
 	  windowSize: { width: 640, height: 360 },
 	  windowPosition: { x: 5, y: 225 },
 	  streamInterval: 30000,
