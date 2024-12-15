@@ -64,6 +64,12 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | `streamInterval`  | Refresh the stream(s) after the provided interval | 30000 |
 | `streams`  | window1 and / or window2 streams [ mp4 , rtsp ]  |  |
 
+### Streams for testing
+These public streams can be used for testing:
+- http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+- http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4
+- http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4
+
 ## Test environment
 This procedure has been tested on:
 
