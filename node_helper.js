@@ -17,7 +17,7 @@ module.exports = NodeHelper.create({
   socketNotificationReceived: function(notification, payload) {
     switch(notification) {
       case 'SET_CONFIG':
-        Log.info('Received configuration for MMM-MPlayer module');
+        Log.info('[MMM-Mplayer] Received configuration for MMM-MPlayer module');
 
         // Save the configuration
         this.config = payload;
@@ -26,11 +26,11 @@ module.exports = NodeHelper.create({
         this.adjustLayout();
         break;
       case 'START_STREAM_CYCLE':
-        Log.info('Stream cycle process started.');
+        Log.info('[MMM-Mplayer] Stream cycle process started.');
         this.cycleStreams(); // Start the stream cycle after receiving the notification
         break;
       case 'STOP_STREAM_CYCLE':
-        Log.info('Stream cycle process stopped.');
+        Log.info('[MMM-Mplayer] Stream cycle process stopped.');
         this.stopStreams();
     }
   },
@@ -63,7 +63,7 @@ module.exports = NodeHelper.create({
   // Switch the stream for the given window
   switchStream: function(window) {
     const windowStreams = this.config.streams[window];
-    Log.info(`Switching stream for ${window}`);
+    Log.info(`[MMM-Mplayer] Switching stream for ${window}`);
     const currentIndex = this.currentStreamIndex[window];
     const nextIndex = (currentIndex + 1) % windowStreams.length;
 
@@ -83,7 +83,7 @@ module.exports = NodeHelper.create({
   killMPlayer: function(window) {
     const mplayerProcess = this.mplayerProcesses[window];
     if (mplayerProcess) {
-      Log.info(`Killing mplayer process for ${window}...${mplayerProcess.pid}`);
+      Log.info(`[MMM-Mplayer] Killing mplayer process for ${window}...${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
 
       // Handle standard output and error
@@ -96,7 +96,7 @@ module.exports = NodeHelper.create({
       });
 
       killer.on('close', (code) => {
-        Log.info(`killer process for ${window} exited with code ${code}`);
+        Log.info(`[MMM-Mplayer] killer process for ${window} exited with code ${code}`);
       });
     }
   },
@@ -112,7 +112,8 @@ module.exports = NodeHelper.create({
     const env = { ...process.env, DISPLAY: ':0' };
     const mplayerProcess = spawn(`mplayer`, ['-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
 
-    Log.info(`Launched mplayer process for ${window} with PID ${mplayerProcess.pid}`);
+    Log.info(`[MMM-Mplayer] Launched mplayer process for ${window} with PID ${mplayerProcess.pid}`);
+    Log.info(`[MMM-Mplayer] mplayer -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} '-geometry' ${position.x}:${position.y} -xy ${size.width} ${size.height} ${stream}`);
 
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
@@ -127,7 +128,7 @@ module.exports = NodeHelper.create({
     });
 
     mplayerProcess.on('close', (code) => {
-      Log.info(`mplayer process for ${window} exited with code ${code}`);
+      Log.info(`[MMM-Mplayer] mplayer process for ${window} exited with code ${code}`);
     });
   },
 
