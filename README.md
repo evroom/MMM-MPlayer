@@ -55,9 +55,10 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | ------------- | ------------- | ------------- |
 | `useTwoWindows`  | Use two windows | true |
 | `layout`  | Can be 'row' or 'column' | row |
+| `rotate`  | Rotate window<br>0: Rotate by 90 degrees clockwise and flip (default).<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | 0, 1, 2, or 3 |
 | `windowSize`  | Window size for both windows | { width: 525, height: 295 } |
 | `windowPosition`  | Position of the first window (window1)<br>[window2 is either 5px below or to the right of this window, depending on layout] | { x: 12, y: 575 } |
-| `streamInterval`  |  | 30000 |
+| `streamInterval`  | Refresh the stream(s) after the provided interval | 30000 |
 | `streams`  | window1 and / or window2 streams [ mp4 , rtsp ]  |  |
 
 ## Test environment

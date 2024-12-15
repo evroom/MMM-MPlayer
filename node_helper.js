@@ -37,14 +37,14 @@ module.exports = NodeHelper.create({
 
   // Start or refresh the streams
   cycleStreams: function() {
-    //fire up the streams immediately
+    // Fire up the streams immediately
     this.switchStream('window1');
     this.switchStream('window2');
     if (this.streamSwitcher == null) {
       this.streamSwitcher = setInterval(() => {
         this.switchStream('window1');
         this.switchStream('window2');
-      }, this.config.streamInterval);  // cycle based on the config
+      }, this.config.streamInterval);  // Cycle based on the config
 
       this.sendSocketNotification('STREAM_CYCLE_STARTED');
     }
