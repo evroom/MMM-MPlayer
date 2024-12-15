@@ -8,7 +8,7 @@ Module.register('MMM-MPlayer', {
     defaults: {
       useTwoWindows: true,
       layout: 'column',
-      monitorAspect: 0,
+      monitorAspect: '',
       rotate: 0,
       windowSize: { width: 640, height: 480 },
       windowPosition: { x: 5, y: 225 }, 
