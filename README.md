@@ -33,8 +33,8 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 	config: {
 	  useTwoWindows: true,
 	  layout: 'row',
-	  windowSize: { width: 525, height: 295 },
-	  windowPosition: { x: 12, y: 575 },
+	  windowSize: { width: 640, height: 360 },
+	  windowPosition: { x: 5, y: 225 },
 	  streamInterval: 30000,
 	  streams: {
 		window1: [
