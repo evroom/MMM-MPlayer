@@ -21,8 +21,8 @@ module.exports = NodeHelper.create({
 
         // Save the configuration
         this.config = payload;
-        Log.info(`[MMM-MPlayer] ${this.config}`);
-        
+        Log.info(`[MMM-MPlayer] ${payload}`);
+
         // Adjust layout and start the stream cycle
         this.adjustLayout();
         break;
