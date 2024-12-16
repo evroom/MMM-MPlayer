@@ -83,3 +83,7 @@ https://forum.magicmirror.builders/user/myfingersarecold<br>
 Code adapted by user 'evroom'.<br>
 https://forum.magicmirror.builders/user/evroom
 
+## MPlayer Project
+MPlayer Documentation:<br>
+http://www.mplayerhq.hu/design7/documentation.html
+
