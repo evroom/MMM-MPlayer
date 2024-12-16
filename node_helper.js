@@ -54,6 +54,8 @@ module.exports = NodeHelper.create({
     } else {
       this.switchStream('window2');
     }
+    //this.switchStream('window1');
+    //this.switchStream('window2');
     if (this.streamSwitcher == null) {
       this.streamSwitcher = setInterval(() => {
         if (this.config.streams['window1'] === undefined) {
@@ -66,6 +68,8 @@ module.exports = NodeHelper.create({
         } else {
           this.switchStream('window2');
         }
+        //this.switchStream('window1');
+        //this.switchStream('window2');
       }, this.config.streamInterval);  // Cycle based on the config
       this.sendSocketNotification('STREAM_CYCLE_STARTED');
     }
@@ -75,8 +79,18 @@ module.exports = NodeHelper.create({
     Log.info('[MMM-MPlayer] stopStreams - killMPlayer');
     if (this.streamSwitcher != null) {
       clearInterval(this.streamSwitcher);
-      this.killMPlayer('window1');
-      this.killMPlayer('window2');
+      if (this.config.streams['window1'] === undefined) {
+        Log.info('[MMM-MPlayer] streams window1 is undefined - no stream to cycle');
+      } else {
+        this.killMPlayer('window1');
+      }
+      if (this.config.streams['window2'] === undefined) {
+        Log.info('[MMM-MPlayer] streams window2 is undefined - no stream to cycle');
+      } else {
+        this.killMPlayer('window2');
+      }
+      //this.killMPlayer('window1');
+      //this.killMPlayer('window2');
       this.streamSwitcher = null;
       this.currentStreamIndex = { window1: -1, window2: -1 };
     }
