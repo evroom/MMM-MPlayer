@@ -5,6 +5,8 @@ A is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror)
 This module is working, but some positioning related issues exist.<br>
 See the [known bugs](#known-bugs) section for details.
 
+PIR functions have not been tested by me, as I do not use it.
+
 ## Installation of mplayer
 ### Verify if mplayer is already installed
 ```shell
@@ -79,11 +81,17 @@ This procedure has been tested on:
 - Magic Mirror version: 2.30.0
 
 ## Known bugs
-- When using 1 stream in 1 window, the positioning is not always correct. Restart of MM necessary.
+- When using 1 stream in 1 window, the positioning is not always correct. Restart of MM may be necessary.
 - When using 2 streams in 1 window, the positioning is not correct when cycling through the streams.
 - When using 2 streams in 2 windows, the positioning is not correct when cycling through the streams.
 
 All 3 issues seem to be more related to mplayer then to the module.
+
+## Opening Issues
+Opening an Issue is possible, but I cannot promise to be able to do something about it.<br>
+The code for the module was inherited and many stuff heavily depends on the MPlayer code (the latest MPlayer release is 1.5, created on 2022-02-27).
+
+When opening an issue, be sure to include you config, a good description of the issue and [MMM-MPlayer] entries you might find in the log(s).
 
 ## Contributions
 Code provided by user 'myfingersarecold'.<br>
@@ -95,3 +103,5 @@ https://forum.magicmirror.builders/user/evroom
 MPlayer Documentation:<br>
 http://www.mplayerhq.hu/design7/documentation.html
 
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
