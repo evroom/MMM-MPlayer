@@ -42,13 +42,13 @@ module.exports = NodeHelper.create({
   cycleStreams: function() {
     Log.info('[MMM-MPlayer] cycleStreams - STREAM_CYCLE_STARTED');
     // Fire up the streams immediately
-    Log.info(`[MMM-MPlayer] ${this.config.streams[window]}`);
+    Log.info(`[MMM-MPlayer] ${this.config.streams['window1']}`);
     if (this.config.streams[window] === undefined) {
       Log.info('[MMM-MPlayer] window1 is undefined - no stream to start');
     } else {
       this.switchStream('window1');
     }
-    Log.info(`[MMM-MPlayer] ${this.config.streams[window]}`);
+    Log.info(`[MMM-MPlayer] ${this.config.streams['window2']}`);
     if (this.config.window2 === undefined) {
       Log.info('[MMM-MPlayer] window2 is undefined - no stream to start');
     } else {
