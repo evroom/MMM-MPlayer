@@ -31,9 +31,6 @@ Module.register('MMM-MPlayer', {
       
       // Send the configuration to the backend
       this.sendSocketNotification('SET_CONFIG', this.config);
-  
-      // Notify the backend to start the stream cycle (backend will handle stream cycling)
-      //this.sendSocketNotification('START_STREAM_CYCLE');
     },
   
     // Define socket notification handlers

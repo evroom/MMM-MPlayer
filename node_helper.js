@@ -24,16 +24,18 @@ module.exports = NodeHelper.create({
 
         const payloadJson = JSON.stringify(payload);
         Log.debug(`[MMM-MPlayer] ${payloadJson}`);
-
+        
         // Adjust layout and start the stream cycle
         this.adjustLayout();
         break;
       case 'START_STREAM_CYCLE':
         Log.debug('[MMM-MPlayer] Stream cycle process started.');
-        this.cycleStreams(); // Start the stream cycle after receiving the notification
+        // Start the stream cycle after receiving the notification
+        this.cycleStreams();
         break;
       case 'STOP_STREAM_CYCLE':
         Log.debug('[MMM-MPlayer] Stream cycle process stopped.');
+        // Stop the stream cycle after receiving the notification
         this.stopStreams();
     }
   },
