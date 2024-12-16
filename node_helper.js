@@ -152,6 +152,6 @@ module.exports = NodeHelper.create({
         y: windowPosition.y  // Same y position
       };
     }
-    Log.info(`[MMM-MPlayer] adjustLayout - layout: ${layout} window2Position: ${this.config.window2Position}`);
+    Log.info(`[MMM-MPlayer] adjustLayout - layout: ${layout} window2Position: ${this.config.window2Position.x}:${this.config.window2Position.y}`);
   }
 });
