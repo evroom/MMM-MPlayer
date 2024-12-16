@@ -152,5 +152,6 @@ module.exports = NodeHelper.create({
         y: windowPosition.y  // Same y position
       };
     }
+    Log.info(`[MMM-MPlayer] layout: ${layout} window: ${window} position: ${position.x}:${position.y}`);
   }
 });
