@@ -77,6 +77,12 @@ This procedure has been tested on:
 - Debian GNU/Linux 12 (bookworm)
 - Magic Mirror version: 2.30.0
 
+## Known bugs
+- When using 1 stream in 1 window, the positioning is not always correct. Restart of MM necessary.
+- When using 2 streams in 1 window, the positioning is not correct when cycling through the streams.
+- When using 2 streams in 2 windows, the positioning is not correct when cycling through the streams.
+All 3 issues seem to be more related to mplayer then to the module.
+
 ## Contributions
 Code provided by user 'myfingersarecold'.<br>
 https://forum.magicmirror.builders/user/myfingersarecold<br>
