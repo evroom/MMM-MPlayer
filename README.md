@@ -1,5 +1,5 @@
 # MMM-MPlayer
-A is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and rtsp streams.
+This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and rtsp streams.
 
 ## Project Status
 This module is working, but some positioning related issues exist.<br>
