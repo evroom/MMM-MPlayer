@@ -21,7 +21,8 @@ module.exports = NodeHelper.create({
 
         // Save the configuration
         this.config = payload;
-
+        Log.info(`[MMM-MPlayer] ${this.config}`);
+        
         // Adjust layout and start the stream cycle
         this.adjustLayout();
         break;
@@ -87,7 +88,7 @@ module.exports = NodeHelper.create({
     Log.info('[MMM-MPlayer] killMPlayer');
     const mplayerProcess = this.mplayerProcesses[window];
     if (mplayerProcess) {
-      Log.info(`[MMM-MPlayer] Killing mplayer process for ${window}...${mplayerProcess.pid}`);
+      Log.info(`[MMM-MPlayer] Killing mplayer process for ${window} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
 
       // Handle standard output and error
