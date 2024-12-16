@@ -23,7 +23,7 @@ module.exports = NodeHelper.create({
         this.config = payload;
 
         const payloadJson = JSON.stringify(payload);
-        Log.info(`[MMM-MPlayer] ${payloadJson}`);
+        Log.log(`[MMM-MPlayer] ${payloadJson}`);
 
         // Adjust layout and start the stream cycle
         this.adjustLayout();
