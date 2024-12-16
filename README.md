@@ -79,4 +79,7 @@ This procedure has been tested on:
 
 ## Contributions
 Code provided by user 'myfingersarecold'.<br>
-https://forum.magicmirror.builders/user/myfingersarecold
+https://forum.magicmirror.builders/user/myfingersarecold<br>
+Code adapted by user 'evroom'.<br>
+https://forum.magicmirror.builders/user/evroom
+
