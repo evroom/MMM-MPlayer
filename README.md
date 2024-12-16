@@ -82,7 +82,8 @@ This procedure has been tested on:
 - When using 1 stream in 1 window, the positioning is not always correct. Restart of MM necessary.
 - When using 2 streams in 1 window, the positioning is not correct when cycling through the streams.
 - When using 2 streams in 2 windows, the positioning is not correct when cycling through the streams.
-<br>All 3 issues seem to be more related to mplayer then to the module.
+
+All 3 issues seem to be more related to mplayer then to the module.
 
 ## Contributions
 Code provided by user 'myfingersarecold'.<br>
