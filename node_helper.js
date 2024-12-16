@@ -37,6 +37,7 @@ module.exports = NodeHelper.create({
 
   // Start or refresh the streams
   cycleStreams: function() {
+    Log.info('[MMM-MPlayer] cycleStreams - STREAM_CYCLE_STARTED');
     // Fire up the streams immediately
     this.switchStream('window1');
     this.switchStream('window2');
@@ -51,6 +52,7 @@ module.exports = NodeHelper.create({
   },
 
   stopStreams: function() {
+    Log.info('[MMM-MPlayer] stopStreams - killMPlayer');
     if (this.streamSwitcher != null) {
       clearInterval(this.streamSwitcher);
       this.killMPlayer('window1');
@@ -62,6 +64,7 @@ module.exports = NodeHelper.create({
 
   // Switch the stream for the given window
   switchStream: function(window) {
+    Log.info('[MMM-MPlayer] switchStream - killMPlayer + launchMPlayer');
     const windowStreams = this.config.streams[window];
     Log.info(`[MMM-MPlayer] Switching stream for ${window}`);
     const currentIndex = this.currentStreamIndex[window];
@@ -81,6 +84,7 @@ module.exports = NodeHelper.create({
 
   // Kill any existing mplayer process for a window using SIGTERM
   killMPlayer: function(window) {
+    Log.info('[MMM-MPlayer] killMPlayer');
     const mplayerProcess = this.mplayerProcesses[window];
     if (mplayerProcess) {
       Log.info(`[MMM-MPlayer] Killing mplayer process for ${window}...${mplayerProcess.pid}`);
@@ -152,7 +156,7 @@ module.exports = NodeHelper.create({
         y: windowPosition.y  // Same y position
       };
     }
-    Log.info(`[MMM-MPlayer] adjustLayout - layout: ${layout} window1Position: ${this.config.windowPosition.x}:${this.config.windowPosition.y}`);
-    Log.info(`[MMM-MPlayer] adjustLayout - layout: ${layout} window2Position: ${this.config.window2Position.x}:${this.config.window2Position.y}`);
+    //Log.info(`[MMM-MPlayer] adjustLayout - layout: ${layout} window1Position: ${this.config.windowPosition.x}:${this.config.windowPosition.y}`);
+    //Log.info(`[MMM-MPlayer] adjustLayout - layout: ${layout} window2Position: ${this.config.window2Position.x}:${this.config.window2Position.y}`);
   }
 });
