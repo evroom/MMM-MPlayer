@@ -111,16 +111,10 @@ module.exports = NodeHelper.create({
     const rotate = this.config.rotate || -1; 
     const size = this.config.windowSize;
     const position = this.config[`${window}Position`] || this.config.windowPosition;
-    const mplayerProcess = this.mplayerProcesses[window];
 
     // Spawn a new mplayer process
-    if (typeof stream !== 'undefined') {
-      const env = { ...process.env, DISPLAY: ':0' };
-      const mplayerProcess = spawn(`mplayer`, ['-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
-    } else {
-      const env = { ...process.env, DISPLAY: ':0' };
-      this.mplayerProcesses = { window2: null };
-    }
+    const env = { ...process.env, DISPLAY: ':0' };
+    const mplayerProcess = spawn(`mplayer`, ['-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for ${window} with PID ${mplayerProcess.pid}`);
     Log.info(`[MMM-MPlayer] mplayer -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height} ${stream}`);
