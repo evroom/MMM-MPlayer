@@ -43,25 +43,25 @@ module.exports = NodeHelper.create({
     Log.info('[MMM-MPlayer] cycleStreams - STREAM_CYCLE_STARTED');
     // Fire up the streams immediately
     Log.info(`[MMM-MPlayer] ${this.config.streams['window1']}`);
-    if (this.config.streams[window] === undefined) {
+    if (this.config.streams['window1'] === undefined) {
       Log.info('[MMM-MPlayer] window1 is undefined - no stream to start');
     } else {
       this.switchStream('window1');
     }
     Log.info(`[MMM-MPlayer] ${this.config.streams['window2']}`);
-    if (this.config.window2 === undefined) {
+    if (this.config.streams['window2'] === undefined) {
       Log.info('[MMM-MPlayer] window2 is undefined - no stream to start');
     } else {
       this.switchStream('window2');
     }
     if (this.streamSwitcher == null) {
       this.streamSwitcher = setInterval(() => {
-        if (this.config.window1 === undefined) {
+        if (this.config.streams['window1'] === undefined) {
           Log.info('[MMM-MPlayer] window1 is undefined - no stream to cycle');
         } else {
           this.switchStream('window1');
         }
-        if (this.config.window2 === undefined) {
+        if (this.config.streams['window2'] === undefined) {
           Log.info('[MMM-MPlayer] window2 is undefined - no stream to cycle');
         } else {
           this.switchStream('window2');
