@@ -43,13 +43,20 @@ module.exports = NodeHelper.create({
     Log.info('[MMM-MPlayer] cycleStreams - STREAM_CYCLE_STARTED');
     // Fire up the streams immediately
     this.switchStream('window1');
-    this.switchStream('window2');
+    if (this.config.window2 === undefined) {
+      Log.info('[MMM-MPlayer] window2 is undefined');
+    } else {
+      this.switchStream('window2');
+    }
     if (this.streamSwitcher == null) {
       this.streamSwitcher = setInterval(() => {
         this.switchStream('window1');
-        this.switchStream('window2');
+        if (this.config.window2 === undefined) {
+          Log.info('[MMM-MPlayer] window2 is undefined');
+        } else {
+          this.switchStream('window2');
+        }
       }, this.config.streamInterval);  // Cycle based on the config
-
       this.sendSocketNotification('STREAM_CYCLE_STARTED');
     }
   },
