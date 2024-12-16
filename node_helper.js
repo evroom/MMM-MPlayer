@@ -71,7 +71,9 @@ module.exports = NodeHelper.create({
     const windowStreams = this.config.streams[window];
     Log.info(`[MMM-MPlayer] Switching stream for ${window}`);
     const currentIndex = this.currentStreamIndex[window];
+    Log.info(`[MMM-MPlayer] currentIndex ${currentIndex}`);
     const nextIndex = (currentIndex + 1) % windowStreams.length;
+    Log.info(`[MMM-MPlayer] nextIndex ${nextIndex}`);
 
     // Update stream index
     this.currentStreamIndex[window] = nextIndex;
