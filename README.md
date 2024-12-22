@@ -80,7 +80,7 @@ These public streams can be used for testing:
 ## Test environment
 This procedure has been tested on:
 
-- Raspberry Pi 4 Model B Rev 1.5
+- Raspberry Pi 4 Model B Rev 1.5 with 8 GB RAM
 - Debian GNU/Linux 12 (bookworm)
 - MagicMirror version: 2.30.0
 
