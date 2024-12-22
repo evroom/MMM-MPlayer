@@ -27,7 +27,7 @@ Module.register('MMM-MPlayer', {
   
     // Start the module
     start: function() {
-      console.log('MMM-MPlayer module starting...');
+      Log.log('MMM-MPlayer module starting...');
       
       // Send the configuration to the backend
       this.sendSocketNotification('SET_CONFIG', this.config);
@@ -38,7 +38,7 @@ Module.register('MMM-MPlayer', {
       switch(notification)
       {
         case 'STREAM_CYCLE_STARTED':
-          console.log('Stream cycle process started.');
+          Log.log('Stream cycle process started.');
           break;
       }
     },
@@ -47,13 +47,13 @@ Module.register('MMM-MPlayer', {
     notificationReceived: function(notification, payload, sender) {
       switch(notification) {
         case 'DOM_OBJECTS_CREATED':
-          console.log('DOM created. Starting the stream cycle process...');
+          Log.log('DOM created. Starting the stream cycle process...');
           
           // Send the notification to the backend to initiate the stream cycle
           this.sendSocketNotification('START_STREAM_CYCLE');
           break;
         case 'MMM_PIR-SCREEN_POWERSTATUS':
-          console.log(`Received PIR Screen Show Notification ${payload}`);
+          Log.log(`Received PIR Screen Show Notification ${payload}`);
           if (payload == true) {
             this.sendSocketNotification('START_STREAM_CYCLE');
           }

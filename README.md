@@ -1,5 +1,8 @@
 # MMM-MPlayer
-This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and rtsp streams.
+This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and RTSP streams.
+
+## Screenshot
+![Screenshot](screenshot.png)
 
 ## Project Status
 This module is working, but some positioning related issues exist.<br>
@@ -20,11 +23,12 @@ $ sudo apt install -y mplayer
 ```
 
 ## Installation of the MM module
-1. In your terminal, change to your Magic Mirror module directory `cd ~/MagicMirror/modules`
+1. In your terminal, change to your MagicMirror module directory `cd ~/MagicMirror/modules`
 
 2. Clone this repository `git clone https://github.com/evroom/MMM-MPlayer`
 
 3. Make changes to your `config.js` file.
+
 ### Config Example
 Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ```javascript
@@ -78,7 +82,7 @@ This procedure has been tested on:
 
 - Raspberry Pi 4 Model B Rev 1.5
 - Debian GNU/Linux 12 (bookworm)
-- Magic Mirror version: 2.30.0
+- MagicMirror version: 2.30.0
 
 ## Known bugs
 - When using 1 stream in 1 window, the positioning is not always correct. Restart of MM may be necessary.
