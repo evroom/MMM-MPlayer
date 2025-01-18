@@ -93,7 +93,7 @@ It will start and stop the video stream based on the notifications:
 - NEW_PAGE
 - PAGE_CHANGED
 
-If payload == 0 then START_STREAM_CYCLE else START_STREAM_CYCLE.
+If payload == 0 then START_STREAM_CYCLE else STOP_STREAM_CYCLE.
 Requirement for the moment, is that MMM-MPlayer needs to have page index 0, so it needs to be the first page in the config.
 
 ## Known bugs
