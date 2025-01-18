@@ -84,6 +84,17 @@ This procedure has been tested on:
 - Debian GNU/Linux 12 (bookworm)
 - MagicMirror version: 2.30.0
 
+## Support for MMM-pages
+[Still under development]
+This module has support for the module MMM-pages:
+https://github.com/sdetweil/MMM-pages
+
+It will start and stop the video stream based on the notifications:
+- NEW_PAGE
+- PAGE_CHANGED
+If payload == 0 then START_STREAM_CYCLE else START_STREAM_CYCLE.
+Requirement for the moment, is that MMM-MPlayer needs to have page index 0, so it needs to be the first page in the config.
+
 ## Known bugs
 - When using 1 stream in 1 window, the positioning is not always correct. Restart of MM may be necessary.
 - When using 2 streams in 1 window, the positioning is not correct when cycling through the streams.
