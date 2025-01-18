@@ -64,32 +64,26 @@ Module.register('MMM-MPlayer', {
         case 'NEW_PAGE':
           Log.log(`Received MMM-pages NEW_PAGE ${payload}`);
           this.curPage = payload;
-          /*if (payload == true) {
+          if (payload == 0) {
             this.sendSocketNotification('START_STREAM_CYCLE');
           }
           else {
             this.sendSocketNotification('STOP_STREAM_CYCLE');
-          } */
+          }
           break;
         case 'PAGE_CHANGED':
           Log.log(`Received MMM-pages PAGE_CHANGED ${payload}`);
           this.curPage = payload;
-          /*if (payload == true) {
+          if (payload == 0) {
             this.sendSocketNotification('START_STREAM_CYCLE');
           }
           else {
             this.sendSocketNotification('STOP_STREAM_CYCLE');
-          } */
+          }
           break;
         case 'MAX_PAGES_CHANGED':
           Log.log(`Received MMM-pages PAGE_NUMBER_IS ${payload}`);
           this.maxPages = payload;
-          /*if (payload == true) {
-           this.sendSocketNotification('START_STREAM_CYCLE');
-          }
-          else {
-            this.sendSocketNotification('STOP_STREAM_CYCLE');
-          } */
           break;
       }
     },
