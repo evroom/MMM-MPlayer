@@ -83,6 +83,7 @@ Module.register('MMM-MPlayer', {
           break;
         case 'SHOW_HIDDEN_PAGE':
           Log.log(`Received MMM-pages ${notification}`);
+            this.sendSocketNotification('STOP_STREAM_CYCLE');
             this.sendSocketNotification('START_STREAM_CYCLE');
           break;        
         case 'LEAVE_HIDDEN_PAGE':
