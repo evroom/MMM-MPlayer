@@ -81,6 +81,14 @@ Module.register('MMM-MPlayer', {
             this.sendSocketNotification('STOP_STREAM_CYCLE');
           }
           break;
+        case 'SHOW_HIDDEN_PAGE':
+          Log.log(`Received MMM-pages ${notification}`);
+            this.sendSocketNotification('START_STREAM_CYCLE');
+          break;        
+        case 'LEAVE_HIDDEN_PAGE':
+          Log.log(`Received MMM-pages ${notification}`);
+          this.sendSocketNotification('STOP_STREAM_CYCLE');
+          break;           
         case 'MAX_PAGES_CHANGED':
           Log.log(`Received MMM-pages PAGE_NUMBER_IS ${payload}`);
           this.maxPages = payload;
