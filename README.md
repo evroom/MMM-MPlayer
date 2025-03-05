@@ -122,7 +122,7 @@ https://forum.magicmirror.builders/user/evroom
 ## MPlayer Project
 MPlayer Documentation:<br>
 http://www.mplayerhq.hu/design7/documentation.html
-MPlayer man pages:<br>
+<br>MPlayer man pages:<br>
 $ man mplayer
 
 ## License
