@@ -11,7 +11,8 @@ Module.register('MMM-MPlayer', {
       monitorAspect: 0,
       rotate: -1,
       windowSize: { width: 640, height: 480 },
-      windowPosition: { x: 5, y: 225 }, 
+      windowPosition: { x: 5, y: 225 },
+      mplayerOptions: '',
       streamInterval:30000,
       streams: {
         window1: [
