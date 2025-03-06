@@ -99,6 +99,9 @@ It will start and stop the video stream based on the notifications:
 If payload == 0 then START_STREAM_CYCLE else STOP_STREAM_CYCLE.
 Requirement for the moment, is that MMM-MPlayer needs to have page index 0, so it needs to be the first page in the config.
 
+## Known issues
+- When streaming a network camera using RTSP, it has been reported that the stream may lag or even freeze. It is not clear yet if this is a limitation of the Raspberry Pi or that the RTSP stream is causing this.
+
 ## Known bugs
 - When using 1 stream in 1 window, the positioning is not always correct. Restart of MM may be necessary.
 - When using 2 streams in 1 window, the positioning is not correct when cycling through the streams.
@@ -111,6 +114,8 @@ Opening an Issue is possible, but I cannot promise to be able to do something ab
 The code for the module was inherited and many stuff heavily depends on the MPlayer code (the latest MPlayer release is 1.5, created on 2022-02-27).
 
 When opening an issue, be sure to include you config, a good description of the issue and [MMM-MPlayer] entries you might find in the log(s).
+
+It is always recommended to try one of the public streams for testing, to see if streaming is possible at all.
 
 ## Data gathering
 Raspberry Pi (Debian) based, but might apply for other platforms as well.
