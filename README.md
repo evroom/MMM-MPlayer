@@ -17,7 +17,6 @@ $ which mplayer
 /usr/bin/mplayer
 ```
 ### Install mplayer (when not installed yet)
-
 ```shell
 $ sudo apt install -y mplayer
 ```
@@ -113,6 +112,24 @@ The code for the module was inherited and many stuff heavily depends on the MPla
 
 When opening an issue, be sure to include you config, a good description of the issue and [MMM-MPlayer] entries you might find in the log(s).
 
+## Data gathering
+Raspberry Pi (Debian) based, but might apply for other platforms as well.
+```shell
+$ grep version ~/MagicMirror/package.json
+$ cat /proc/device-tree/model; echo
+$ lsb_release -a
+$ uname -a
+$ free -h -t
+```
+```shell
+$ ps -eaf | grep mplayer | grep -v grep
+```
+```shell
+$ pm2 flush
+$ pm2 restart MagicMirror
+$ sleep 20
+$ grep 'MMM-MPlayer' ~/.pm2/logs/MagicMirror-*.log
+```
 ## Contributions
 Code provided by user 'myfingersarecold'.<br>
 https://forum.magicmirror.builders/user/myfingersarecold<br>
