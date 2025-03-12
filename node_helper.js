@@ -13,12 +13,6 @@ module.exports = NodeHelper.create({
 
     this.currentStreamIndex = {};
     this.mplayerProcesses = {};
-    for (let i = 0; i < this.config.windows.length; i++) {
-      this.currentStreamIndex[i] = -1;
-      this.mplayerProcesses[i] = null;
-    };
-    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
-    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
 
     this.streamInterval = 30000;
     this.streamSwitcher = null;
@@ -125,7 +119,7 @@ module.exports = NodeHelper.create({
   // Kill any existing mplayer process for a window using SIGTERM
   killMPlayer: function(window) {
     Log.debug('[MMM-MPlayer] killMPlayer');
-    const mplayerProcess = this.mplayerProcesses[window];
+    const mplayerProcess = this.mplayerProcesses[window] === undefined ? null : this.mplayerProcesses[window];
     if (mplayerProcess) {
       Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${window} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
