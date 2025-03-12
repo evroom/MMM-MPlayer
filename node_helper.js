@@ -5,7 +5,7 @@ const Log = require('logger');  // Import the Log module from MagicMirror
 
 module.exports = NodeHelper.create({
   start: function() {
-    Log.log('Starting MMM-MPlayer module...');
+    Log.log('Starting MMM-MPlayer module... (nh)');
     this.streams = {};
 
     //this.currentStreamIndex = { window1: -1, window2: -1 };
@@ -17,8 +17,8 @@ module.exports = NodeHelper.create({
       this.currentStreamIndex[i] = -1;
       this.mplayerProcesses[i] = null;
     };
-    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
-    Log.debug(`[MMM-MPlayer]mplayerProcesses - ${this.mplayerProcesses}`);
+    Log.log(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
+    Log.log(`[MMM-MPlayer] mplayerProcesses - ${this.mplayerProcesses}`);
 
     this.streamInterval = 30000;
     this.streamSwitcher = null;
