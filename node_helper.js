@@ -7,10 +7,8 @@ module.exports = NodeHelper.create({
   start: function() {
     Log.log('Starting MMM-MPlayer module...');
     this.streams = {};
-
     this.currentStreamIndex = {};
     this.mplayerProcesses = {};
-
     this.streamInterval = 30000;
     this.streamSwitcher = null;
   },
@@ -115,7 +113,7 @@ module.exports = NodeHelper.create({
   // Kill any existing mplayer process for a window using SIGTERM
   killMPlayer: function(window) {
     Log.debug('[MMM-MPlayer] killMPlayer');
-    const mplayerProcess = this.mplayerProcesses[window] === undefined ? null : this.mplayerProcesses[window];
+    const mplayerProcess = this.mplayerProcesses[window];
     if (mplayerProcess) {
       Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${window} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
