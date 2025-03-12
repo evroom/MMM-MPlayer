@@ -172,13 +172,16 @@ module.exports = NodeHelper.create({
 
   // Adjust stream positions and size based on layout
   adjustLayout: function() {
+    Log.info(`[MMM-MPlayer] adjustLayout`);
     const windowPosition = this.config.windowPosition; // General window position for window1
     const windowSize = this.config.windowSize;
     const layout = this.config.layout;
 
+    Log.debug(`[MMM-MPlayer] windows - ${JSON.stringify(this.config.windows)}`);
+
     // Calculate position for second window automatically based on layout
       // If layout is column, position window 2 below window 1
-      for (let i=1; i < this.config.windows.length; i++) {
+      for (let i=0; i < this.config.windows.length; i++) {
         if( i ==0 ) {
           this.config.windows[i].windowPosition = this.config.windowPosition;
         }
