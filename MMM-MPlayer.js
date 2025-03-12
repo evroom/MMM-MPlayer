@@ -16,37 +16,29 @@ Module.register('MMM-MPlayer', {
       streamInterval:30000,
       windows:[
         {
-          //windowSize: { width: 640, height: 480 },
-          //windowPosition: { x: 5, y: 225 },
           streams: [
             'http://stream1.example.com/video1',
             'http://stream2.example.com/video1'
           ]
         },
         {
-          //windowSize: { width: 640, height: 480 },
-          //windowPosition: { x: 5, y: 225 },
           streams: [
             'http://stream1.example.com/video2',
             'http://stream2.example.com/video2'
           ]
+        },
+        {
+          streams: [
+            'http://stream1.example.com/video3',
+            'http://stream2.example.com/video3'
+          ]
         }
       ],
-      //streams: {
-      //  window1: [
-      //    'http://stream1.example.com/video1',
-      //    'http://stream2.example.com/video1'
-      //  ],
-      //  window2: [
-      //    'http://stream1.example.com/video2',
-      //    'http://stream2.example.com/video2'
-      //  ]
-      //}
     },
   
     // Start the module
     start: function() {
-      Log.log('MMM-MPlayer module starting... (max style)');
+      Log.log('MMM-MPlayer module starting...');
       
       // Send the configuration to the backend
       this.sendSocketNotification('SET_CONFIG', this.config);

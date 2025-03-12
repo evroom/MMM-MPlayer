@@ -5,11 +5,8 @@ const Log = require('logger');  // Import the Log module from MagicMirror
 
 module.exports = NodeHelper.create({
   start: function() {
-    Log.log('Starting MMM-MPlayer module... (nh)');
+    Log.log('Starting MMM-MPlayer module...');
     this.streams = {};
-
-    //this.currentStreamIndex = { window1: -1, window2: -1 };
-    //this.mplayerProcesses = { window1: null, window2: null }; // Track mplayer processes for each window
 
     this.currentStreamIndex = {};
     this.mplayerProcesses = {};
@@ -86,7 +83,6 @@ module.exports = NodeHelper.create({
         this.currentStreamIndex[i] = -1;
       }
       this.streamSwitcher = null;
-      //this.currentStreamIndex = { window1: -1, window2: -1 };
     }
   },
 
@@ -172,12 +168,10 @@ module.exports = NodeHelper.create({
 
   // Adjust stream positions and size based on layout
   adjustLayout: function() {
-    Log.info(`[MMM-MPlayer] adjustLayout`);
+    Log.debug(`[MMM-MPlayer] adjustLayout`);
     const windowPosition = this.config.windowPosition; // General window position for window1
     const windowSize = this.config.windowSize;
     const layout = this.config.layout;
-
-    Log.debug(`[MMM-MPlayer] windows - ${JSON.stringify(this.config.windows)}`);
 
     // Calculate position for second window automatically based on layout
       // If layout is column, position window 2 below window 1
@@ -197,10 +191,7 @@ module.exports = NodeHelper.create({
             y: this.config.windows[i-1].windowPosition.y  // Same y position
           };
         }
-        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout} window-${i}: ${this.config.windows[i].windowPosition.x}:${this.config.windows[i].windowPosition.y}`);
+        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPosition.x}:${this.config.windows[i].windowPosition.y}`);
       }
-
-    //Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout} window1Position: ${this.config.windowPosition.x}:${this.config.windowPosition.y}`);
-    //Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout} window2Position: ${this.config.window2Position.x}:${this.config.window2Position.y}`);
   }
 });
