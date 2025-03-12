@@ -17,8 +17,8 @@ module.exports = NodeHelper.create({
       this.currentStreamIndex[i] = -1;
       this.mplayerProcesses[i] = null;
     };
-    Log.log(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
-    Log.log(`[MMM-MPlayer] mplayerProcesses - ${this.mplayerProcesses}`);
+    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
+    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${this.mplayerProcesses}`);
 
     this.streamInterval = 30000;
     this.streamSwitcher = null;
@@ -98,6 +98,9 @@ module.exports = NodeHelper.create({
 
   // Switch the stream for the given window
   switchStream: function(window) {
+    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
+    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${this.mplayerProcesses}`);
+
     Log.debug('[MMM-MPlayer] switchStream - killMPlayer + launchMPlayer');
     Log.debug(`[MMM-MPlayer] Switching stream for window-${window}`);
     const windowStreams = this.config.windows[window].streams;
