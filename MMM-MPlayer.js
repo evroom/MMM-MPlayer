@@ -46,7 +46,7 @@ Module.register('MMM-MPlayer', {
   
     // Start the module
     start: function() {
-      Log.log('MMM-MPlayer module starting...');
+      Log.log('MMM-MPlayer module starting... (max style)');
       
       // Send the configuration to the backend
       this.sendSocketNotification('SET_CONFIG', this.config);
