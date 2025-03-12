@@ -17,8 +17,8 @@ module.exports = NodeHelper.create({
       this.currentStreamIndex[i] = -1;
       this.mplayerProcesses[i] = null;
     };
-    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
-    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${this.mplayerProcesses}`);
+    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
+    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
 
     this.streamInterval = 30000;
     this.streamSwitcher = null;
