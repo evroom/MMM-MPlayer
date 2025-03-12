@@ -10,24 +10,28 @@ Module.register('MMM-MPlayer', {
       layout: 'column',
       monitorAspect: 0,
       rotate: -1,
-      windowSize: { width: 640, height: 480 },
-      windowPosition: { x: 5, y: 225 },
       mplayerOptions: '',
       streamInterval:30000,
       windows:[
         {
+          windowSize: { width: 640, height: 480 },
+          windowPosition: { x: 5, y: 225 },
           streams: [
             'http://stream1.example.com/video1',
             'http://stream2.example.com/video1'
           ]
         },
         {
+          windowSize: { width: 640, height: 480 },
+          windowPosition: { x: 5, y: 225 },
           streams: [
             'http://stream1.example.com/video2',
             'http://stream2.example.com/video2'
           ]
         },
         {
+          windowSize: { width: 640, height: 480 },
+          windowPosition: { x: 5, y: 225 },
           streams: [
             'http://stream1.example.com/video3',
             'http://stream2.example.com/video3'

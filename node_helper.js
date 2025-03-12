@@ -138,7 +138,7 @@ module.exports = NodeHelper.create({
   launchMPlayer: function(stream, window) {
     const monitorAspect = this.config.monitorAspect || 0;
     const rotate = this.config.rotate || -1; 
-    const size = this.config.windowSize;
+    const size = this.config.windows[window].windowSize || this.config.windows[window].windowSize;
     const position = this.config.windows[window].windowPosition || this.config.windowPosition;
     const mplayerOptions = this.config.mplayerOptions || '';
 
@@ -172,6 +172,8 @@ module.exports = NodeHelper.create({
     const windowPosition = this.config.windowPosition; // General window position for window1
     const windowSize = this.config.windowSize;
     const layout = this.config.layout;
+
+    Log.debug(`[MMM-MPlayer] default windowSize: ${this.defaults.windowSize}`);
 
     // Calculate position for second window automatically based on layout
       // If layout is column, position window 2 below window 1
