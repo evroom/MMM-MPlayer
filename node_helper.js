@@ -98,8 +98,8 @@ module.exports = NodeHelper.create({
 
   // Switch the stream for the given window
   switchStream: function(window) {
-    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${this.currentStreamIndex}`);
-    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${this.mplayerProcesses}`);
+    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
+    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
 
     Log.debug('[MMM-MPlayer] switchStream - killMPlayer + launchMPlayer');
     Log.debug(`[MMM-MPlayer] Switching stream for window-${window}`);
