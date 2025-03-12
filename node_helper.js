@@ -105,7 +105,7 @@ module.exports = NodeHelper.create({
     Log.debug(`[MMM-MPlayer] Switching stream for window-${window}`);
     const windowStreams = this.config.windows[window].streams;
     Log.debug(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
-    const currentIndex = this.currentStreamIndex[window];
+    const currentIndex = this.currentStreamIndex[window] === undefined ? -1 : this.currentStreamIndex[window];
     Log.debug(`[MMM-MPlayer] currentIndex: ${currentIndex}`);
     const nextIndex = (currentIndex + 1) % windowStreams.length;
     Log.debug(`[MMM-MPlayer] nextIndex: ${nextIndex}`);
