@@ -69,7 +69,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ###
 | Option | Description | Default |
 | ------------- | ------------- | ------------- |
-| `layout`  | Can be '', 'row' or 'column'.<br>If not set to row or column, an explicit `windowPosition` entry is expected in the `windows` object | '' |
+| `layout`  | Can be '', 'row' or 'column'.<br>If not set to row or column, an explicit `windowPosition` entry is expected in the `windows` object | "" |
 | `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
 | `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | -1 |
 | `windowSize`  | Window size for the windows.<br>OPTIONAL as it can be set in the `windows` object. | { width: 640, height: 360 } |
@@ -79,7 +79,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | `windows`  | Array of window objects with individual configuration |  |
 | &emsp; `windowSize`  | Window size.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { width: 640, height: 360 } |
 | &emsp; `windowPosition`  | Position of the window.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { x: 5, y: 225 } |
-| &emsp; `streams`  | URL of the stream(s) [ mp4 , rtsp ] | http://stream1.example.com/video1 |
+| &emsp; `streams`  | URL of the stream(s) [ mp4 , rtsp ] | 'http://stream1.example.com/video1' |
 
 ### Streams for testing
 These public streams can be used for testing:
