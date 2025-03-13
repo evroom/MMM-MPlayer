@@ -144,10 +144,10 @@ module.exports = NodeHelper.create({
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`, [`${stream}`, `${mplayerOption1}`, `${mplayerOption2}`, `${mplayerOption3}`, '-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`], {env: env});
+    const mplayerProcess = spawn(`mplayer`, [`${mplayerOption1}`, `${mplayerOption2}`, `${mplayerOption3}`, '-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${stream} ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height}`);
+    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height} ${stream}`);
 
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
