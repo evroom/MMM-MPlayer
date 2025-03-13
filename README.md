@@ -37,7 +37,6 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
         position: "top_left",
         header: "MPlayer",
 	config: {
-	  useTwoWindows: true,
 	  layout: 'row',
 	  monitorAspect: 0,
 	  rotate: -1,
@@ -70,7 +69,6 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ###
 | Option | Description | Default |
 | ------------- | ------------- | ------------- |
-| `useTwoWindows`  | Use two windows. | true |
 | `layout`  | Can be 'row' or 'column'. If not set to row or column, explicit windowPosition is exp the windows object | row |
 | `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
 | `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | -1 |
