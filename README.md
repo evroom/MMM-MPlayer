@@ -45,23 +45,23 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 	  mplayerOptions: "",
 	  streamInterval: 30000,
 	  windows:[
-        {
-          windowSize: { width: 640, height: 480 },
-          windowPosition: { x: 5, y: 225 },
-          streams: [
-            'something.mp4',
-            'something_else.mp4'
-          ]
-        },
 		{
-          windowSize: { width: 640, height: 480 },
-          windowPosition: { x: 5, y: 225 },
-          streams: [
-            'rtsp://foo',
-            'rtsp://bar'
-          ]
-        }
-      ]
+			windowSize: { width: 640, height: 480 },
+			windowPosition: { x: 5, y: 225 },
+			streams: [
+				'something.mp4',
+				'something_else.mp4'
+			]
+		},
+		{
+			windowSize: { width: 640, height: 480 },
+			windowPosition: { x: 5, y: 225 },
+			streams: [
+				'rtsp://foo',
+				'rtsp://bar'
+			]
+		}
+	  ]
 	}
 },
 ```
