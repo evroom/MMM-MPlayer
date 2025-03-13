@@ -44,7 +44,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 	  windowPosition: { x: 5, y: 225 },
 	  mplayerOptions: "",
 	  streamInterval: 30000,
-	  windows:[
+	  windows: [
 	    {
 	      windowSize: { width: 640, height: 480 },
 	      windowPosition: { x: 5, y: 225 },
