@@ -7,7 +7,7 @@ Module.register('MMM-MPlayer', {
     // Define the module's defaults
     defaults: {
       useTwoWindows: true,
-      layout: 'column',
+      layout: '',
       monitorAspect: 0,
       rotate: -1,
       mplayerOptions: '',

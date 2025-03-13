@@ -171,10 +171,8 @@ module.exports = NodeHelper.create({
     const windowSize = this.config.windowSize;
     const layout = this.config.layout;
 
-    Log.debug(`[MMM-MPlayer] default windowSize: ${this.defaults.windowSize}`);
-
-    // Calculate position for second window automatically based on layout
-      // If layout is column, position window 2 below window 1
+    if(((layout === 'column') || (layout === 'row'))) {
+      // Calculate position for each window automatically based on the prior window
       for (let i=0; i < this.config.windows.length; i++) {
         if( i ==0 ) {
           this.config.windows[i].windowPosition = this.config.windowPosition;
@@ -193,5 +191,12 @@ module.exports = NodeHelper.create({
         }
         Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPosition.x}:${this.config.windows[i].windowPosition.y}`);
       }
+    }
+    else {
+      Log.log(`[MMM-MPlayer] layout is not column or row so expecting windowSize and windowPosition in each window config object to be set already with no adjustments`);
+      for (let i=0; i < this.config.windows.length; i++) {
+        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPosition.x}:${this.config.windows[i].windowPosition.y}`);
+      }
+    }
   }
 });
