@@ -10,6 +10,8 @@ Module.register('MMM-MPlayer', {
       layout: '',
       monitorAspect: 0,
       rotate: -1,
+      windowSize: { width: 640, height: 480 },
+      windowPosition: { x: 5, y: 225 },
       mplayerOptions: '',
       streamInterval:30000,
       windows:[
@@ -20,9 +22,8 @@ Module.register('MMM-MPlayer', {
             'http://stream1.example.com/video1',
             'http://stream2.example.com/video1'
           ]
-        }]
         }
-      ],
+      ]
     },
   
     // Start the module

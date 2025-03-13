@@ -136,7 +136,7 @@ module.exports = NodeHelper.create({
   launchMPlayer: function(stream, window) {
     const monitorAspect = this.config.monitorAspect || 0;
     const rotate = this.config.rotate || -1; 
-    const size = this.config.windows[window].windowSize || this.config.windows[window].windowSize;
+    const size = this.config.windows[window].windowSize || this.config.windowSize;
     const position = this.config.windows[window].windowPosition || this.config.windowPosition;
     const mplayerOptions = this.config.mplayerOptions || '';
 
