@@ -156,7 +156,7 @@ module.exports = NodeHelper.create({
     });
 
     mplayerProcess.stderr.on('data', (data) => {
-      //Log.error(`mplayer [${window}] stderr: ${data}`);
+      Log.error(`mplayer [${window}] stderr: ${data}`);
     });
 
     mplayerProcess.on('close', (code) => {
