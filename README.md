@@ -76,10 +76,10 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | `windowPosition`  | Position of the first window (window-0).<br>[window-1 is either 5px below or to the right of this window, depending on layout].<br>OPTIONAL  as it can be set in the `windows` object. | { x: 5, y: 225 } |
 | `mplayerOptions`  | Use additional mplayer options.<br>See 'man mplayer' for the possible options.<br>This option is to experiment with the mplayer options.<br>Examples: "-nosound", "-noaspect". | "" |
 | `streamInterval`  | Cycles the streams defined in `windows` after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos). | 30000 |
-| `windows`  | array of windows with individual configuration |  |
-|      `streams` | URL of the stream(s) [ mp4 , rtsp ] | http://stream1.example.com/video1  |
-|      `windowSize` | Window size (optional) | { width: 640, height: 360 } |
-|      `windowPosition` | Position of the window (optional) | { x: 5, y: 225 } |
+| `windows`  | Array of window objects with individual configuration |  |
+| &emsp; `windowSize` | Window size.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { width: 640, height: 360 } |
+| &emsp; `windowPosition` | Position of the window.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { x: 5, y: 225 } |
+| &emsp; `streams` | URL of the stream(s) [ mp4 , rtsp ] | http://stream1.example.com/video1 |
 
 ### Streams for testing
 These public streams can be used for testing:
