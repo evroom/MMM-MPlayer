@@ -156,7 +156,7 @@ module.exports = NodeHelper.create({
     });
 
     mplayerProcess.stderr.on('data', (data) => {
-      Log.error(`mplayer [${window}] stderr: ${data}`);
+      //Log.error(`mplayer [${window}] stderr: ${data}`);
     });
 
     mplayerProcess.on('close', (code) => {
@@ -167,7 +167,7 @@ module.exports = NodeHelper.create({
   // Adjust stream positions and size based on layout
   adjustLayout: function() {
     Log.debug(`[MMM-MPlayer] adjustLayout`);
-    const windowPosition = this.config.windowPosition; // General window position for window1
+    const windowPosition = this.config.windowPosition; // General window position
     const windowSize = this.config.windowSize;
     const layout = this.config.layout;
 
@@ -180,12 +180,12 @@ module.exports = NodeHelper.create({
         else if (layout === 'column') {          
           this.config.windows[i].windowPosition = {
             x: this.config.windows[i-1].windowPosition.x,  // Same x position
-            y: this.config.windows[i-1].windowPosition.y + windowSize.height + 5 // y position of window2 is below window1
+            y: this.config.windows[i-1].windowPosition.y + windowSize.height + 5 // y position of previous window plus height and buffer
           };
         }
         else  if (layout === 'row') {
           this.config.windows[i].windowPosition = {
-            x: this.config.windows[i-1].windowPosition.x + windowSize.width + 5, // x position of window2 is to the right of window1
+            x: this.config.windows[i-1].windowPosition.x + windowSize.width + 5, // x position of previous window plus width and buffer
             y: this.config.windows[i-1].windowPosition.y  // Same y position
           };
         }
