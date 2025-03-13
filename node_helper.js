@@ -138,14 +138,16 @@ module.exports = NodeHelper.create({
     const rotate = this.config.rotate || -1; 
     const size = this.config.windows[window].windowSize || this.config.windowSize;
     const position = this.config.windows[window].windowPosition || this.config.windowPosition;
-    const mplayerOptions = this.config.mplayerOptions || '';
+    const mplayerOption1 = this.config.mplayerOption1 || '';
+    const mplayerOption2 = this.config.mplayerOption2 || '';
+    const mplayerOption3 = this.config.mplayerOption3 || '';
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`, [`${stream}`, `${mplayerOptions}`, '-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`], {env: env});
+    const mplayerProcess = spawn(`mplayer`, [`${stream}`, `${mplayerOption1}`, `${mplayerOption2}`, `${mplayerOption3}`, '-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`], {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${stream} ${mplayerOptions} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height}`);
+    Log.info(`[MMM-MPlayer] mplayer ${stream} ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height}`);
 
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
