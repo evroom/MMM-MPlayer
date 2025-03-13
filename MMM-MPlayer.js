@@ -6,24 +6,23 @@
 Module.register('MMM-MPlayer', {
     // Define the module's defaults
     defaults: {
-      useTwoWindows: true,
-      layout: 'column',
+      layout: '',
       monitorAspect: 0,
       rotate: -1,
       windowSize: { width: 640, height: 480 },
       windowPosition: { x: 5, y: 225 },
       mplayerOptions: '',
-      streamInterval:30000,
-      streams: {
-        window1: [
-          'http://stream1.example.com/video1',
-          'http://stream2.example.com/video1'
-        ],
-        window2: [
-          'http://stream1.example.com/video2',
-          'http://stream2.example.com/video2'
-        ]
-      }
+      streamInterval: 30000,
+      windows:[
+        {
+          windowSize: { width: 640, height: 480 },
+          windowPosition: { x: 5, y: 225 },
+          streams: [
+            'http://stream1.example.com/video1',
+            'http://stream2.example.com/video1'
+          ]
+        }
+      ]
     },
   
     // Start the module
