@@ -69,17 +69,17 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ###
 | Option | Description | Default |
 | ------------- | ------------- | ------------- |
-| `layout`  | Can be 'row' or 'column'. If not set to row or column, explicit windowPosition is according to the windows object | row |
+| `layout`  | Can be '', 'row' or 'column'.<br>If not set to row or column, explicit `windowPosition` entry is expected in the `windows` object | '' |
 | `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
 | `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | -1 |
-| `windowSize`  | Window size for both windows.<br>OPTIONAL as it can be set in the `windows` object. | { width: 640, height: 360 } |
-| `windowPosition`  | Position of the first window (window1).<br>[window2 is either 5px below or to the right of this window, depending on layout].<br>OPTIONAL  as it can be set in the `windows` object. | { x: 5, y: 225 } |
-| `mplayerOptions`  | Use additional mplayer options.<br>See 'man mplayer' for the possible options.<br>This option is to experiment with the mplayer options.<br>Example: "-nosound"| "" |
-| `streamInterval`  | Cycles the streams defined in window1 and/or window2 after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos). | 30000 |
-| `windows`  | array of windows with individual configuration   |  |
-|      `streams`  | window1 and / or window2 streams [ mp4 , rtsp ]  |  |
-|      `windowSize`  | Window size (optional) | { width: 640, height: 360 } |
-|      `windowPosition`  | Position of the window (optional) | { x: 5, y: 225 } |
+| `windowSize`  | Window size for the windows.<br>OPTIONAL as it can be set in the `windows` object. | { width: 640, height: 360 } |
+| `windowPosition`  | Position of the first window (window-0).<br>[window-1 is either 5px below or to the right of this window, depending on layout].<br>OPTIONAL  as it can be set in the `windows` object. | { x: 5, y: 225 } |
+| `mplayerOptions`  | Use additional mplayer options.<br>See 'man mplayer' for the possible options.<br>This option is to experiment with the mplayer options.<br>Examples: "-nosound", "-noaspect". | "" |
+| `streamInterval`  | Cycles the streams defined in `windows` after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos). | 30000 |
+| `windows`  | array of windows with individual configuration |  |
+|      `streams` | URL of the stream(s) [ mp4 , rtsp ] | http://stream1.example.com/video1  |
+|      `windowSize` | Window size (optional) | { width: 640, height: 360 } |
+|      `windowPosition` | Position of the window (optional) | { x: 5, y: 225 } |
 
 ### Streams for testing
 These public streams can be used for testing:
