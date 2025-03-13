@@ -12,7 +12,7 @@ Module.register('MMM-MPlayer', {
       windowSize: { width: 640, height: 480 },
       windowPosition: { x: 5, y: 225 },
       mplayerOptions: '',
-      streamInterval:30000,
+      streamInterval: 30000,
       windows:[
         {
           windowSize: { width: 640, height: 480 },
