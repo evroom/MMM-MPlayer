@@ -69,7 +69,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ###
 | Option | Description | Default |
 | ------------- | ------------- | ------------- |
-| `layout`  | Can be 'row' or 'column'. If not set to row or column, explicit windowPosition is exp the windows object | row |
+| `layout`  | Can be 'row' or 'column'. If not set to row or column, explicit windowPosition is according to the windows object | row |
 | `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
 | `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | -1 |
 | `windowSize`  | Window size for both windows. (optional as it can be set in the windows object) | { width: 640, height: 360 } |
@@ -148,7 +148,9 @@ $ grep 'MMM-MPlayer' ~/.pm2/logs/MagicMirror-*.log
 Code provided by user 'myfingersarecold'.<br>
 https://forum.magicmirror.builders/user/myfingersarecold<br>
 Code adapted by user 'evroom'.<br>
-https://forum.magicmirror.builders/user/evroom
+https://forum.magicmirror.builders/user/evroom<br>
+Code adapted by user 'maxbethge'.<br>
+https://github.com/maxbethge
 
 ## MPlayer Project
 MPlayer Documentation:<br>
