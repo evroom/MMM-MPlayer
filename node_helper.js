@@ -134,6 +134,8 @@ module.exports = NodeHelper.create({
 
   // Launch a new mplayer process for the window using spawn
   // monitorAspect: 0, // -monitoraspect <ratio>
+  // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
+  // noBorder: false, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
   // rotate: -1, // -vf rotate[=<0-7>]
   // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
   // windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
@@ -150,7 +152,9 @@ module.exports = NodeHelper.create({
   // mplayerOption3: '',
 
   launchMPlayer: function(stream, window) {
-    const monitorAspect = this.config.monitorAspect || 0;
+    const monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect || 0;
+    const noAspect = this.config.windows[window].noAspect || this.config.noAspect;
+    const noBorder= this.config.windows[window].noBorder || this.config.noBorder;
     const rotate = this.config.windows[window].rotate || this.config.rotate;
     const windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
     const windowSize = this.config.windows[window].windowSize || this.config.windowSize;
@@ -162,9 +166,10 @@ module.exports = NodeHelper.create({
     const preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
     const ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
     const videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
-    const mplayerOption1 = this.config.windows[window].videoOutputDriver || this.config.mplayerOption1 || '';
-    const mplayerOption2 = this.config.windows[window].videoOutputDriver || this.config.mplayerOption2 || '';
-    const mplayerOption3 = this.config.windows[window].videoOutputDriver || this.config.mplayerOption3 || '';
+    const noSound = this.config.windows[window].noSound || this.config.noSound;
+    const mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1 || '';
+    const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2 || '';
+    const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3 || '';
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
@@ -172,11 +177,21 @@ module.exports = NodeHelper.create({
        [`${mplayerOption1}`,
         `${mplayerOption2}`,
         `${mplayerOption3}`,
-        '-noborder',
         '-monitoraspect', `${monitorAspect}`,
+        `${noAspect}`,
+        `${noBorder}`,
         '-vf', `rotate=${rotate}`,
         '-geometry', `${windowPosition.x}:${windowPosition.y}`,
         `-xy`, `${windowSize.width}`, `${windowSize.height}`,
+        `${windowWidthNoNewAspect}`,
+        `${windowHeightNoNewAspect}`,
+        `${windowWidth}`,
+        `${rtspStreamOverTcp}`,
+        `${rtspStreamOverHttp}`,
+        `${preferIpv4}`,
+        `${ipv4onlyProxy}`,
+        `${videoOutputDriver}`,
+        `${noSound}`,
         `${stream}`],
         {env: env});
 

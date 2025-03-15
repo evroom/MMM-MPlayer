@@ -9,6 +9,8 @@ Module.register('MMM-MPlayer', {
       layout: '',
       streamInterval: 30000,
       monitorAspect: 0, // -monitoraspect <ratio>
+      noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
+      noBorder: false, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
       rotate: -1, // -vf rotate[=<0-7>]
       windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
       windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
@@ -20,6 +22,7 @@ Module.register('MMM-MPlayer', {
       preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
       ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
       videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
+      noSound: false, // -nosound - Do not play/encode sound.
       mplayerOption1: '',
       mplayerOption2: '',
       mplayerOption3: '',
