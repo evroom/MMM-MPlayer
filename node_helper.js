@@ -194,13 +194,13 @@ module.exports = NodeHelper.create({
     } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y'; } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
-    if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy' } else { windowWidth = ''; windowWidthValue = ''; }
-    if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = ''; }
-    if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http' } else { rtspStreamOverHttp = ''; }
-    if (preferIpv4) { preferIpv4 = '-prefer-ipv4' } else { preferIpv4 = ''; }
-    if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = ''; }
+    if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy'; } else { windowWidth = ''; windowWidthValue = ''; }
+    if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp'; } else { rtspStreamOverTcp = ''; }
+    if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http'; } else { rtspStreamOverHttp = ''; }
+    if (preferIpv4) { preferIpv4 = '-prefer-ipv4'; } else { preferIpv4 = ''; }
+    if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy'; } else { ipv4onlyProxy = ''; }
     if (videoOutputDriver) { videoOutputDriverValue = videoOutputDriver; videoOutputDriver = '-vo' } else { videoOutputDriver = ''; videoOutputDriverValue = ''; }
-    if (noSound) { noSound = '-nosound' } else { noSound = '' }
+    if (noSound) { noSound = '-nosound'; } else { noSound = ''; }
     if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
 
     // windowSize takes precedence over windowWidthNoNewAspect, windowHeightNoNewAspect and windowWidth
@@ -243,7 +243,7 @@ module.exports = NodeHelper.create({
         `${windowSizeY}`, `${windowSizeValueY}`,
         `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
         `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
-        `${windowWidth}`, `${windowWidthValue}`
+        `${windowWidth}`, `${windowWidthValue}`,
         `${rtspStreamOverTcp}`,
         `${rtspStreamOverHttp}`,
         `${preferIpv4}`,
