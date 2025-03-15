@@ -7,18 +7,26 @@ Module.register('MMM-MPlayer', {
     // Define the module's defaults
     defaults: {
       layout: '',
-      monitorAspect: 0,
-      rotate: -1,
-      windowSize: { width: 640, height: 480 },
-      windowPosition: { x: 5, y: 225 },
+      streamInterval: 30000,
+      monitorAspect: 0, // -monitoraspect <ratio>
+      rotate: -1, // -vf rotate[=<0-7>]
+      windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
+      windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
+      windowWidthNoNewAspect: 640, // -x <x> - Scale image to width <x> - Disables aspect calculations.
+      windowHeightNoNewAspect: 360, // -y <y> - Scale image to height <y> - Disables aspect calculations.
+      windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
+      rtspStreamOverTcp: false, // -rtsp-stream-over-tcp - Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.
+      rtspStreamOverHttp: false, // -rtsp-stream-over-http - Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.
+      preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
+      ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
+      videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
       mplayerOption1: '',
       mplayerOption2: '',
       mplayerOption3: '',
-      streamInterval: 30000,
       windows:[
         {
-          windowSize: { width: 640, height: 480 },
-          windowPosition: { x: 5, y: 225 },
+          windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
+          windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
           streams: [
             'http://stream1.example.com/video1',
             'http://stream2.example.com/video1'

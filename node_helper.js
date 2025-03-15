@@ -133,21 +133,55 @@ module.exports = NodeHelper.create({
   },
 
   // Launch a new mplayer process for the window using spawn
+  // monitorAspect: 0, // -monitoraspect <ratio>
+  // rotate: -1, // -vf rotate[=<0-7>]
+  // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
+  // windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
+  // windowWidthNoNewAspect: 640, // -x <x> - Scale image to width <x> - Disables aspect calculations.
+  // windowHeightNoNewAspect: 360, // -y <y> - Scale image to height <y> - Disables aspect calculations.
+  // windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
+  // rtspStreamOverTcp: false, // -rtsp-stream-over-tcp - Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.
+  // rtspStreamOverHttp: false, // -rtsp-stream-over-http - Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.
+  // preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
+  // ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
+  // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
+  // mplayerOption1: '',
+  // mplayerOption2: '',
+  // mplayerOption3: '',
+
   launchMPlayer: function(stream, window) {
     const monitorAspect = this.config.monitorAspect || 0;
-    const rotate = this.config.rotate || -1; 
-    const size = this.config.windows[window].windowSize || this.config.windowSize;
-    const position = this.config.windows[window].windowPosition || this.config.windowPosition;
-    const mplayerOption1 = this.config.mplayerOption1 || '';
-    const mplayerOption2 = this.config.mplayerOption2 || '';
-    const mplayerOption3 = this.config.mplayerOption3 || '';
+    const rotate = this.config.windows[window].rotate || this.config.rotate;
+    const windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
+    const windowSize = this.config.windows[window].windowSize || this.config.windowSize;
+    const windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+    const windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+    const windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
+    const rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+    const rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+    const preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
+    const ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
+    const videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
+    const mplayerOption1 = this.config.windows[window].videoOutputDriver || this.config.mplayerOption1 || '';
+    const mplayerOption2 = this.config.windows[window].videoOutputDriver || this.config.mplayerOption2 || '';
+    const mplayerOption3 = this.config.windows[window].videoOutputDriver || this.config.mplayerOption3 || '';
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`, [`${mplayerOption1}`, `${mplayerOption2}`, `${mplayerOption3}`, '-noborder', '-monitoraspect', `${monitorAspect}`, '-vf', `rotate=${rotate}`, '-geometry', `${position.x}:${position.y}`, `-xy`, `${size.width}`, `${size.height}`, `${stream}`], {env: env});
+    const mplayerProcess = spawn(`mplayer`,
+       [`${mplayerOption1}`,
+        `${mplayerOption2}`,
+        `${mplayerOption3}`,
+        '-noborder',
+        '-monitoraspect', `${monitorAspect}`,
+        '-vf', `rotate=${rotate}`,
+        '-geometry', `${windowPosition.x}:${windowPosition.y}`,
+        `-xy`, `${windowSize.width}`, `${windowSize.height}`,
+        `${stream}`],
+        {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${position.x}:${position.y} -xy ${size.width} ${size.height} ${stream}`);
+    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -xy ${windowSize.width} ${windowSize.height} ${stream}`);
 
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
@@ -166,7 +200,7 @@ module.exports = NodeHelper.create({
     });
   },
 
-  // Adjust stream positions and size based on layout
+  // Adjust stream positions and windowSize based on layout
   adjustLayout: function() {
     Log.debug(`[MMM-MPlayer] adjustLayout`);
     const windowPosition = this.config.windowPosition; // General window position
