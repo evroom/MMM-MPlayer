@@ -171,6 +171,9 @@ module.exports = NodeHelper.create({
     const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2 || '';
     const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3 || '';
 
+    if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' };
+    if (noBorder) { noBorder = '-noborder' } else { noBorder = '' } ;
+
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
     const mplayerProcess = spawn(`mplayer`,
