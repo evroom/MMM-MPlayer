@@ -236,6 +236,7 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
     Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
     Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
+    Log.info(`[MMM-MPlayer] stream: ${stream}`);
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
