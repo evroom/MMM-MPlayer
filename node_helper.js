@@ -178,7 +178,7 @@ module.exports = NodeHelper.create({
     if (monitorAspect) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
-    if (rotate) { rotateValue = 'rotate=' + rotate; rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
+    if (rotate) { rotateValue = ['rotate', rotate] .join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
 
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
@@ -193,7 +193,7 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
 
-    Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotate}`);
+    Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
 
     Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
     Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
