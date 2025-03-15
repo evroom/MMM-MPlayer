@@ -174,7 +174,7 @@ module.exports = NodeHelper.create({
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
     // windowWidthNoNewAspect: 640,
-    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = "-x windowWidthNoNewAspect" } else { windowWidthNoNewAspect = '' }
+    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = "-x `${windowWidthNoNewAspect}`" } else { windowWidthNoNewAspect = '' }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = '' }
     if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
     if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = '' }
