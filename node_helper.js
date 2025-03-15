@@ -182,8 +182,15 @@ module.exports = NodeHelper.create({
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
     if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
-    if (windowPosition) { windowPositionValue = [windowPosition.x, windowPosition.y].join(':'); windowPosition = "-geometry"; } else { windowPosition = ''; windowPositionValue = ''; }
-    if (windowSize) { windowSizeValueX = windowSize.width; windowSizeValueY = windowSize.height; windowSizeX = "-x";  windowSizeY = "-y";} else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
+    if (windowPosition) {
+      windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
+      windowPosition = "-geometry";
+    } else { windowPosition = ''; windowPositionValue = ''; }
+    if (windowSize) {
+      windowSizeValueX = windowSize.width;
+      windowSizeValueY = windowSize.height; windowSizeX = "-x";
+      windowSizeY = "-y";
+    } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
     if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
@@ -196,7 +203,12 @@ module.exports = NodeHelper.create({
     if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
 
     // windowSize takes precedence over windowWidthNoNewAspect and windowHeightNoNewAspect
-
+    if (windowPosition) {
+      windowWidthNoNewAspect = '';
+      windowWidthNoNewAspectValue = '';
+      windowHeightNoNewAspect = '';
+      windowHeightNoNewAspectValue = '';
+    }
 
     Log.info(`[MMM-MPlayer] options and option values:`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
