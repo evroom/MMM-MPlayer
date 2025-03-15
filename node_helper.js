@@ -159,6 +159,7 @@ module.exports = NodeHelper.create({
     const windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
     const windowSize = this.config.windows[window].windowSize || this.config.windowSize;
     windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+    //windowWidthNoNewAspectValue = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
     windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
     windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
     rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
@@ -174,7 +175,7 @@ module.exports = NodeHelper.create({
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
     // windowWidthNoNewAspect: 640,
-    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = "-x" } else { windowWidthNoNewAspect = '' }
+    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = "-x"; windowWidthNoNewAspectValue = windowWidthNoNewAspect } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = '' }
     if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
     if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = '' }
@@ -183,7 +184,7 @@ module.exports = NodeHelper.create({
     if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = '' }
     if (noSound) { noSound = '-nosound' } else { noSound = '' }
 
-    Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect}`);
+    Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
