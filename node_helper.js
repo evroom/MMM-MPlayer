@@ -214,6 +214,11 @@ module.exports = NodeHelper.create({
       windowWidthValue = '';
     }
 
+    // monitorAspect takes precedence over noAspect
+    if (monitorAspect >= 0) {
+      noAspect = '';
+    }
+
     Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
     Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
@@ -277,7 +282,6 @@ module.exports = NodeHelper.create({
   adjustLayout: function() {
     Log.debug(`[MMM-MPlayer] adjustLayout`);
 
-    // begin new
     const layout = this.config.layout;
     let windowPosition = this.config.windowPosition;
     let windowPositionValue = '';
@@ -298,11 +302,6 @@ module.exports = NodeHelper.create({
       windowSizeValueX = windowSize.width;
       windowSizeValueY = windowSize.height;
     } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
-    // end new
-
-    //const layout = this.config.layout;
-    //const windowPosition = this.config.windowPosition; // General window position
-    //const windowSize = this.config.windowSize;
 
     if(((layout === 'column') || (layout === 'row'))) {
       // Calculate position for each window automatically based on the prior window
@@ -314,17 +313,13 @@ module.exports = NodeHelper.create({
           this.config.windows[i].windowPosition = {
             x: this.config.windows[i-1].windowPositionValueX,  // Same x position
             y: this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
-            //x: this.config.windows[i-1].windowPosition.x,  // Same x position
-            //y: this.config.windows[i-1].windowPosition.y + windowSize.height + 5 // y position of previous window plus height and buffer
-          };
+         };
         }
         else if (layout === 'row') {
           this.config.windows[i].windowPosition = {
             x: this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
             y: this.config.windows[i-1].windowPositionValueY  // Same y position
-            //x: this.config.windows[i-1].windowPosition.x + windowSize.width + 5, // x position of previous window plus width and buffer
-            //y: this.config.windows[i-1].windowPosition.y  // Same y position
-          };
+         };
         }
         Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
       }
