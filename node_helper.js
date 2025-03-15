@@ -152,7 +152,7 @@ module.exports = NodeHelper.create({
   // mplayerOption3: '',
 
   launchMPlayer: function(stream, window) {
-    const monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect || 0;
+    const monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect;
     const noAspect = this.config.windows[window].noAspect || this.config.noAspect;
     const noBorder= this.config.windows[window].noBorder || this.config.noBorder;
     const rotate = this.config.windows[window].rotate || this.config.rotate;
@@ -167,12 +167,12 @@ module.exports = NodeHelper.create({
     const ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
     const videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
     const noSound = this.config.windows[window].noSound || this.config.noSound;
-    const mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1 || '';
-    const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2 || '';
-    const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3 || '';
+    const mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1;
+    const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2;
+    const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3;
 
-    if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' };
-    if (noBorder) { noBorder = '-noborder' } else { noBorder = '' } ;
+    if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
+    if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
