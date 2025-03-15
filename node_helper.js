@@ -182,14 +182,8 @@ module.exports = NodeHelper.create({
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
     if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
-
     if (windowPosition) { windowPositionValue = [windowPosition.x, windowPosition.y].join(':'); windowPosition = "-geometry"; } else { windowPosition = ''; windowPositionValue = ''; }
-    // -geometry <x:y> // windowPosition: { x: 5, y: 225 }
     if (windowSize) { windowSizeValueX = windowSize.width; windowSizeValueY = windowSize.height; windowSizeX = "-x";  windowSizeY = "-y";} else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
-    // windowSize: { width: 640, height: 360 }
-    // -x <x>
-    // -y <y>
-
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
     if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
@@ -200,6 +194,9 @@ module.exports = NodeHelper.create({
     if (videoOutputDriver) { videoOutputDriverValue = videoOutputDriver; videoOutputDriver = '-vo' } else { videoOutputDriver = ''; videoOutputDriverValue = ''; }
     if (noSound) { noSound = '-nosound' } else { noSound = '' }
     if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
+
+    // windowSize takes precedence over windowWidthNoNewAspect and windowHeightNoNewAspect
+
 
     Log.info(`[MMM-MPlayer] options and option values:`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
@@ -225,7 +222,7 @@ module.exports = NodeHelper.create({
         `${noAspect}`,
         `${noBorder}`,
         `${rotate}`, `${rotateValue}`,
-        `${windowPosition}`, `${windowPosition.x}:${windowPosition.y}`,
+        `${windowPosition}`, `${windowPositionValue}`,
         `${windowSizeX}`, `${windowSizeValueX}`,
         `${windowSizeY}`, `${windowSizeValueY}`,
         `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
