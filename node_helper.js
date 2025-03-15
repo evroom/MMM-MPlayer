@@ -215,6 +215,7 @@ module.exports = NodeHelper.create({
     }
 
     Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
+    Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
     Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
@@ -235,7 +236,7 @@ module.exports = NodeHelper.create({
     const env = { ...process.env, DISPLAY: ':0' };
     const mplayerProcess = spawn(`mplayer`,
        [`${mplayerOption}`, `${mplayerOptionValue}`,
-        `${monitorAspect}`, `${monitorAspect}`,
+        `${monitorAspect}`, `${monitorAspectValue}`,
         `${noAspect}`,
         `${noBorder}`,
         `${rotate}`, `${rotateValue}`,
