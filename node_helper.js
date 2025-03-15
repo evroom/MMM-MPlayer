@@ -152,24 +152,28 @@ module.exports = NodeHelper.create({
   // mplayerOption3: '',
 
   launchMPlayer: function(stream, window) {
-    const monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect;
+    let monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect;
+    let monitorAspectValue = '';
     let noAspect = this.config.windows[window].noAspect || this.config.noAspect;
     let noBorder= this.config.windows[window].noBorder || this.config.noBorder;
-    const rotate = this.config.windows[window].rotate || this.config.rotate;
-    const windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
-    const windowSize = this.config.windows[window].windowSize || this.config.windowSize;
-    windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
-    windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
-    windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
-    rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-    rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-    preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
-    ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
-    const videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver || 'xv';
-    noSound = this.config.windows[window].noSound || this.config.noSound;
-    const mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1;
-    const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2;
-    const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3;
+    let rotate = this.config.windows[window].rotate || this.config.rotate;
+    let rotateValue = '';
+    let windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
+    let windowSize = this.config.windows[window].windowSize || this.config.windowSize;
+    let windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+    let windowWidthNoNewAspectValue = '';
+    let windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+    let windowHeightNoNewAspectValue = '';
+    let windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
+    let rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+    let rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+    let preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
+    let ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
+    let videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver || 'xv';
+    let noSound = this.config.windows[window].noSound || this.config.noSound;
+    let mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1;
+    let mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2;
+    let mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3;
 
     if (monitorAspect) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
@@ -185,6 +189,7 @@ module.exports = NodeHelper.create({
     if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = '' }
     if (noSound) { noSound = '-nosound' } else { noSound = '' }
 
+    Log.info(`[MMM-MPlayer] options and option values:`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
 
