@@ -158,9 +158,9 @@ module.exports = NodeHelper.create({
     const rotate = this.config.windows[window].rotate || this.config.rotate;
     const windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
     const windowSize = this.config.windows[window].windowSize || this.config.windowSize;
-    const windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
-    const windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
-    const windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
+    windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+    windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+    windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
     rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
     rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
     preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
@@ -173,6 +173,10 @@ module.exports = NodeHelper.create({
 
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
+    // windowWidthNoNewAspect: 640,
+    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = '-x' } else { windowWidthNoNewAspect = '' }
+    if (windowHeightNoNewAspect) { windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = '' }
+    if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
     if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = '' }
     if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http' } else { rtspStreamOverHttp = '' }
     if (preferIpv4) { preferIpv4 = '-prefer-ipv4' } else { preferIpv4 = '' }
