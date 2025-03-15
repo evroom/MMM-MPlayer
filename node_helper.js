@@ -197,8 +197,17 @@ module.exports = NodeHelper.create({
         {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} -noborder -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -xy ${windowSize.width} ${windowSize.height} ${stream}`);
-
+    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} ${noBorder} -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -x ${windowSize.width} -y ${windowSize.height}
+    ${windowWidthNoNewAspect} + 
+    ${windowHeightNoNewAspect} + 
+    ${windowWidth} + 
+    ${rtspStreamOverTcp} + 
+    ${rtspStreamOverHttp} + 
+    ${preferIpv4} + 
+    ${ipv4onlyProxy} + 
+    ${videoOutputDriver} + 
+    ${noSound} + 
+    ${stream}`);
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
 
