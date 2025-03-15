@@ -218,7 +218,7 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
     Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
     Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
-    Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} - ${windowSizeY} ${windowSizeValueY}`);
+    Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
     Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
     Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
     Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
