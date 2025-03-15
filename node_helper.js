@@ -147,9 +147,7 @@ module.exports = NodeHelper.create({
   // preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
   // ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
   // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
-  // mplayerOption1: '',
-  // mplayerOption2: '',
-  // mplayerOption3: '',
+  // mplayerOption: '',
 
   launchMPlayer: function(stream, window) {
     let monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect;
@@ -159,7 +157,12 @@ module.exports = NodeHelper.create({
     let rotate = this.config.windows[window].rotate || this.config.rotate;
     let rotateValue = '';
     let windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
+    let windowPositionValue = '';
     let windowSize = this.config.windows[window].windowSize || this.config.windowSize;
+    let windowSizeX = '';
+    let windowSizeValueX = '';
+    let windowSizeY = '';
+    let windowSizeValueY = '';
     let windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
     let windowWidthNoNewAspectValue = '';
     let windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
@@ -169,16 +172,23 @@ module.exports = NodeHelper.create({
     let rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
     let preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
     let ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
-    let videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver || 'xv';
+    let videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
+    let videoOutputDriverValue = '';
     let noSound = this.config.windows[window].noSound || this.config.noSound;
-    let mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1;
-    let mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2;
-    let mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3;
+    let mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
+    let mplayerOptionValue = '';
 
     if (monitorAspect) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
-    if (rotate) { rotateValue = ['rotate', rotate] .join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
+    if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
+
+    if (windowPosition) { windowPositionValue = [windowPosition.x, windowPosition.y].join(':'); windowPosition = "-geometry"; } else { windowPosition = ''; windowPositionValue = ''; }
+    // -geometry <x:y> // windowPosition: { x: 5, y: 225 }
+    if (windowSize) { windowSizeValueX = windowSize.width; windowSizeValueY = windowSize.height; windowSizeX = "-x";  windowSizeY = "-y";} else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
+    // windowSize: { width: 640, height: 360 }
+    // -x <x>
+    // -y <y>
 
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
@@ -187,37 +197,37 @@ module.exports = NodeHelper.create({
     if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http' } else { rtspStreamOverHttp = '' }
     if (preferIpv4) { preferIpv4 = '-prefer-ipv4' } else { preferIpv4 = '' }
     if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = '' }
+    if (videoOutputDriver) { videoOutputDriverValue = videoOutputDriver; videoOutputDriver = '-vo' } else { videoOutputDriver = ''; videoOutputDriverValue = ''; }
     if (noSound) { noSound = '-nosound' } else { noSound = '' }
+    if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
 
     Log.info(`[MMM-MPlayer] options and option values:`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
-
     Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
-
+    Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
+    Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} - ${windowSizeY} ${windowSizeValueY}`);
     Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
     Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
-
-
     Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
     Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
     Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
     Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
+    Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
     Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
+    Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
     const mplayerProcess = spawn(`mplayer`,
-       [`${mplayerOption1}`,
-        `${mplayerOption2}`,
-        `${mplayerOption3}`,
+       [`${mplayerOption}`, `${mplayerOptionValue}`,
         `${monitorAspect}`, `${monitorAspect}`,
         `${noAspect}`,
         `${noBorder}`,
         `${rotate}`, `${rotateValue}`,
-        '-geometry', `${windowPosition.x}:${windowPosition.y}`,
-        `-x`, `${windowSize.width}`,
-        `-y`, `${windowSize.height}`,
+        `${windowPosition}`, `${windowPosition.x}:${windowPosition.y}`,
+        `${windowSizeX}`, `${windowSizeValueX}`,
+        `${windowSizeY}`, `${windowSizeValueY}`,
         `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
         `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
         `${windowWidth}`,
@@ -225,13 +235,12 @@ module.exports = NodeHelper.create({
         `${rtspStreamOverHttp}`,
         `${preferIpv4}`,
         `${ipv4onlyProxy}`,
-        `-vo`, `${videoOutputDriver}`,
+        `${videoOutputDriver}`, `${videoOutputDriverValue}`,
         `${noSound}`,
         `${stream}`],
         {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} ${noBorder} -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -x ${windowSize.width} -y ${windowSize.height} ${windowWidthNoNewAspect} ${windowHeightNoNewAspect} ${windowWidth} ${rtspStreamOverTcp} ${rtspStreamOverHttp} ${preferIpv4} ${ipv4onlyProxy} -vo ${videoOutputDriver} ${noSound} ${stream}`);
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
 

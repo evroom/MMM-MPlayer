@@ -23,9 +23,7 @@ Module.register('MMM-MPlayer', {
       ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
       videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
       noSound: false, // -nosound - Do not play/encode sound.
-      mplayerOption1: '',
-      mplayerOption2: '',
-      mplayerOption3: '',
+      mplayerOption: '',
       windows:[
         {
           windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
