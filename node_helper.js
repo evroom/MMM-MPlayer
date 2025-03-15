@@ -161,18 +161,23 @@ module.exports = NodeHelper.create({
     const windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
     const windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
     const windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
-    const rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-    const rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-    const preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
-    const ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
-    const videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
-    const noSound = this.config.windows[window].noSound || this.config.noSound;
+    rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+    rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+    preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
+    ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
+    const videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver || 'xv';
+    noSound = this.config.windows[window].noSound || this.config.noSound;
     const mplayerOption1 = this.config.windows[window].mplayerOption1 || this.config.mplayerOption1;
     const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2;
     const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3;
 
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
+    if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = '' }
+    if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http' } else { rtspStreamOverHttp = '' }
+    if (preferIpv4) { preferIpv4 = '-prefer-ipv4' } else { preferIpv4 = '' }
+    if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = '' }
+    if (noSound) { noSound = '-nosound' } else { noSound = '' }
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
@@ -194,23 +199,13 @@ module.exports = NodeHelper.create({
         `${rtspStreamOverHttp}`,
         `${preferIpv4}`,
         `${ipv4onlyProxy}`,
-        `${videoOutputDriver}`,
+        `-vo`, `${videoOutputDriver}`,
         `${noSound}`,
         `${stream}`],
         {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} ${noBorder} -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -x ${windowSize.width} -y ${windowSize.height}
-    ${windowWidthNoNewAspect},
-    ${windowHeightNoNewAspect},
-    ${windowWidth},
-    ${rtspStreamOverTcp},
-    ${rtspStreamOverHttp},
-    ${preferIpv4},
-    ${ipv4onlyProxy},
-    ${videoOutputDriver},
-    ${noSound},
-    ${stream}`);
+    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} ${noBorder} -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -x ${windowSize.width} -y ${windowSize.height} ${windowWidthNoNewAspect} ${windowHeightNoNewAspect} ${windowWidth} ${rtspStreamOverTcp} ${rtspStreamOverHttp} ${preferIpv4} ${ipv4onlyProxy} ${videoOutputDriver} ${noSound} ${stream}`);
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
 
