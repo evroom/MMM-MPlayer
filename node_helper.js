@@ -153,13 +153,12 @@ module.exports = NodeHelper.create({
 
   launchMPlayer: function(stream, window) {
     const monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect;
-    noAspect = this.config.windows[window].noAspect || this.config.noAspect;
-    noBorder= this.config.windows[window].noBorder || this.config.noBorder;
+    let noAspect = this.config.windows[window].noAspect || this.config.noAspect;
+    let noBorder= this.config.windows[window].noBorder || this.config.noBorder;
     const rotate = this.config.windows[window].rotate || this.config.rotate;
     const windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
     const windowSize = this.config.windows[window].windowSize || this.config.windowSize;
     windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
-    //windowWidthNoNewAspectValue = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
     windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
     windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
     rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
@@ -172,11 +171,13 @@ module.exports = NodeHelper.create({
     const mplayerOption2 = this.config.windows[window].mplayerOption2 || this.config.mplayerOption2;
     const mplayerOption3 = this.config.windows[window].mplayerOption3 || this.config.mplayerOption3;
 
+    if (monitorAspect) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
-    // windowWidthNoNewAspect: 640,
+    if (rotate) { rotateValue = 'rotate=' + rotate; rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
+
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
-    if (windowHeightNoNewAspect) { windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = '' }
+    if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
     if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
     if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = '' }
     if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http' } else { rtspStreamOverHttp = '' }
@@ -184,7 +185,20 @@ module.exports = NodeHelper.create({
     if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = '' }
     if (noSound) { noSound = '-nosound' } else { noSound = '' }
 
+    Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
+    Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
+
+    Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotate}`);
+
     Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
+    Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
+
+
+    Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
+    Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
+    Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
+    Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
+    Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
@@ -199,8 +213,8 @@ module.exports = NodeHelper.create({
         '-geometry', `${windowPosition.x}:${windowPosition.y}`,
         `-x`, `${windowSize.width}`,
         `-y`, `${windowSize.height}`,
-        `${windowWidthNoNewAspect}`,
-        `${windowHeightNoNewAspect}`,
+        `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`
+        `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`
         `${windowWidth}`,
         `${rtspStreamOverTcp}`,
         `${rtspStreamOverHttp}`,
