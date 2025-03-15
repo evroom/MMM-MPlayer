@@ -189,7 +189,8 @@ module.exports = NodeHelper.create({
     } else { windowPosition = ''; windowPositionValue = ''; }
     if (windowSize) {
       windowSizeValueX = windowSize.width;
-      windowSizeValueY = windowSize.height; windowSizeX = "-x";
+      windowSizeValueY = windowSize.height;
+      windowSizeX = "-x";
       windowSizeY = "-y";
     } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
@@ -213,7 +214,7 @@ module.exports = NodeHelper.create({
       windowWidthValue = '';
     }
 
-    Log.info(`[MMM-MPlayer] options and option values:`);
+    Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
     Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
@@ -274,35 +275,63 @@ module.exports = NodeHelper.create({
   // Adjust stream positions and windowSize based on layout
   adjustLayout: function() {
     Log.debug(`[MMM-MPlayer] adjustLayout`);
-    const windowPosition = this.config.windowPosition; // General window position
-    const windowSize = this.config.windowSize;
+
+    // begin new
     const layout = this.config.layout;
+    let windowPosition = this.config.windowPosition;
+    let windowPositionValue = '';
+    let windowPositionValueX = '';
+    let windowPositionValueY = '';
+    let windowSize = this.config.windowSize;
+    let windowSizeX = '';
+    let windowSizeValueX = '';
+    let windowSizeY = '';
+    let windowSizeValueY = '';
+
+    if (windowPosition) {
+      windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
+      windowPositionValueX = windowPosition.x;
+      windowPositionValueY = windowPosition.y;
+    } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; }
+    if (windowSize) {
+      windowSizeValueX = windowSize.width;
+      windowSizeValueY = windowSize.height;
+    } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
+    // end new
+
+    //const layout = this.config.layout;
+    //const windowPosition = this.config.windowPosition; // General window position
+    //const windowSize = this.config.windowSize;
 
     if(((layout === 'column') || (layout === 'row'))) {
       // Calculate position for each window automatically based on the prior window
       for (let i=0; i < this.config.windows.length; i++) {
-        if( i ==0 ) {
+        if ( i ==0 ) {
           this.config.windows[i].windowPosition = this.config.windowPosition;
         }
         else if (layout === 'column') {          
           this.config.windows[i].windowPosition = {
-            x: this.config.windows[i-1].windowPosition.x,  // Same x position
-            y: this.config.windows[i-1].windowPosition.y + windowSize.height + 5 // y position of previous window plus height and buffer
+            x: this.config.windows[i-1].windowPositionValueX,  // Same x position
+            y: this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
+            //x: this.config.windows[i-1].windowPosition.x,  // Same x position
+            //y: this.config.windows[i-1].windowPosition.y + windowSize.height + 5 // y position of previous window plus height and buffer
           };
         }
-        else  if (layout === 'row') {
+        else if (layout === 'row') {
           this.config.windows[i].windowPosition = {
-            x: this.config.windows[i-1].windowPosition.x + windowSize.width + 5, // x position of previous window plus width and buffer
-            y: this.config.windows[i-1].windowPosition.y  // Same y position
+            x: this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
+            y: this.config.windows[i-1].windowPositionValueY  // Same y position
+            //x: this.config.windows[i-1].windowPosition.x + windowSize.width + 5, // x position of previous window plus width and buffer
+            //y: this.config.windows[i-1].windowPosition.y  // Same y position
           };
         }
-        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPosition.x}:${this.config.windows[i].windowPosition.y}`);
+        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
       }
     }
     else {
       Log.log(`[MMM-MPlayer] layout is not column or row so expecting windowSize and windowPosition in each window config object to be set already with no adjustments`);
       for (let i=0; i < this.config.windows.length; i++) {
-        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPosition.x}:${this.config.windows[i].windowPosition.y}`);
+        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
       }
     }
   }
