@@ -179,7 +179,7 @@ module.exports = NodeHelper.create({
     let mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
     let mplayerOptionValue = '';
 
-    if (monitorAspect) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
+    if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
     if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
