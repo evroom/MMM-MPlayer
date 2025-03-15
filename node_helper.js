@@ -174,7 +174,7 @@ module.exports = NodeHelper.create({
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
     // windowWidthNoNewAspect: 640,
-    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = "-x 1280" } else { windowWidthNoNewAspect = '' }
+    if (windowWidthNoNewAspect) { windowWidthNoNewAspect = "-x" } else { windowWidthNoNewAspect = '' }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspect = '-y' } else { windowHeightNoNewAspect = '' }
     if (windowWidth) { windowWidth = '-xy' } else { windowWidth = '' }
     if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp' } else { rtspStreamOverTcp = '' }
@@ -182,6 +182,8 @@ module.exports = NodeHelper.create({
     if (preferIpv4) { preferIpv4 = '-prefer-ipv4' } else { preferIpv4 = '' }
     if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy' } else { ipv4onlyProxy = '' }
     if (noSound) { noSound = '-nosound' } else { noSound = '' }
+
+    Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect}`);
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
@@ -209,7 +211,7 @@ module.exports = NodeHelper.create({
         {env: env});
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} ${noBorder} -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -x ${windowSize.width} -y ${windowSize.height} ${windowWidthNoNewAspect} ${windowHeightNoNewAspect} ${windowWidth} ${rtspStreamOverTcp} ${rtspStreamOverHttp} ${preferIpv4} ${ipv4onlyProxy} ${videoOutputDriver} ${noSound} ${stream}`);
+    Log.info(`[MMM-MPlayer] mplayer ${mplayerOption1} ${mplayerOption2} ${mplayerOption3} ${noBorder} -monitoraspect ${monitorAspect} -vf rotate=${rotate} -geometry ${windowPosition.x}:${windowPosition.y} -x ${windowSize.width} -y ${windowSize.height} ${windowWidthNoNewAspect} ${windowHeightNoNewAspect} ${windowWidth} ${rtspStreamOverTcp} ${rtspStreamOverHttp} ${preferIpv4} ${ipv4onlyProxy} -vo ${videoOutputDriver} ${noSound} ${stream}`);
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
 
