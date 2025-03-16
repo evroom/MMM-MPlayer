@@ -1,11 +1,6 @@
 # MMM-MPlayer
 This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and RTSP streams.
 
-## Work In Progress
-This module is currently being modified.
-Forgot to make a seperate delopment branch.
-Please wait cloning and using this module until a working version is available.
-
 ## Screenshot
 ![Screenshot](screenshot.png)
 
@@ -38,75 +33,44 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ```javascript
 {
 	module: 'MMM-MPlayer',
-    disabled: false,
-    position: "top_left",
-    header: "MPlayer",
+        disabled: false,
+        position: "top_left",
+        header: "MPlayer",
 	config: {
+	  useTwoWindows: true,
 	  layout: 'row',
-	  streamInterval: 30000,
 	  monitorAspect: 0,
-	  noAspect: false,
-	  noBorder: true,
 	  rotate: -1,
-	  windowPosition: { x: 5, y: 225 },
 	  windowSize: { width: 640, height: 360 },
-	  windowWidth: 640,
-	  windowWidthNoNewAspect: 640,
-      windowHeightNoNewAspect: 360,
-      rtspStreamOverTcp: false,
-      rtspStreamOverHttp: false,
-      preferIpv4: false,
-      ipv4onlyProxy: false,
-      videoOutputDriver: 'xv,gl,gl_nosw,vdpau,',
-      noSound: false,
-	  mplayerOptions: '',  
-	  windows: [
-	    {
-	      windowSize: { width: 640, height: 360 },
-	      windowPosition: { x: 5, y: 225 },
-	      streams: [
-	        'rtsp://foo',
-	        'rtsp://bar'
-	      ]
-	    },
-	    {
-	      windowSize: { width: 640, height: 360 },
-	      windowPosition: { x: 5, y: 590 },
-	      streams: [
-	        'something_one.mp4',
-	        'something_two.mp4'
-	      ]
-	    }
-	  ]
+	  windowPosition: { x: 5, y: 225 },
+	  mplayerOptions: "",
+	  streamInterval: 30000,
+	  streams: {
+		window1: [
+		  'something.mp4',
+		  'something_else.mp4'
+		],
+		window2: [
+		  'rtsp://foo',
+		  'rtsp://bar',
+		]
+	  }
 	}
 },
 ```
-## Configuration Options 
+## Configuration Options
 ###
 | Option | Description | Default |
 | ------------- | ------------- | ------------- |
-| `layout`  | Can be '', 'row' or 'column'.<br>If not set to row or column, an explicit `windowPosition` entry is expected in the `windows` object | "" |
+| `useTwoWindows`  | Use two windows. | true |
+| `layout`  | Can be 'row' or 'column'. | row |
 | `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
-| `noAspect`  | Disable automatic movie aspect ratio compensation. | false |
-| `noBorder`  | Disable playing movie with window border and decorations. | false |
 | `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | -1 |
-| `windowPosition`  | Position of the first window (window-0).<br>[window-1 is either 5px below or to the right of this window, depending on layout].<br>OPTIONAL  as it can be set in the `windows` object. | { x: 5, y: 225 } |
-| `windowSize`  | Window size for the windows.<br>OPTIONAL as it can be set in the `windows` object. | { width: 640, height: 360 } |
-| `windowWidthNoNewAspect`  | Scale image to width <x> - Disables aspect calculations. | '' |
-| `windowHeightNoNewAspect`  | Scale image to height <y> - Disables aspect calculations. | '' |
-| `windowWidth`  | Set width to value and calculate height to keep correct aspect ratio. | '' |
-| `rtspStreamOverTcp`  | Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP. | false |
-| `rtspStreamOverHttp`  | Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP. | false |
-| `preferIpv4`  | Use IPv4 on network connections. Falls back on IPv6 automatically. | false |
-| `ipv4onlyProxy`  | Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections. | false |
-| `videoOutputDriver`  | Specify a priority list of video output drivers to be used.<br>Use 'mplayer -vo help' for more info. | false |
-| `noSound`  | Do not play/encode sound. | false |
-| `mplayerOption`  | Use additional mplayer option .<br>See 'man mplayer' for the possible options.<br>This option is to experiment with the mplayer options.<br>Example: "-flip". | "" |
-| `streamInterval`  | Cycles the streams defined in `windows` after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos). | 30000 |
-| `windows`  | Array of window objects with individual configuration |  |
-| &emsp; `windowSize`  | Window size.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { width: 640, height: 360 } |
-| &emsp; `windowPosition`  | Position of the window.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { x: 5, y: 225 } |
-| &emsp; `streams`  | URL of the stream(s) [ mp4 , rtsp ] | 'http://stream1.example.com/video1' |
+| `windowSize`  | Window size for both windows. | { width: 640, height: 360 } |
+| `mplayerOptions`  | Use additional mplayer options.<br>See 'man mplayer' for the possible options.<br>This option is to experiment with the mplayer options.<br>Example: "-nosound"| "" |
+| `windowPosition`  | Position of the first window (window1).<br>[window2 is either 5px below or to the right of this window, depending on layout] | { x: 5, y: 225 } |
+| `streamInterval`  | Cycles the streams defined in window1 and/or window2 after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos). | 30000 |
+| `streams`  | window1 and / or window2 streams [ mp4 , rtsp ]  |  |
 
 ### Streams for testing
 These public streams can be used for testing:
@@ -175,9 +139,7 @@ $ grep 'MMM-MPlayer' ~/.pm2/logs/MagicMirror-*.log
 Code provided by user 'myfingersarecold'.<br>
 https://forum.magicmirror.builders/user/myfingersarecold<br>
 Code adapted by user 'evroom'.<br>
-https://forum.magicmirror.builders/user/evroom<br>
-Code adapted by user 'maxbethge'.<br>
-https://github.com/maxbethge
+https://forum.magicmirror.builders/user/evroom
 
 ## MPlayer Project
 MPlayer Documentation:<br>
