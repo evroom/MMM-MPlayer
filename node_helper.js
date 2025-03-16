@@ -205,7 +205,7 @@ module.exports = NodeHelper.create({
     if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
 
     // windowSize takes precedence over windowWidthNoNewAspect, windowHeightNoNewAspect and windowWidth
-    if (windowPosition) {
+    if (windowSize) {
       windowWidthNoNewAspect = '';
       windowWidthNoNewAspectValue = '';
       windowHeightNoNewAspect = '';
