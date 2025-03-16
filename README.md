@@ -38,32 +38,43 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ```javascript
 {
 	module: 'MMM-MPlayer',
-        disabled: false,
-        position: "top_left",
-        header: "MPlayer",
+    disabled: false,
+    position: "top_left",
+    header: "MPlayer",
 	config: {
 	  layout: 'row',
-	  monitorAspect: 0,
-	  rotate: -1,
-	  windowSize: { width: 640, height: 360 },
-	  windowPosition: { x: 5, y: 225 },
-	  mplayerOptions: "",
 	  streamInterval: 30000,
+	  monitorAspect: 0,
+	  noAspect: false,
+	  noBorder: true,
+	  rotate: -1,
+	  windowPosition: { x: 5, y: 225 },
+	  windowSize: { width: 640, height: 360 },
+	  windowWidth: 640,
+	  windowWidthNoNewAspect: 640,
+      windowHeightNoNewAspect: 360,
+      rtspStreamOverTcp: false,
+      rtspStreamOverHttp: false,
+      preferIpv4: false,
+      ipv4onlyProxy: false,
+      videoOutputDriver: 'xv,gl,gl_nosw,vdpau,',
+      noSound: false,
+	  mplayerOptions: '',  
 	  windows: [
 	    {
-	      windowSize: { width: 640, height: 480 },
-	      windowPosition: { x: 5, y: 225 },
-	      streams: [
-	        'something.mp4',
-	        'something_else.mp4'
-	      ]
-	    },
-	    {
-	      windowSize: { width: 640, height: 480 },
+	      windowSize: { width: 640, height: 360 },
 	      windowPosition: { x: 5, y: 225 },
 	      streams: [
 	        'rtsp://foo',
 	        'rtsp://bar'
+	      ]
+	    },
+	    {
+	      windowSize: { width: 640, height: 360 },
+	      windowPosition: { x: 5, y: 590 },
+	      streams: [
+	        'something_one.mp4',
+	        'something_two.mp4'
 	      ]
 	    }
 	  ]

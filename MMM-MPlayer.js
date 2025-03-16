@@ -10,13 +10,13 @@ Module.register('MMM-MPlayer', {
       streamInterval: 30000,
       monitorAspect: 0, // -monitoraspect <ratio>
       noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
-      noBorder: false, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
+      noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
       rotate: -1, // -vf rotate[=<0-7>]
       windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
       windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
+      windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
       windowWidthNoNewAspect: 640, // -x <x> - Scale image to width <x> - Disables aspect calculations.
       windowHeightNoNewAspect: 360, // -y <y> - Scale image to height <y> - Disables aspect calculations.
-      windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
       rtspStreamOverTcp: false, // -rtsp-stream-over-tcp - Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.
       rtspStreamOverHttp: false, // -rtsp-stream-over-http - Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.
       preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
@@ -29,8 +29,8 @@ Module.register('MMM-MPlayer', {
           windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
           windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
           streams: [
-            'http://stream1.example.com/video1',
-            'http://stream2.example.com/video1'
+	          'rtsp://foo',
+	          'rtsp://bar'
           ]
         }
       ]

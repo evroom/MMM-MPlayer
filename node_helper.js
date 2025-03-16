@@ -135,13 +135,13 @@ module.exports = NodeHelper.create({
   // Launch a new mplayer process for the window using spawn
   // monitorAspect: 0, // -monitoraspect <ratio>
   // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
-  // noBorder: false, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
+  // noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
   // rotate: -1, // -vf rotate[=<0-7>]
   // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
   // windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
+  // windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
   // windowWidthNoNewAspect: 640, // -x <x> - Scale image to width <x> - Disables aspect calculations.
   // windowHeightNoNewAspect: 360, // -y <y> - Scale image to height <y> - Disables aspect calculations.
-  // windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
   // rtspStreamOverTcp: false, // -rtsp-stream-over-tcp - Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.
   // rtspStreamOverHttp: false, // -rtsp-stream-over-http - Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.
   // preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
@@ -163,12 +163,12 @@ module.exports = NodeHelper.create({
     let windowSizeValueX = '';
     let windowSizeY = '';
     let windowSizeValueY = '';
+    let windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
+    let windowWidthValue = '';
     let windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
     let windowWidthNoNewAspectValue = '';
     let windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
     let windowHeightNoNewAspectValue = '';
-    let windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
-    let windowWidthValue = '';
     let rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
     let rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
     let preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
@@ -179,6 +179,7 @@ module.exports = NodeHelper.create({
     let mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
     let mplayerOptionValue = '';
 
+    // Map module configuration option name / values to mplayer option name / values
     if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
     if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
     if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
@@ -192,10 +193,10 @@ module.exports = NodeHelper.create({
       windowSizeValueY = windowSize.height;
       windowSizeX = "-x";
       windowSizeY = "-y";
-    } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';}
+    } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = ''; }
+    if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy'; } else { windowWidth = ''; windowWidthValue = ''; }
     if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
     if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y'; } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
-    if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy'; } else { windowWidth = ''; windowWidthValue = ''; }
     if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp'; } else { rtspStreamOverTcp = ''; }
     if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http'; } else { rtspStreamOverHttp = ''; }
     if (preferIpv4) { preferIpv4 = '-prefer-ipv4'; } else { preferIpv4 = ''; }
@@ -212,6 +213,16 @@ module.exports = NodeHelper.create({
       windowHeightNoNewAspectValue = '';
       windowWidth = '';
       windowWidthValue = '';
+    // windowWidth takes precedence over windowWidthNoNewAspect and windowHeightNoNewAspect
+    } else if (windowWidth) {
+      windowWidthNoNewAspect = '';
+      windowWidthNoNewAspectValue = '';
+      windowHeightNoNewAspect = '';
+      windowHeightNoNewAspectValue = '';
+    // windowWidthNoNewAspect takes precedence over windowHeightNoNewAspect
+    } else if (windowWidthNoNewAspect) {
+      windowHeightNoNewAspect = '';
+      windowHeightNoNewAspectValue = '';
     }
 
     // monitorAspect takes precedence over noAspect
@@ -219,6 +230,7 @@ module.exports = NodeHelper.create({
       noAspect = '';
     }
 
+    // Print log information
     Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
     Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
@@ -226,9 +238,9 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
     Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
     Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
+    Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
     Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
     Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
-    Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
     Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
     Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
     Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
@@ -249,9 +261,9 @@ module.exports = NodeHelper.create({
         `${windowPosition}`, `${windowPositionValue}`,
         `${windowSizeX}`, `${windowSizeValueX}`,
         `${windowSizeY}`, `${windowSizeValueY}`,
+        `${windowWidth}`, `${windowWidthValue}`,
         `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
         `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
-        `${windowWidth}`, `${windowWidthValue}`,
         `${rtspStreamOverTcp}`,
         `${rtspStreamOverHttp}`,
         `${preferIpv4}`,
