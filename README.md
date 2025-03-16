@@ -2,10 +2,9 @@
 This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and RTSP streams.
 
 ## Work In Progress
-This module is currently being modified.
-Forgot to make a seperate delopment branch.
-Please wait cloning and using this module until a working version is available.
-
+This module is currently being modified.<br>
+The main branch contains the original code.<br>
+The dev branch contains the new code.
 ## Screenshot
 ![Screenshot](screenshot.png)
 
