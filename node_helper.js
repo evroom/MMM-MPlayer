@@ -261,13 +261,9 @@ module.exports = NodeHelper.create({
         `${stream}`],
         {env: env});
 
-    Log.info(`[MMM-MPlayer] ${env}`);
-    Log.info(`[MMM-MPlayer] ${env.DISPLAY}`);
-
-    console.log(process.env);
-    console.log('The value of DISPLAY is:', process.env.DISPLAY);
-
+    Log.info(`[MMM-MPlayer] The value of DISPLAY is: ${env.DISPLAY}`);
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
+
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
 
