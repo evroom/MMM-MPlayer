@@ -5,6 +5,7 @@ This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirr
 This module is currently being modified.<br>
 The main branch contains the original code.<br>
 The dev branch contains the new code.
+
 ## Screenshot
 ![Screenshot](screenshot.png)
 
