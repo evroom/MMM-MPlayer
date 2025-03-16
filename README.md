@@ -32,30 +32,30 @@ $ sudo apt install -y mplayer
 Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ```javascript
 {
-	module: 'MMM-MPlayer',
-        disabled: false,
-        position: "top_left",
-        header: "MPlayer",
-	config: {
-	  useTwoWindows: true,
-	  layout: 'row',
-	  monitorAspect: 0,
-	  rotate: -1,
-	  windowSize: { width: 640, height: 360 },
-	  windowPosition: { x: 5, y: 225 },
-	  mplayerOptions: "",
-	  streamInterval: 30000,
-	  streams: {
-		window1: [
-		  'something.mp4',
-		  'something_else.mp4'
-		],
-		window2: [
-		  'rtsp://foo',
-		  'rtsp://bar',
-		]
-	  }
-	}
+  module: 'MMM-MPlayer',
+  disabled: false,
+  position: "top_left",
+  header: "MPlayer",
+  config: {
+    useTwoWindows: true,
+    layout: 'row',
+    monitorAspect: 0,
+    rotate: -1,
+    windowSize: { width: 640, height: 360 },
+    windowPosition: { x: 5, y: 225 },
+    mplayerOptions: "",
+    streamInterval: 30000,
+    streams: {
+      window1: [
+        'rtsp://foo',
+        'rtsp://bar',
+      ],
+      window2: [
+        'something_one.mp4',
+        'something_two.mp4'
+      ]
+    }
+  }
 },
 ```
 ## Configuration Options

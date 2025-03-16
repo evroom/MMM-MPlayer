@@ -24,7 +24,7 @@ module.exports = NodeHelper.create({
 
         const payloadJson = JSON.stringify(payload);
         Log.debug(`[MMM-MPlayer] ${payloadJson}`);
-
+        
         // Adjust layout and start the stream cycle
         this.adjustLayout();
         break;
@@ -140,105 +140,11 @@ module.exports = NodeHelper.create({
 
   // Launch a new mplayer process for the window using spawn
   launchMPlayer: function(stream, window) {
-    let monitorAspect = this.config.windows[window].monitorAspect || this.config.monitorAspect;
-    let monitorAspectValue = '';
-    let noAspect = this.config.windows[window].noAspect || this.config.noAspect;
-    let noBorder= this.config.windows[window].noBorder || this.config.noBorder;
-    let rotate = this.config.windows[window].rotate || this.config.rotate;
-    let rotateValue = '';
-    let windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
-    let windowPositionValue = '';
-    let windowSize = this.config.windows[window].windowSize || this.config.windowSize;
-    let windowSizeX = '';
-    let windowSizeValueX = '';
-    let windowSizeY = '';
-    let windowSizeValueY = '';
-    let windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
-    let windowWidthValue = '';
-    let windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
-    let windowWidthNoNewAspectValue = '';
-    let windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
-    let windowHeightNoNewAspectValue = '';
-    let rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-    let rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-    let preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
-    let ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
-    let videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
-    let videoOutputDriverValue = '';
-    let noSound = this.config.windows[window].noSound || this.config.noSound;
-    let mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
-    let mplayerOptionValue = '';
-
-    // Map module configuration option name / values to mplayer option name / values
-    if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
-    if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
-    if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
-    if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
-    if (windowPosition) {
-      windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
-      windowPosition = "-geometry";
-    } else { windowPosition = ''; windowPositionValue = ''; }
-    if (windowSize) {
-      windowSizeValueX = windowSize.width;
-      windowSizeValueY = windowSize.height;
-      windowSizeX = "-x";
-      windowSizeY = "-y";
-    } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = ''; }
-    if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy'; } else { windowWidth = ''; windowWidthValue = ''; }
-    if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
-    if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y'; } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
-    if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp'; } else { rtspStreamOverTcp = ''; }
-    if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http'; } else { rtspStreamOverHttp = ''; }
-    if (preferIpv4) { preferIpv4 = '-prefer-ipv4'; } else { preferIpv4 = ''; }
-    if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy'; } else { ipv4onlyProxy = ''; }
-    if (videoOutputDriver) { videoOutputDriverValue = videoOutputDriver; videoOutputDriver = '-vo' } else { videoOutputDriver = ''; videoOutputDriverValue = ''; }
-    if (noSound) { noSound = '-nosound'; } else { noSound = ''; }
-    if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
-
-    // windowSize takes precedence over windowWidthNoNewAspect, windowHeightNoNewAspect and windowWidth
-    if (windowSize) {
-      windowWidthNoNewAspect = '';
-      windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = '';
-      windowHeightNoNewAspectValue = '';
-      windowWidth = '';
-      windowWidthValue = '';
-    // windowWidth takes precedence over windowWidthNoNewAspect and windowHeightNoNewAspect
-    } else if (windowWidth) {
-      windowWidthNoNewAspect = '';
-      windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = '';
-      windowHeightNoNewAspectValue = '';
-    // windowWidthNoNewAspect takes precedence over windowHeightNoNewAspect
-    } else if (windowWidthNoNewAspect) {
-      windowHeightNoNewAspect = '';
-      windowHeightNoNewAspectValue = '';
-    }
-
-    // monitorAspect takes precedence over noAspect
-    if (monitorAspect >= 0) {
-      noAspect = '';
-    }
-
-    // Print log information
-    Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
-    Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
-    Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
-    Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
-    Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
-    Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
-    Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
-    Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
-    Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
-    Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
-    Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
-    Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
-    Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
-    Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
-    Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
-    Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
-    Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
-    Log.info(`[MMM-MPlayer] stream: ${stream}`);
+    const monitorAspect = this.config.monitorAspect || 0;
+    const rotate = this.config.rotate || -1; 
+    const size = this.config.windowSize;
+    const position = this.config[`${window}Position`] || this.config.windowPosition;
+    const mplayerOptions = this.config.mplayerOptions || '';
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
