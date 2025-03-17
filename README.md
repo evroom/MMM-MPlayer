@@ -3,8 +3,8 @@ This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirr
 
 ## Work In Progress
 This module is currently being modified.<br>
-The main branch contains the original code.<br>
-The dev branch contains the new code.
+The main branch contains the original code (version 1).<br>
+The dev branch contains the new code (version 2).
 
 ## Screenshot
 ![Screenshot](screenshot.png)

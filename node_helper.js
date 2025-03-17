@@ -1,3 +1,7 @@
+/* MagicMirror Module: MMM-MPlayer.js
+ * Version: 2.0.0
+ */
+
 const NodeHelper = require('node_helper');
 const { spawn } = require('child_process');
 const { os } = require('os');
@@ -133,6 +137,7 @@ module.exports = NodeHelper.create({
   },
 
   // Launch a new mplayer process for the window using spawn
+
   // monitorAspect: 0, // -monitoraspect <ratio>
   // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
   // noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
@@ -230,6 +235,11 @@ module.exports = NodeHelper.create({
       noAspect = '';
     }
 
+    // rtspStreamOverTcp takes precedence over rtspStreamOverHttp
+    if (rtspStreamOverTcp) {
+      rtspStreamOverHttp = '';
+    }
+    
     // Print log information
     Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
     Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);

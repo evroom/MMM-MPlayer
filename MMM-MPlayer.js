@@ -1,4 +1,5 @@
 /* MagicMirror Module: MMM-MPlayer.js
+ * Version: 2.0.0
  * This script communicates with the backend (node_helper.js) to control mplayer window streaming
  * It starts the stream cycle process only after the DOM is fully loaded.
  */
