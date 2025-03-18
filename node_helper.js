@@ -353,18 +353,18 @@ module.exports = NodeHelper.create({
             x: this.config.windows[i-1].windowPositionValueX,  // Same x position
             y: this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
           };
-          Log.log(`[MMM-MPlayer] x = this.config.windows[i-1].windowPositionValueX`);
-          Log.log(`[MMM-MPlayer] y = this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5`);
+          Log.log(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX}`);
+          Log.log(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5}`);
         }
         else if (layout === 'row') {
           this.config.windows[i].windowPosition = {
             x: this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
             y: this.config.windows[i-1].windowPositionValueY  // Same y position
           };
-          Log.log(`[MMM-MPlayer] x = this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5`);
-          Log.log(`[MMM-MPlayer] y = this.config.windows[i-1].windowPositionValueY`);
+          Log.log(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5}`);
+          Log.log(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY}`);
         }
-        Log.debug(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
+        Log.log(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
       }
     }
     else {
