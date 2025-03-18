@@ -339,6 +339,9 @@ module.exports = NodeHelper.create({
       windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';
     }
 
+    Log.log(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
+    Log.log(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);
+
     if((layout === 'column') || (layout === 'row')) {
       // Calculate position for each window automatically based on the prior window
       Log.log(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
