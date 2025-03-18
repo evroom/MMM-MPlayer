@@ -338,7 +338,6 @@ module.exports = NodeHelper.create({
     } else {
       windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';
     }
-
     Log.log(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
     Log.log(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);
 
@@ -373,7 +372,33 @@ module.exports = NodeHelper.create({
     else {
       Log.log(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
       for (let i=0; i < this.config.windows.length; i++) {
-        Log.log(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
+        let windowPosition = this.config.windows[i].windowPosition;
+        let windowPositionValue = '';
+        let windowPositionValueX = '';
+        let windowPositionValueY = '';
+        let windowSize = this.config.windows[i].windowSize;
+        let windowSizeX = '';
+        let windowSizeValueX = '';
+        let windowSizeY = '';
+        let windowSizeValueY = '';
+    
+        if (windowPosition) {
+          windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
+          windowPositionValueX = windowPosition.x;
+          windowPositionValueY = windowPosition.y;
+        } else {
+          windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = '';
+        }
+        if (windowSize) {
+          windowSizeValueX = windowSize.width;
+          windowSizeValueY = windowSize.height;
+        } else {
+          windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';
+        }
+        Log.log(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
+        Log.log(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);   
+
+        Log.log(`[MMM-MPlayer] adjustLayout - window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
       }
     }
   }
