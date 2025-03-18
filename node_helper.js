@@ -259,32 +259,40 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
     Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
     Log.info(`[MMM-MPlayer] stream: ${stream}`);
+    
+    // Discard empty arguments
+    const   mplayerArgumentsArray = [
+      `${stream}`,
+      `${rotate}`, `${rotateValue}`,
+      `${monitorAspect}`, `${monitorAspectValue}`,
+      `${noAspect}`,
+      `${noBorder}`,
+      `${windowPosition}`, `${windowPositionValue}`,
+      `${windowSizeX}`, `${windowSizeValueX}`,
+      `${windowSizeY}`, `${windowSizeValueY}`,
+      `${windowWidth}`, `${windowWidthValue}`,
+      `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
+      `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
+      `${rtspStreamOverTcp}`,
+      `${rtspStreamOverHttp}`,
+      `${preferIpv4}`,
+      `${ipv4onlyProxy}`,
+      `${videoOutputDriver}`, `${videoOutputDriverValue}`,
+      `${noSound}`,
+      `${mplayerOption}`, `${mplayerOptionValue}`
+    ]
+    const mplayerArgumentsArrayFilter = mplayerArgumentsArray.filter(discardEmptyArgument);
+    function discardEmptyArgument(value, index, array) {
+      return value != '';
+    }
+    mplayerArgumentsString = mplayerArgumentsArrayFilter.join(" ");
 
     // Spawn a new mplayer process
     const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`,
-       [`${mplayerOption}`, `${mplayerOptionValue}`,
-        `${monitorAspect}`, `${monitorAspectValue}`,
-        `${noAspect}`,
-        `${noBorder}`,
-        `${rotate}`, `${rotateValue}`,
-        `${windowPosition}`, `${windowPositionValue}`,
-        `${windowSizeX}`, `${windowSizeValueX}`,
-        `${windowSizeY}`, `${windowSizeValueY}`,
-        `${windowWidth}`, `${windowWidthValue}`,
-        `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
-        `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
-        `${rtspStreamOverTcp}`,
-        `${rtspStreamOverHttp}`,
-        `${preferIpv4}`,
-        `${ipv4onlyProxy}`,
-        `${videoOutputDriver}`, `${videoOutputDriverValue}`,
-        `${noSound}`,
-        `${stream}`],
-        {env: env});
+    const mplayerProcess = spawn(`mplayer`, mplayerArgumentsArrayFilter, {env: env});
 
-    Log.info(`[MMM-MPlayer] The value of DISPLAY is: ${env.DISPLAY}`);
     Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
+    Log.info(`[MMM-MPlayer] DISPLAY=:0 mplayer ${mplayerArgumentsString}`);
 
     // Track the process for future termination
     this.mplayerProcesses[window] = mplayerProcess;
