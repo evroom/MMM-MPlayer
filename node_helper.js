@@ -261,7 +261,7 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] stream: ${stream}`);
     
     // Discard empty arguments
-    const   mplayerArgumentsArray = [
+    const mplayerArgumentsArray = [
       `${stream}`,
       `${rotate}`, `${rotateValue}`,
       `${monitorAspect}`, `${monitorAspectValue}`,
@@ -303,7 +303,6 @@ module.exports = NodeHelper.create({
     });
 
     mplayerProcess.stderr.on('data', (data) => {
-      //Log.error(`mplayer [${window}] stderr: ${data}`);
     });
 
     mplayerProcess.on('close', (code) => {
