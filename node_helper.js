@@ -7,6 +7,8 @@ const { spawn } = require('child_process');
 const { os } = require('os');
 const Log = require('logger');  // Import the Log module from MagicMirror
 
+let noSound;
+
 module.exports = NodeHelper.create({
   start: function() {
     Log.log('Starting MMM-MPlayer module...');
@@ -184,7 +186,7 @@ module.exports = NodeHelper.create({
     let ipv4onlyProxy;
     let videoOutputDriver;
     let videoOutputDriverValue;
-    let noSound;
+    //let noSound;
     let mplayerOption;
     let mplayerOptionValue;
 
@@ -375,7 +377,7 @@ module.exports = NodeHelper.create({
     Log.debug(`[MMM-MPlayer] adjustLayout`);
 
     Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
-    
+
     // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]]
     //`${windowPosition}`, `${windowPositionValue}`,
 
