@@ -374,6 +374,8 @@ module.exports = NodeHelper.create({
   adjustLayout: function() {
     Log.debug(`[MMM-MPlayer] adjustLayout`);
 
+    Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
+    
     // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]]
     //`${windowPosition}`, `${windowPositionValue}`,
 
