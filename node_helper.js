@@ -7,7 +7,7 @@ const { spawn } = require('child_process');
 const { os } = require('os');
 const Log = require('logger');  // Import the Log module from MagicMirror
 
-const layout = this.config.layout;
+let layout = this.config.layout;
 let monitorAspect = this.config.monitorAspect;
 let monitorAspectValue = '';
 
