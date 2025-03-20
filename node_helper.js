@@ -7,7 +7,38 @@ const { spawn } = require('child_process');
 const { os } = require('os');
 const Log = require('logger');  // Import the Log module from MagicMirror
 
+const layout = this.config.layout;
+let monitorAspect = this.config.monitorAspect;
+let monitorAspectValue = '';
+
+let noAspect;
+let noBorder;
+let rotate;
+let rotateValue;
+let windowPosition;
+let windowPositionValue;
+let windowPositionValueX ;
+let windowPositionValueY;
+let windowSize;
+let windowSizeX;
+let windowSizeValueX;
+let windowSizeY;
+let windowSizeValueY;
+let windowWidth;
+let windowWidthValue;
+let windowWidthNoNewAspect;
+let windowWidthNoNewAspectValue;
+let windowHeightNoNewAspect;
+let windowHeightNoNewAspectValue;
+let rtspStreamOverTcp;
+let rtspStreamOverHttp;
+let preferIpv4;
+let ipv4onlyProxy;
+let videoOutputDriver;
+let videoOutputDriverValue;
 let noSound;
+let mplayerOption;
+let mplayerOptionValue;
 
 module.exports = NodeHelper.create({
   start: function() {
@@ -139,58 +170,10 @@ module.exports = NodeHelper.create({
   },
 
   // Launch a new mplayer process for the window using spawn
-
-  // monitorAspect: 0, // -monitoraspect <ratio>
-  // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
-  // noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
-  // rotate: -1, // -vf rotate[=<0-7>]
-  // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
-  // windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
-  // windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
-  // windowWidthNoNewAspect: 640, // -x <x> - Scale image to width <x> - Disables aspect calculations.
-  // windowHeightNoNewAspect: 360, // -y <y> - Scale image to height <y> - Disables aspect calculations.
-  // rtspStreamOverTcp: false, // -rtsp-stream-over-tcp - Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.
-  // rtspStreamOverHttp: false, // -rtsp-stream-over-http - Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.
-  // preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
-  // ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
-  // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
-  // mplayerOption: '', // user defined mplayer option.
-
   launchMPlayer: function(stream, window) {
     Log.info(`[MMM-MPlayer] Launch mplayer process for window ${window}`);
 
-    const layout = this.config.layout;
-    let monitorAspect = this.config.monitorAspect;
-    let monitorAspectValue = '';
-
-    let noAspect;
-    let noBorder;
-    let rotate;
-    let rotateValue;
-    let windowPosition;
-    let windowPositionValue;
-    let windowSize;
-    let windowSizeX;
-    let windowSizeValueX;
-    let windowSizeY;
-    let windowSizeValueY;
-    let windowWidth;
-    let windowWidthValue;
-    let windowWidthNoNewAspect;
-    let windowWidthNoNewAspectValue;
-    let windowHeightNoNewAspect;
-    let windowHeightNoNewAspectValue;
-    let rtspStreamOverTcp;
-    let rtspStreamOverHttp;
-    let preferIpv4;
-    let ipv4onlyProxy;
-    let videoOutputDriver;
-    let videoOutputDriverValue;
-    //let noSound;
-    let mplayerOption;
-    let mplayerOptionValue;
-
-    if ((layout === 'column') || (layout === 'row')) {
+/*    if ((layout === 'column') || (layout === 'row')) {
       noAspect = this.config.noAspect;
       noBorder = this.config.noBorder;
       rotate = this.config.rotate;
@@ -245,6 +228,106 @@ module.exports = NodeHelper.create({
       mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
       mplayerOptionValue = '';
     }
+*/
+    
+    // Discard empty arguments
+    const mplayerArgumentsArray = [
+      `${stream}`,
+      `${rotate}`, `${rotateValue}`,
+      `${monitorAspect}`, `${monitorAspectValue}`,
+      `${noAspect}`,
+      `${noBorder}`,
+      `${windowPosition}`, `${windowPositionValue}`,
+      `${windowSizeX}`, `${windowSizeValueX}`,
+      `${windowSizeY}`, `${windowSizeValueY}`,
+      `${windowWidth}`, `${windowWidthValue}`,
+      `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
+      `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
+      `${rtspStreamOverTcp}`,
+      `${rtspStreamOverHttp}`,
+      `${preferIpv4}`,
+      `${ipv4onlyProxy}`,
+      `${videoOutputDriver}`, `${videoOutputDriverValue}`,
+      `${noSound}`,
+      `${mplayerOption}`, `${mplayerOptionValue}`
+    ]
+    const mplayerArgumentsArrayFilter = mplayerArgumentsArray.filter(discardEmptyArgument);
+    function discardEmptyArgument(value, index, array) {
+      return value != '';
+    }
+    mplayerArgumentsString = mplayerArgumentsArrayFilter.join(" ");
+
+    // Spawn a new mplayer process
+    const env = { ...process.env, DISPLAY: ':0' };
+    const mplayerProcess = spawn(`mplayer`, mplayerArgumentsArrayFilter, {env: env});
+
+    Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
+    Log.info(`[MMM-MPlayer] DISPLAY=:0 mplayer ${mplayerArgumentsString}`);
+
+    // Track the process for future termination
+    this.mplayerProcesses[window] = mplayerProcess;
+
+    // Handle standard output and error
+    mplayerProcess.stdout.on('data', (data) => {
+      Log.debug(`mplayer [window-${window}] stdout: ${data}`);
+    });
+
+    mplayerProcess.stderr.on('data', (data) => {
+    });
+
+    mplayerProcess.on('close', (code) => {
+      Log.info(`[MMM-MPlayer] mplayer process for window-${window} exited with code ${code}`);
+    });
+  },
+
+  // Adjust windowPosition based on windowSize
+  adjustLayout: function(stream, window) {
+    Log.debug(`[MMM-MPlayer] adjustLayout`);
+
+    // monitorAspect: 0, // -monitoraspect <ratio>
+    // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
+    // noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
+    // rotate: -1, // -vf rotate[=<0-7>]
+    // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
+    // windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
+    // windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
+    // windowWidthNoNewAspect: 640, // -x <x> - Scale image to width <x> - Disables aspect calculations.
+    // windowHeightNoNewAspect: 360, // -y <y> - Scale image to height <y> - Disables aspect calculations.
+    // rtspStreamOverTcp: false, // -rtsp-stream-over-tcp - Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.
+    // rtspStreamOverHttp: false, // -rtsp-stream-over-http - Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.
+    // preferIpv4: false, // -prefer-ipv4 - Use IPv4 on network connections. Falls back on IPv6 automatically.
+    // ipv4onlyProxy: false, // -ipv4-only-proxy - Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.
+    // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
+    // mplayerOption: '', // user defined mplayer option.
+    
+    noAspect = this.config.windows[window].noAspect || this.config.noAspect;
+    noBorder = this.config.windows[window].noBorder || this.config.noBorder;
+    rotate = this.config.windows[window].rotate || this.config.rotate;
+    rotateValue = '';
+    windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
+    windowPositionValue = '';
+    windowPositionValueX = '';
+    windowPositionValueY = '';
+    windowSize = this.config.windows[window].windowSize || this.config.windowSize;
+    windowSizeX = '';
+    windowSizeValueX = '';
+    windowSizeY = '';
+    windowSizeValueY = '';
+    windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
+    windowWidthValue = '';
+    windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+    windowWidthNoNewAspectValue = '';
+    windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+    windowHeightNoNewAspectValue = '';
+    rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+    rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+    preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
+    ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
+    videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
+    videoOutputDriverValue = '';
+    noSound = this.config.windows[window].noSound || this.config.noSound;
+    mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
+    mplayerOptionValue = '';
 
     // Map module configuration option name / values to mplayer option name / values
     if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
@@ -321,62 +404,6 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
     Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
     Log.info(`[MMM-MPlayer] stream: ${stream}`);
-    
-    // Discard empty arguments
-    const mplayerArgumentsArray = [
-      `${stream}`,
-      `${rotate}`, `${rotateValue}`,
-      `${monitorAspect}`, `${monitorAspectValue}`,
-      `${noAspect}`,
-      `${noBorder}`,
-      `${windowPosition}`, `${windowPositionValue}`,
-      `${windowSizeX}`, `${windowSizeValueX}`,
-      `${windowSizeY}`, `${windowSizeValueY}`,
-      `${windowWidth}`, `${windowWidthValue}`,
-      `${windowWidthNoNewAspect}`, `${windowWidthNoNewAspectValue}`,
-      `${windowHeightNoNewAspect}`, `${windowHeightNoNewAspectValue}`,
-      `${rtspStreamOverTcp}`,
-      `${rtspStreamOverHttp}`,
-      `${preferIpv4}`,
-      `${ipv4onlyProxy}`,
-      `${videoOutputDriver}`, `${videoOutputDriverValue}`,
-      `${noSound}`,
-      `${mplayerOption}`, `${mplayerOptionValue}`
-    ]
-    const mplayerArgumentsArrayFilter = mplayerArgumentsArray.filter(discardEmptyArgument);
-    function discardEmptyArgument(value, index, array) {
-      return value != '';
-    }
-    mplayerArgumentsString = mplayerArgumentsArrayFilter.join(" ");
-
-    // Spawn a new mplayer process
-    const env = { ...process.env, DISPLAY: ':0' };
-    const mplayerProcess = spawn(`mplayer`, mplayerArgumentsArrayFilter, {env: env});
-
-    Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
-    Log.info(`[MMM-MPlayer] DISPLAY=:0 mplayer ${mplayerArgumentsString}`);
-
-    // Track the process for future termination
-    this.mplayerProcesses[window] = mplayerProcess;
-
-    // Handle standard output and error
-    mplayerProcess.stdout.on('data', (data) => {
-      Log.debug(`mplayer [window-${window}] stdout: ${data}`);
-    });
-
-    mplayerProcess.stderr.on('data', (data) => {
-    });
-
-    mplayerProcess.on('close', (code) => {
-      Log.info(`[MMM-MPlayer] mplayer process for window-${window} exited with code ${code}`);
-    });
-  },
-
-  // Adjust stream positions and windowSize based on layout
-  adjustLayout: function() {
-    Log.debug(`[MMM-MPlayer] adjustLayout`);
-
-    Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
 
     // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]]
     //`${windowPosition}`, `${windowPositionValue}`,
@@ -387,14 +414,6 @@ module.exports = NodeHelper.create({
 
     // windowWidth: 640, // -xy <value>
     //`${windowWidth}`, `${windowWidthValue}`,
-
-    const layout = this.config.layout;
-    let windowPositionValueX = '';
-    let windowPositionValueY = '';
-    let windowSizeX = '';
-    let windowSizeValueX = 640;
-    let windowSizeY = '';
-    let windowSizeValueY = 360;
 
 /*    let windowPosition = this.config.windowPosition;
     let windowPositionValue = '';
