@@ -62,8 +62,8 @@ module.exports = NodeHelper.create({
         const payloadJson = JSON.stringify(payload);
         Log.debug(`[MMM-MPlayer] ${payloadJson}`);
         
-        // Adjust layout and start the stream cycle
-        this.adjustLayout();
+        // Set the parameters and start the stream cycle
+        this.setParameters();
         break;
       case 'START_STREAM_CYCLE':
         Log.debug('[MMM-MPlayer] Stream cycle process started.');
@@ -171,64 +171,7 @@ module.exports = NodeHelper.create({
 
   // Launch a new mplayer process for the window using spawn
   launchMPlayer: function(stream, window) {
-    Log.info(`[MMM-MPlayer] Launch mplayer process for window ${window}`);
-
-/*    if ((layout === 'column') || (layout === 'row')) {
-      noAspect = this.config.noAspect;
-      noBorder = this.config.noBorder;
-      rotate = this.config.rotate;
-      rotateValue = '';
-      windowPosition = this.config.windowPosition;
-      windowPositionValue = '';
-      windowSize = this.config.windowSize;
-      windowSizeX = '';
-      windowSizeValueX = '';
-      windowSizeY = '';
-      windowSizeValueY = '';
-      windowWidth = this.config.windowWidth;
-      windowWidthValue = '';
-      windowWidthNoNewAspect = this.config.windowWidthNoNewAspect;
-      windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = this.config.windowHeightNoNewAspect;
-      windowHeightNoNewAspectValue = '';
-      rtspStreamOverTcp = this.config.rtspStreamOverTcp;
-      rtspStreamOverHttp = this.config.rtspStreamOverHttp;
-      preferIpv4 = this.config.preferIpv4;
-      ipv4onlyProxy = this.config.ipv4onlyProxy;
-      videoOutputDriver = this.config.videoOutputDriver;
-      videoOutputDriverValue = '';
-      noSound = this.config.noSound;
-      mplayerOption = this.config.mplayerOption;
-      mplayerOptionValue = '';
-    } else {
-      noAspect = this.config.windows[window].noAspect || this.config.noAspect;
-      noBorder = this.config.windows[window].noBorder || this.config.noBorder;
-      rotate = this.config.windows[window].rotate || this.config.rotate;
-      rotateValue = '';
-      windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
-      windowPositionValue = '';
-      windowSize = this.config.windows[window].windowSize || this.config.windowSize;
-      windowSizeX = '';
-      windowSizeValueX = '';
-      windowSizeY = '';
-      windowSizeValueY = '';
-      windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
-      windowWidthValue = '';
-      windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
-      windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
-      windowHeightNoNewAspectValue = '';
-      rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-      rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-      preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
-      ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
-      videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
-      videoOutputDriverValue = '';
-      noSound = this.config.windows[window].noSound || this.config.noSound;
-      mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
-      mplayerOptionValue = '';
-    }
-*/
+    Log.info(`[MMM-MPlayer] Launch mplayer process for window ${window} ...`);
     
     // Discard empty arguments
     const mplayerArgumentsArray = [
@@ -281,8 +224,8 @@ module.exports = NodeHelper.create({
   },
 
   // Adjust windowPosition based on windowSize
-  adjustLayout: function(stream, window) {
-    Log.debug(`[MMM-MPlayer] adjustLayout`);
+  setParameters: function(stream, window) {
+    Log.info(`[MMM-MPlayer] setParameters`);
 
     // monitorAspect: 0, // -monitoraspect <ratio>
     // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
@@ -386,7 +329,7 @@ module.exports = NodeHelper.create({
     }
     
     // Print log information
-    Log.info(`[MMM-MPlayer] options and option values (after evaluation):`);
+    Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
     Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
     Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
@@ -401,107 +344,47 @@ module.exports = NodeHelper.create({
     Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
     Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
     Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
-    Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
+    Log.log(`[MMM-MPlayer] noSound: ${noSound}`);
     Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
     Log.info(`[MMM-MPlayer] stream: ${stream}`);
 
-    // windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]]
-    //`${windowPosition}`, `${windowPositionValue}`,
-
-    // windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y>
-    //`${windowSizeX}`, `${windowSizeValueX}`,
-    //`${windowSizeY}`, `${windowSizeValueY}`,
-
-    // windowWidth: 640, // -xy <value>
-    //`${windowWidth}`, `${windowWidthValue}`,
-
-/*    let windowPosition = this.config.windowPosition;
-    let windowPositionValue = '';
-    let windowPositionValueX = '';
-    let windowPositionValueY = '';
-    let windowSize = this.config.windowSize;
-    let windowSizeX = '';
-    let windowSizeValueX = '';
-    let windowSizeY = '';
-    let windowSizeValueY = '';
-
-    if (windowPosition) {
-      windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
-      windowPositionValueX = windowPosition.x;
-      windowPositionValueY = windowPosition.y;
-      windowPosition = '-geometry';
-    } else {
-      windowPosition = '-geometry'; windowPositionValue = '0:0'; windowPositionValueX = 0; windowPositionValueY = 0;
-    }
-    if (windowSize) {
-      windowSizeValueX = windowSize.width;
-      windowSizeValueY = windowSize.height;
-    } else {
-      windowSizeX = 0; windowSizeValueX = 0; windowSizeY = 0; windowSizeValueY = 0;
-    }
-    Log.log(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
-    Log.log(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);
-*/
     if((layout === 'column') || (layout === 'row')) {
       // Calculate position for each window automatically based on the prior window
-      Log.log(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
+      Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
       for (let i=0; i < this.config.windows.length; i++) {
-        Log.log(`[MMM-MPlayer] i = ${i} - length = ${this.config.windows.length}`);
+        Log.info(`[MMM-MPlayer] i = ${i} - length = ${this.config.windows.length}`);
         if ( i == 0 ) {
           this.config.windows[i].windowPosition = windowPosition;
-          Log.log(`[MMM-MPlayer] windowPosition = ${this.config.windows[i].windowPosition}`);
+          Log.info(`[MMM-MPlayer] windowPosition = ${this.config.windows[i].windowPosition}`);
         }
         else if (layout === 'column') {          
           this.config.windows[i].windowPosition = {
             x: this.config.windows[i-1].windowPositionValueX,  // Same x position
             y: this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
           };
-          Log.log(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX}`);
-          Log.log(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5}`);
+          Log.info(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX}`);
+          Log.info(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5}`);
         }
         else if (layout === 'row') {
           this.config.windows[i].windowPosition = {
             x: this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
             y: this.config.windows[i-1].windowPositionValueY  // Same y position
           };
-          Log.log(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5}`);
-          Log.log(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY}`);
+          Log.info(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5}`);
+          Log.info(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY}`);
         }
-        Log.log(`[MMM-MPlayer] adjustLayout - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
+        Log.info(`[MMM-MPlayer] setParameters - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
       }
     }
     else {
-      Log.log(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
+      Log.info(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
       for (let i=0; i < this.config.windows.length; i++) {
-        ////windowPosition = "-geometry";
-        /*let windowPosition = this.config.windows[i].windowPosition;
-        let windowPositionValue = '';
-        let windowPositionValueX = '';
-        let windowPositionValueY = '';
-        let windowSize = this.config.windows[i].windowSize;
-        let windowSizeX = '';
-        let windowSizeValueX = '';
-        let windowSizeY = '';
-        let windowSizeValueY = '';
-    
-        if (windowPosition) {
-          windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
-          windowPositionValueX = windowPosition.x;
-          windowPositionValueY = windowPosition.y;
-        } else {
-          windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = '';
-        }
-        if (windowSize) {
-          windowSizeValueX = windowSize.width;
-          windowSizeValueY = windowSize.height;
-        } else {
-          windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = '';
-        } */
-        //Log.log(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
-        //Log.log(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);   
 
-        //Log.log(`[MMM-MPlayer] adjustLayout - window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
-        Log.log(`[MMM-MPlayer] adjustLayout - window-${i}: ${this.config.windows[i].windowPosition}`);
+        //Log.info(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
+        //Log.info(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);   
+
+        //Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
+        Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPosition}`);
       }
     }
   }
