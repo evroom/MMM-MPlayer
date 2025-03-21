@@ -223,7 +223,7 @@ module.exports = NodeHelper.create({
   },
 
   // Adjust windowPosition based on windowSize
-  setParameters: function(stream, window) {
+  setParameters: function() {
     Log.info(`[MMM-MPlayer] setParameters`);
 
     // monitorAspect: 0, // -monitoraspect <ratio>
@@ -244,16 +244,12 @@ module.exports = NodeHelper.create({
     
     for (let i=0; i < this.config.windows.length; i++) {
       layout = this.config.layout;
-      Log.info(`[MMM-MPlayer] layout: ${layout}`);
       monitorAspect = this.config.monitorAspect;
       monitorAspectValue = '';
       noAspect = this.config.windows[i].noAspect || this.config.noAspect;
-      Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
       noBorder = this.config.windows[i].noBorder || this.config.noBorder;
-      Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
       rotate = this.config.windows[i].rotate || this.config.rotate;
       rotateValue = '';
-      Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
       windowPosition = this.config.windows[i].windowPosition || this.config.windowPosition;
       windowPositionValue = '';
       windowPositionValueX = '';
@@ -278,6 +274,7 @@ module.exports = NodeHelper.create({
       noSound = this.config.windows[i].noSound || this.config.noSound;
       mplayerOption = this.config.windows[i].mplayerOption || this.config.mplayerOption;
       mplayerOptionValue = '';
+      stream = this.config.windows[i].streams;
       
       // Map module configuration option name / values to mplayer option name / values
       if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
@@ -390,7 +387,7 @@ module.exports = NodeHelper.create({
       Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
       Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
       Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
-      Log.log(`[MMM-MPlayer] noSound: ${noSound}`);
+      Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
       Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
       Log.info(`[MMM-MPlayer] stream: ${stream}`);
     }
