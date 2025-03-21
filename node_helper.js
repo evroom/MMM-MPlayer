@@ -249,11 +249,11 @@ module.exports = NodeHelper.create({
       monitorAspectValue = '';
       noAspect = this.config.windows[i].noAspect || this.config.noAspect;
       Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
-      noBorder = this.config.windows[window].noBorder || this.config.noBorder;
+      noBorder = this.config.windows[i].noBorder || this.config.noBorder;
       Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
-      rotate = this.config.windows[window].rotate || this.config.rotate;
-      Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
+      rotate = this.config.windows[i].rotate || this.config.rotate;
       rotateValue = '';
+      Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
 /*      windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
       windowPositionValue = '';
       windowPositionValueX = '';
