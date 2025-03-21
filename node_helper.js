@@ -41,7 +41,7 @@ let mplayerOptionValue;
 
 module.exports = NodeHelper.create({
   start: function() {
-    Log.log('Starting MMM-MPlayer module...');
+    Log.log('Starting MMM-MPlayer module ...');
     this.streams = {};
     this.currentStreamIndex = {};
     this.mplayerProcesses = {};
@@ -249,10 +249,12 @@ module.exports = NodeHelper.create({
       monitorAspectValue = '';
       noAspect = this.config.windows[i].noAspect || this.config.noAspect;
       Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
-/*       noBorder = this.config.windows[window].noBorder || this.config.noBorder;
+      noBorder = this.config.windows[window].noBorder || this.config.noBorder;
+      Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
       rotate = this.config.windows[window].rotate || this.config.rotate;
+      Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
       rotateValue = '';
-      windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
+/*      windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
       windowPositionValue = '';
       windowPositionValueX = '';
       windowPositionValueY = '';
