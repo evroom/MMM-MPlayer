@@ -254,29 +254,29 @@ module.exports = NodeHelper.create({
       rotate = this.config.windows[i].rotate || this.config.rotate;
       rotateValue = '';
       Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
-/*      windowPosition = this.config.windows[window].windowPosition || this.config.windowPosition;
+      windowPosition = this.config.windows[i].windowPosition || this.config.windowPosition;
       windowPositionValue = '';
       windowPositionValueX = '';
       windowPositionValueY = '';
-      windowSize = this.config.windows[window].windowSize || this.config.windowSize;
+      windowSize = this.config.windows[i].windowSize || this.config.windowSize;
       windowSizeX = '';
       windowSizeValueX = '';
       windowSizeY = '';
       windowSizeValueY = '';
-      windowWidth = this.config.windows[window].windowWidth || this.config.windowWidth;
+      windowWidth = this.config.windows[i].windowWidth || this.config.windowWidth;
       windowWidthValue = '';
-      windowWidthNoNewAspect = this.config.windows[window].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+      windowWidthNoNewAspect = this.config.windows[i].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
       windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = this.config.windows[window].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+      windowHeightNoNewAspect = this.config.windows[i].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
       windowHeightNoNewAspectValue = '';
-      rtspStreamOverTcp = this.config.windows[window].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-      rtspStreamOverHttp = this.config.windows[window].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-      preferIpv4 = this.config.windows[window].preferIpv4 || this.config.preferIpv4;
-      ipv4onlyProxy = this.config.windows[window].ipv4onlyProxy || this.config.ipv4onlyProxy;
-      videoOutputDriver = this.config.windows[window].videoOutputDriver || this.config.videoOutputDriver;
+      rtspStreamOverTcp = this.config.windows[i].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+      rtspStreamOverHttp = this.config.windows[i].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+      preferIpv4 = this.config.windows[i].preferIpv4 || this.config.preferIpv4;
+      ipv4onlyProxy = this.config.windows[i].ipv4onlyProxy || this.config.ipv4onlyProxy;
+      videoOutputDriver = this.config.windows[i].videoOutputDriver || this.config.videoOutputDriver;
       videoOutputDriverValue = '';
-      noSound = this.config.windows[window].noSound || this.config.noSound;
-      mplayerOption = this.config.windows[window].mplayerOption || this.config.mplayerOption;
+      noSound = this.config.windows[i].noSound || this.config.noSound;
+      mplayerOption = this.config.windows[i].mplayerOption || this.config.mplayerOption;
       mplayerOptionValue = '';
       
       // Map module configuration option name / values to mplayer option name / values
@@ -335,26 +335,6 @@ module.exports = NodeHelper.create({
         rtspStreamOverHttp = '';
       }
       
-      // Print log information
-      Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
-      Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
-      Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
-      Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
-      Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
-      Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
-      Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
-      Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
-      Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
-      Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
-      Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
-      Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
-      Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
-      Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
-      Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
-      Log.log(`[MMM-MPlayer] noSound: ${noSound}`);
-      Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
-      Log.info(`[MMM-MPlayer] stream: ${stream}`);
-
       if((layout === 'column') || (layout === 'row')) {
         // Calculate position for each window automatically based on the prior window
         Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
@@ -393,7 +373,26 @@ module.exports = NodeHelper.create({
           //Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
           Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPosition}`);
         }
-      } */
+      }
+      // Print log information
+      Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
+      Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
+      Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
+      Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
+      Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
+      Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
+      Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
+      Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
+      Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
+      Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
+      Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
+      Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
+      Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
+      Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
+      Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
+      Log.log(`[MMM-MPlayer] noSound: ${noSound}`);
+      Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
+      Log.info(`[MMM-MPlayer] stream: ${stream}`);
     }
   }
 });
