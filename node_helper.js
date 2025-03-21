@@ -9,7 +9,7 @@ const Log = require('logger');  // Import the Log module from MagicMirror
 
 let layout;
 let monitorAspect;
-let monitorAspectValue = '';
+let monitorAspectValue;
 let noAspect;
 let noBorder;
 let rotate;
