@@ -335,7 +335,7 @@ module.exports = NodeHelper.create({
       if((layout === 'column') || (layout === 'row')) {
         // Calculate position for each window automatically based on the prior window
         Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
-        for (let i=0; i < this.config.windows.length; i++) {
+        //for (let i=0; i < this.config.windows.length; i++) {
           Log.info(`[MMM-MPlayer] i = ${i} - length = ${this.config.windows.length}`);
           if ( i == 0 ) {
             this.config.windows[i].windowPosition = windowPosition;
@@ -358,18 +358,19 @@ module.exports = NodeHelper.create({
             Log.info(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY}`);
           }
           Log.info(`[MMM-MPlayer] setParameters - layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
-        }
+        //}
       }
       else {
         Log.info(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
-        for (let i=0; i < this.config.windows.length; i++) {
+        //for (let i=0; i < this.config.windows.length; i++) {
 
           //Log.info(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
           //Log.info(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);   
 
           //Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
-          Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPosition}`);
-        }
+          //Log.info(`[MMM-MPlayer] setParameters - window-${i}: ${this.config.windows[i].windowPosition}`);
+          Log.info(`[MMM-MPlayer] window-${i} windowPosition: ${windowPosition}`);
+        //}
       }
       // Print log information
       Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
