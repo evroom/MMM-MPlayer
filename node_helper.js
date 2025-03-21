@@ -7,10 +7,9 @@ const { spawn } = require('child_process');
 const { os } = require('os');
 const Log = require('logger');  // Import the Log module from MagicMirror
 
-let layout = this.config.layout;
-let monitorAspect = this.config.monitorAspect;
+let layout;
+let monitorAspect;
 let monitorAspectValue = '';
-
 let noAspect;
 let noBorder;
 let rotate;
@@ -243,6 +242,9 @@ module.exports = NodeHelper.create({
     // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
     // mplayerOption: '', // user defined mplayer option.
     
+    layout = this.config.layout;
+    monitorAspect = this.config.monitorAspect;
+    monitorAspectValue = '';
     noAspect = this.config.windows[window].noAspect || this.config.noAspect;
     noBorder = this.config.windows[window].noBorder || this.config.noBorder;
     rotate = this.config.windows[window].rotate || this.config.rotate;
