@@ -19,6 +19,7 @@ let windowPositionValue;
 let windowPositionValueX ;
 let windowPositionValueY;
 let new_windowPositionValue;
+let prev_windowPositionValue;
 let prev_windowPositionValueX;
 let prev_windowPositionValueY;
 let windowSize;
@@ -234,10 +235,11 @@ module.exports = NodeHelper.create({
       windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
       windowPositionValueX = windowPosition.x;
       windowPositionValueY = windowPosition.y;
+      prev_windowPositionValue = windowPositionValue;
       prev_windowPositionValueX = windowPosition.x;
       prev_windowPositionValueY = windowPosition.y;
       windowPosition = "-geometry";
-    } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; prev_windowPositionValueX = ''; prev_windowPositionValueX = ''; }
+    } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; prev_windowPositionValue = ''; prev_windowPositionValueX = ''; prev_windowPositionValueX = ''; }
     if (windowSize) {
       windowSizeValueX = windowSize.width;
       windowSizeValueY = windowSize.height;
