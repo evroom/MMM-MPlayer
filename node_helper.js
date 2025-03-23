@@ -315,9 +315,13 @@ module.exports = NodeHelper.create({
       //prev_windowIndex = prev_windowPositionValue.index;
       //prev_windowPositionValueX = prev_windowPositionValue.x;
       //prev_windowPositionValueY = prev_windowPositionValue.y;
-      prev_windowPositionValue = windowPositionValues.get(windowIndex)
+      prev_windowPositionValue = windowPositionValues.get(windowIndex);
+      prev_windowPositionValueX = prev_windowPositionValue.split(":")[0];
+      prev_windowPositionValueY = prev_windowPositionValue.split(":")[1];
       Log.info(`[MMM-MPlayer] prev_windowPositionValue: ${prev_windowPositionValue}`);
-
+      Log.info(`[MMM-MPlayer] prev_windowPositionValueX: ${prev_windowPositionValueX}`);
+      Log.info(`[MMM-MPlayer] prev_windowPositionValueY: ${prev_windowPositionValueY}`);
+      
       if ( windowIndex == 0 ) {
         Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
       } else if (layout === 'column') {
