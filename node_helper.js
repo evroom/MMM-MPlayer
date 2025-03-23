@@ -53,33 +53,32 @@ module.exports = NodeHelper.create({
   socketNotificationReceived: function(notification, payload) {
     switch(notification) {
       case 'SET_CONFIG':
-        Log.debug('[MMM-MPlayer] (socketNotificationReceived) Received configuration for MMM-MPlayer module');
+         // Set the configuration after receiving the notification
+        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received SET_CONFIG');
 
-        // Save the configuration
         this.config = payload;
-
         const payloadJson = JSON.stringify(payload);
         Log.debug(`[MMM-MPlayer] ${payloadJson}`);
         
-        // Set the parameters and start the stream cycle
+        // Set the parameters
         this.adjustWindowPosition();
         break;
       case 'START_STREAM_CYCLE':
-        Log.debug('[MMM-MPlayer] Stream cycle process started.');
         // Start the stream cycle after receiving the notification
+        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received START_STREAM_CYCLE');
         this.cycleStreams();
         break;
       case 'STOP_STREAM_CYCLE':
-        Log.debug('[MMM-MPlayer] Stream cycle process stopped.');
         // Stop the stream cycle after receiving the notification
+        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received STOP_STREAM_CYCLE');
         this.stopStreams();
     }
   },
 
   // Start or refresh the streams
   cycleStreams: function() {
-    Log.debug('[MMM-MPlayer] (cycleStreams) - STREAM_CYCLE_STARTED');
-    // Fire up the streams immediately
+    Log.debug('[MMM-MPlayer] (cycleStreams) - Start or refresh the stream(s)');
+    // Start the stream(s) immediately
     for (let i=0; i < this.config.windows.length; i++) {
       if (this.config.windows[i].streams === undefined) {
         Log.debug(`[MMM-MPlayer] streams window-${i} is undefined - no stream to start`);
@@ -110,7 +109,7 @@ module.exports = NodeHelper.create({
       clearInterval(this.streamSwitcher);
       for (let i=0; i < this.config.windows.length; i++) {
         if (this.config.windows[i].streams === undefined) {
-          Log.debug('[MMM-MPlayer] streams window-${i} is undefined - no stream to cycle');
+          Log.debug(`[MMM-MPlayer] streams window-${i} is undefined - no stream to cycle`);
         } else {
           this.killMPlayer(i);
         }
@@ -141,6 +140,7 @@ module.exports = NodeHelper.create({
         this.killMPlayer(window);
 
         // Launch new mplayer process for the window
+        Log.log(`[MMM-MPlayer] launchMPlayer(${windowStreams[nextIndex]}, ${window})`);
         this.launchMPlayer(windowStreams[nextIndex], window);
     }
   },
@@ -154,11 +154,11 @@ module.exports = NodeHelper.create({
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
-        Log.debug(`killer [${window}] stdout: ${data}`);
+        Log.debug(`kill [${window}] stdout: ${data}`);
       });
 
       killer.stderr.on('data', (data) => {
-        Log.error(`killer [${window}] stderr: ${data}`);
+        Log.error(`kill [${window}] stderr: ${data}`);
       });
 
       killer.on('close', (code) => {
@@ -350,7 +350,8 @@ module.exports = NodeHelper.create({
 
   // Adjust windowPosition based on windowSize
   adjustWindowPosition: function() {
-    if ((layout === 'column') || (layout === 'row')) {
+    Log.info('[MMM-MPlayer] (adjustWindowPosition) - Adjust windowPosition ...');
+/*     if ((layout === 'column') || (layout === 'row')) {
       // Calculate position for each window automatically based on the prior window
       Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
       for (let i=0; i < this.config.windows.length; i++) {
@@ -388,6 +389,6 @@ module.exports = NodeHelper.create({
           //Log.info(`[MMM-MPlayer] adjustWindowPosition - window-${i}: ${this.config.windows[i].windowPosition}`);
           //Log.info(`[MMM-MPlayer] window-${i} windowPosition: ${windowPosition} windowPositionValue: ${windowPositionValue}`);
         //}
-    }
+    } */
   }
 });
