@@ -140,7 +140,6 @@ module.exports = NodeHelper.create({
         this.killMPlayer(windowIndex);
 
         // Launch new mplayer process for the window
-        Log.log(`[MMM-MPlayer] launchMPlayer(${windowStreams[nextIndex]}, ${windowIndex})`);
         this.launchMPlayer(windowStreams[nextIndex], windowIndex);
     }
   },
@@ -187,96 +186,94 @@ module.exports = NodeHelper.create({
     // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
     // mplayerOption: '', // user defined mplayer option.
 
-    //for (let window_index=0; window_index < this.config.windows.length; window_index++) {
-      layout = this.config.layout;
-      monitorAspect = this.config.monitorAspect;
-      monitorAspectValue = '';
-      noAspect = this.config.windows[windowIndex].noAspect || this.config.noAspect;
-      noBorder = this.config.windows[windowIndex].noBorder || this.config.noBorder;
-      rotate = this.config.windows[windowIndex].rotate || this.config.rotate;
-      rotateValue = '';
-      windowPosition = this.config.windows[windowIndex].windowPosition || this.config.windowPosition;
-      windowPositionValue = '';
-      windowPositionValueX = '';
-      windowPositionValueY = '';
-      windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
-      windowSizeX = '';
-      windowSizeValueX = '';
-      windowSizeY = '';
-      windowSizeValueY = '';
-      windowWidth = this.config.windows[windowIndex].windowWidth || this.config.windowWidth;
-      windowWidthValue = '';
-      windowWidthNoNewAspect = this.config.windows[windowIndex].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
-      windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = this.config.windows[windowIndex].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
-      windowHeightNoNewAspectValue = '';
-      rtspStreamOverTcp = this.config.windows[windowIndex].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-      rtspStreamOverHttp = this.config.windows[windowIndex].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-      preferIpv4 = this.config.windows[windowIndex].preferIpv4 || this.config.preferIpv4;
-      ipv4onlyProxy = this.config.windows[windowIndex].ipv4onlyProxy || this.config.ipv4onlyProxy;
-      videoOutputDriver = this.config.windows[windowIndex].videoOutputDriver || this.config.videoOutputDriver;
-      videoOutputDriverValue = '';
-      noSound = this.config.windows[windowIndex].noSound || this.config.noSound;
-      mplayerOption = this.config.windows[windowIndex].mplayerOption || this.config.mplayerOption;
-      mplayerOptionValue = '';
-      stream = this.config.windows[windowIndex].streams;
+    layout = this.config.layout;
+    monitorAspect = this.config.monitorAspect;
+    monitorAspectValue = '';
+    noAspect = this.config.windows[windowIndex].noAspect || this.config.noAspect;
+    noBorder = this.config.windows[windowIndex].noBorder || this.config.noBorder;
+    rotate = this.config.windows[windowIndex].rotate || this.config.rotate;
+    rotateValue = '';
+    windowPosition = this.config.windows[windowIndex].windowPosition || this.config.windowPosition;
+    windowPositionValue = '';
+    windowPositionValueX = '';
+    windowPositionValueY = '';
+    windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
+    windowSizeX = '';
+    windowSizeValueX = '';
+    windowSizeY = '';
+    windowSizeValueY = '';
+    windowWidth = this.config.windows[windowIndex].windowWidth || this.config.windowWidth;
+    windowWidthValue = '';
+    windowWidthNoNewAspect = this.config.windows[windowIndex].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+    windowWidthNoNewAspectValue = '';
+    windowHeightNoNewAspect = this.config.windows[windowIndex].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+    windowHeightNoNewAspectValue = '';
+    rtspStreamOverTcp = this.config.windows[windowIndex].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+    rtspStreamOverHttp = this.config.windows[windowIndex].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+    preferIpv4 = this.config.windows[windowIndex].preferIpv4 || this.config.preferIpv4;
+    ipv4onlyProxy = this.config.windows[windowIndex].ipv4onlyProxy || this.config.ipv4onlyProxy;
+    videoOutputDriver = this.config.windows[windowIndex].videoOutputDriver || this.config.videoOutputDriver;
+    videoOutputDriverValue = '';
+    noSound = this.config.windows[windowIndex].noSound || this.config.noSound;
+    mplayerOption = this.config.windows[windowIndex].mplayerOption || this.config.mplayerOption;
+    mplayerOptionValue = '';
+    stream = this.config.windows[windowIndex].streams;
       
-      // Map module configuration option name / values to mplayer option name / values
-      if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
-      if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
-      if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
-      if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
-      if (windowPosition) {
-        windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
-        windowPosition = "-geometry";
-      } else { windowPosition = ''; windowPositionValue = ''; }
-      if (windowSize) {
-        windowSizeValueX = windowSize.width;
-        windowSizeValueY = windowSize.height;
-        windowSizeX = "-x";
-        windowSizeY = "-y";
-      } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = ''; }
-      if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy'; } else { windowWidth = ''; windowWidthValue = ''; }
-      if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
-      if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y'; } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
-      if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp'; } else { rtspStreamOverTcp = ''; }
-      if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http'; } else { rtspStreamOverHttp = ''; }
-      if (preferIpv4) { preferIpv4 = '-prefer-ipv4'; } else { preferIpv4 = ''; }
-      if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy'; } else { ipv4onlyProxy = ''; }
-      if (videoOutputDriver) { videoOutputDriverValue = videoOutputDriver; videoOutputDriver = '-vo' } else { videoOutputDriver = ''; videoOutputDriverValue = ''; }
-      if (noSound) { noSound = '-nosound'; } else { noSound = ''; }
-      if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
+    // Map module configuration option name / values to mplayer option name / values
+    if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
+    if (noAspect) { noAspect = '-noaspect' } else { noAspect = '' }
+    if (noBorder) { noBorder = '-noborder' } else { noBorder = '' }
+    if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
+    if (windowPosition) {
+      windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
+      windowPosition = "-geometry";
+    } else { windowPosition = ''; windowPositionValue = ''; }
+    if (windowSize) {
+      windowSizeValueX = windowSize.width;
+      windowSizeValueY = windowSize.height;
+      windowSizeX = "-x";
+      windowSizeY = "-y";
+    } else { windowSizeX = ''; windowSizeValueX = ''; windowSizeY = ""; windowSizeValueY = ''; }
+    if (windowWidth) { windowWidthValue = windowWidth; windowWidth = '-xy'; } else { windowWidth = ''; windowWidthValue = ''; }
+    if (windowWidthNoNewAspect) { windowWidthNoNewAspectValue = windowWidthNoNewAspect; windowWidthNoNewAspect = "-x"; } else { windowWidthNoNewAspect = ''; windowWidthNoNewAspectValue = ''; }
+    if (windowHeightNoNewAspect) { windowHeightNoNewAspectValue = windowHeightNoNewAspect; windowHeightNoNewAspect = '-y'; } else { windowHeightNoNewAspect = ''; windowHeightNoNewAspectValue = ''; }
+    if (rtspStreamOverTcp) { rtspStreamOverTcp = '-rtsp-stream-over-tcp'; } else { rtspStreamOverTcp = ''; }
+    if (rtspStreamOverHttp) { rtspStreamOverHttp = '-rtsp-stream-over-http'; } else { rtspStreamOverHttp = ''; }
+    if (preferIpv4) { preferIpv4 = '-prefer-ipv4'; } else { preferIpv4 = ''; }
+    if (ipv4onlyProxy) { ipv4onlyProxy = '-ipv4-only-proxy'; } else { ipv4onlyProxy = ''; }
+    if (videoOutputDriver) { videoOutputDriverValue = videoOutputDriver; videoOutputDriver = '-vo' } else { videoOutputDriver = ''; videoOutputDriverValue = ''; }
+    if (noSound) { noSound = '-nosound'; } else { noSound = ''; }
+    if (mplayerOption) { mplayerOptionValue = mplayerOptionValue; mplayerOption = mplayerOption; } else { mplayerOption = ''; mplayerOptionValue = ''; }
 
-      // windowSize takes precedence over windowWidthNoNewAspect, windowHeightNoNewAspect and windowWidth
-      if (windowSize) {
-        windowWidthNoNewAspect = '';
-        windowWidthNoNewAspectValue = '';
-        windowHeightNoNewAspect = '';
-        windowHeightNoNewAspectValue = '';
-        windowWidth = '';
-        windowWidthValue = '';
-      // windowWidth takes precedence over windowWidthNoNewAspect and windowHeightNoNewAspect
-      } else if (windowWidth) {
-        windowWidthNoNewAspect = '';
-        windowWidthNoNewAspectValue = '';
-        windowHeightNoNewAspect = '';
-        windowHeightNoNewAspectValue = '';
-      // windowWidthNoNewAspect takes precedence over windowHeightNoNewAspect
-      } else if (windowWidthNoNewAspect) {
-        windowHeightNoNewAspect = '';
-        windowHeightNoNewAspectValue = '';
-      }
+    // windowSize takes precedence over windowWidthNoNewAspect, windowHeightNoNewAspect and windowWidth
+    if (windowSize) {
+      windowWidthNoNewAspect = '';
+      windowWidthNoNewAspectValue = '';
+      windowHeightNoNewAspect = '';
+      windowHeightNoNewAspectValue = '';
+      windowWidth = '';
+      windowWidthValue = '';
+    // windowWidth takes precedence over windowWidthNoNewAspect and windowHeightNoNewAspect
+    } else if (windowWidth) {
+      windowWidthNoNewAspect = '';
+      windowWidthNoNewAspectValue = '';
+      windowHeightNoNewAspect = '';
+      windowHeightNoNewAspectValue = '';
+    // windowWidthNoNewAspect takes precedence over windowHeightNoNewAspect
+    } else if (windowWidthNoNewAspect) {
+      windowHeightNoNewAspect = '';
+      windowHeightNoNewAspectValue = '';
+    }
 
-      // monitorAspect takes precedence over noAspect
-      if (monitorAspect >= 0) {
-        noAspect = '';
-      }
+    // monitorAspect takes precedence over noAspect
+    if (monitorAspect >= 0) {
+      noAspect = '';
+    }
 
-      // rtspStreamOverTcp takes precedence over rtspStreamOverHttp
-      if (rtspStreamOverTcp) {
-        rtspStreamOverHttp = '';
-      }
-    //}
+    // rtspStreamOverTcp takes precedence over rtspStreamOverHttp
+    if (rtspStreamOverTcp) {
+      rtspStreamOverHttp = '';
+    }
 
     // Print log information
     Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
