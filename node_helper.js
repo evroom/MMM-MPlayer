@@ -202,8 +202,9 @@ module.exports = NodeHelper.create({
     windowPositionValueX = '';
     windowPositionValueY = '';
     new_windowPositionValue = '';
-    prev_windowPositionValueX = '';
-    prev_windowPositionValueY= '';
+    //prev_windowPositionValue = '';
+    //prev_windowPositionValueX = '';
+    //prev_windowPositionValueY= '';
     windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
     windowSizeX = '';
     windowSizeValueX = '';
@@ -235,11 +236,15 @@ module.exports = NodeHelper.create({
       windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
       windowPositionValueX = windowPosition.x;
       windowPositionValueY = windowPosition.y;
-      prev_windowPositionValue = windowPositionValue;
-      prev_windowPositionValueX = windowPosition.x;
-      prev_windowPositionValueY = windowPosition.y;
+      this.config.window[windowIndex].prev_windowPositionValue = windowPositionValue;
+      this.config.window[windowIndex].prev_windowPositionValueX = windowPositionValueX;
+      this.config.window[windowIndex].prev_windowPositionValueY = windowPositionValueY;
+      //prev_windowPositionValue = windowPositionValue;
+      //prev_windowPositionValueX = windowPosition.x;
+      //prev_windowPositionValueY = windowPosition.y;
       windowPosition = "-geometry";
-    } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; prev_windowPositionValue = ''; prev_windowPositionValueX = ''; prev_windowPositionValueX = ''; }
+    } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; }
+      //prev_windowPositionValue = ''; prev_windowPositionValueX = ''; prev_windowPositionValueX = '';
     if (windowSize) {
       windowSizeValueX = windowSize.width;
       windowSizeValueY = windowSize.height;
@@ -294,7 +299,10 @@ module.exports = NodeHelper.create({
       Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
       if ( windowIndex == 0 ) {
         Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
-      } else if (layout === 'column') {   
+      } else if (layout === 'column') {
+        prev_windowPositionValue = this.config.window[windowIndex].prev_windowPositionValue;
+        prev_windowPositionValueX = this.config.window[windowIndex].prev_windowPositionValueX;
+        prev_windowPositionValueY = this.config.window[windowIndex].prev_windowPositionValueY;
         new_windowPositionValue = {
           x: prev_windowPositionValueX, // Same x position
           y: prev_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
@@ -303,6 +311,9 @@ module.exports = NodeHelper.create({
         Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${prev_windowPositionValue}`);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       } else if (layout === 'row') {
+        prev_windowPositionValue = this.config.window[windowIndex].prev_windowPositionValue;
+        prev_windowPositionValueX = this.config.window[windowIndex].prev_windowPositionValueX;
+        prev_windowPositionValueY = this.config.window[windowIndex].prev_windowPositionValueY;
         new_windowPositionValue = {
           x: prev_windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
           y: prev_windowPositionValueY  // Same y position
