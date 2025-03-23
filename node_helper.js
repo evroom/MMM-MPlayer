@@ -300,6 +300,7 @@ module.exports = NodeHelper.create({
           y: prev_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
+        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${prev_windowPositionValue}`);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       }
       else if (layout === 'row') {
@@ -308,13 +309,14 @@ module.exports = NodeHelper.create({
           y: prev_windowPositionValueY  // Same y position
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
+        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${prev_windowPositionValue}`);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       }
     } else {
       Log.info(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
     }
 
-    // Print log information
+    // Print parameters to log 
     Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
     Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
     Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
