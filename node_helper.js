@@ -19,6 +19,8 @@ let windowPositionValue;
 let windowPositionValueX ;
 let windowPositionValueY;
 let new_windowPositionValue;
+const windowPositionValues = new Map();
+let prev_windowIndex;
 let prev_windowPositionValue;
 let prev_windowPositionValueX;
 let prev_windowPositionValueY;
@@ -202,6 +204,7 @@ module.exports = NodeHelper.create({
     windowPositionValueX = '';
     windowPositionValueY = '';
     new_windowPositionValue = '';
+    //prev_windowIndex = '';
     //prev_windowPositionValue = '';
     //prev_windowPositionValueX = '';
     //prev_windowPositionValueY= '';
@@ -236,9 +239,15 @@ module.exports = NodeHelper.create({
       windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
       windowPositionValueX = windowPosition.x;
       windowPositionValueY = windowPosition.y;
-      this.config.window[windowIndex].prev_windowPositionValue = windowPositionValue;
-      this.config.window[windowIndex].prev_windowPositionValueX = windowPositionValueX;
-      this.config.window[windowIndex].prev_windowPositionValueY = windowPositionValueY;
+      windowPositionValues.set(windowIndex, windowPositionValue)
+      //prev_windowPositionValue = {
+      //  index: windowIndex,
+      //  x: windowPosition.x,
+      //  y: windowPosition.y
+      //}
+      //this.config.window[windowIndex].prev_windowPositionValue = windowPositionValue;
+      //this.config.window[windowIndex].prev_windowPositionValueX = windowPositionValueX;
+      //this.config.window[windowIndex].prev_windowPositionValueY = windowPositionValueY;
       //prev_windowPositionValue = windowPositionValue;
       //prev_windowPositionValueX = windowPosition.x;
       //prev_windowPositionValueY = windowPosition.y;
@@ -297,12 +306,22 @@ module.exports = NodeHelper.create({
     if ((layout === 'column') || (layout === 'row')) {
       Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
       Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
+
+      //prev_windowPositionValue = {
+      //  index: windowIndex,
+      //  x: windowPosition.x,
+      //  y: windowPosition.y
+      //}
+      //prev_windowIndex = prev_windowPositionValue.index;
+      //prev_windowPositionValueX = prev_windowPositionValue.x;
+      //prev_windowPositionValueY = prev_windowPositionValue.y;
+      prev_windowPositionValue = windowPositionValues.get(windowIndex)
+      Log.info(`[MMM-MPlayer] prev_windowPositionValue: ${prev_windowPositionValue}`);
+
       if ( windowIndex == 0 ) {
         Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
       } else if (layout === 'column') {
-        prev_windowPositionValue = this.config.window[windowIndex].prev_windowPositionValue;
-        prev_windowPositionValueX = this.config.window[windowIndex].prev_windowPositionValueX;
-        prev_windowPositionValueY = this.config.window[windowIndex].prev_windowPositionValueY;
+
         new_windowPositionValue = {
           x: prev_windowPositionValueX, // Same x position
           y: prev_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
