@@ -18,6 +18,9 @@ let windowPosition;
 let windowPositionValue;
 let windowPositionValueX ;
 let windowPositionValueY;
+let new_windowPositionValue;
+let prev_windowPositionValueX;
+let prev_windowPositionValueY;
 let windowSize;
 let windowSizeX;
 let windowSizeValueX;
@@ -197,6 +200,9 @@ module.exports = NodeHelper.create({
     windowPositionValue = '';
     windowPositionValueX = '';
     windowPositionValueY = '';
+    new_windowPositionValue = '';
+    prev_windowPositionValueX = '';
+    prev_windowPositionValueY= '';
     windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
     windowSizeX = '';
     windowSizeValueX = '';
@@ -226,8 +232,12 @@ module.exports = NodeHelper.create({
     if (rotate) { rotateValue = ['rotate', rotate].join('='); rotate = '-vf'; } else { rotate = ''; rotateValue = ''; }
     if (windowPosition) {
       windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
+      windowPositionValueX = windowPosition.x;
+      windowPositionValueY = windowPosition.y;
+      prev_windowPositionValueX = windowPosition.x;
+      prev_windowPositionValueY = windowPosition.y;
       windowPosition = "-geometry";
-    } else { windowPosition = ''; windowPositionValue = ''; }
+    } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; prev_windowPositionValueX = ''; prev_windowPositionValueX = ''; }
     if (windowSize) {
       windowSizeValueX = windowSize.width;
       windowSizeValueY = windowSize.height;
@@ -273,6 +283,35 @@ module.exports = NodeHelper.create({
     // rtspStreamOverTcp takes precedence over rtspStreamOverHttp
     if (rtspStreamOverTcp) {
       rtspStreamOverHttp = '';
+    }
+
+    // Calculate position for the windows with windowIndex > 0, based on the prior window.
+    // Only necessary for windows where windowPosition is not set in the windows array.
+    if ((layout === 'column') || (layout === 'row')) {
+      Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
+        Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} - length = ${this.config.windows.length}`);
+        if ( windowIndex == 0 ) {
+           Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
+         }
+        else if (layout === 'column') {   
+          new_windowPositionValue = {
+            x: prev_windowPositionValueX, // Same x position
+            y: prev_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
+          };
+          windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
+          Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
+         }
+        else if (layout === 'row') {
+          new_windowPositionValue = {
+            x: prev_windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
+            y: prev_windowPositionValueY  // Same y position
+          };
+          windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
+          Log.info(`[MMM-MPlayer] x = ${this.config.windows[windowIndex-1].windowPositionValueX + windowSizeValueX + 5}`);
+        }
+        Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
+    } else {
+        Log.info(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
     }
 
     // Print log information
