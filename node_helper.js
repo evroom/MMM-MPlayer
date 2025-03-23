@@ -79,23 +79,23 @@ module.exports = NodeHelper.create({
   cycleStreams: function() {
     Log.debug('[MMM-MPlayer] (cycleStreams) - Start or refresh the stream(s)');
     // Start the stream(s) immediately
-    for (let i=0; i < this.config.windows.length; i++) {
-      if (this.config.windows[i].streams === undefined) {
-        Log.debug(`[MMM-MPlayer] streams window-${i} is undefined - no stream to start`);
+    for (let window_index=0; window_index < this.config.windows.length; window_index++) {
+      if (this.config.windows[window_index].streams === undefined) {
+        Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
       } else {
-        Log.debug(`[MMM-MPlayer] streams window-${i}: ${this.config.windows[i].streams}`);
-        this.switchStream(i);
+        Log.debug(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
+        this.switchStream(window_index);
       }
     }
     
     if (this.streamSwitcher == null) {
       this.streamSwitcher = setInterval(() => {
-        for (let i=0; i < this.config.windows.length; i++) {
-          if (this.config.windows[i].streams === undefined) {
-            Log.debug(`[MMM-MPlayer] streams window-${i} is undefined - no stream to start`);
+        for (let window_index=0; window_index < this.config.windows.length; window_index++) {
+          if (this.config.windows[window_index].streams === undefined) {
+            Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
           } else {
-            Log.debug(`[MMM-MPlayer] streams window-${i}: ${this.config.windows[i].streams}`);
-            this.switchStream(i);
+            Log.debug(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
+            this.switchStream(window_index);
           }
         }
       }, this.config.streamInterval);  // Cycle based on the config
@@ -107,69 +107,69 @@ module.exports = NodeHelper.create({
     Log.debug('[MMM-MPlayer] (stopStreams) - killMPlayer');
     if (this.streamSwitcher != null) {
       clearInterval(this.streamSwitcher);
-      for (let i=0; i < this.config.windows.length; i++) {
-        if (this.config.windows[i].streams === undefined) {
-          Log.debug(`[MMM-MPlayer] streams window-${i} is undefined - no stream to cycle`);
+      for (let window_index=0; window_index < this.config.windows.length; window_index++) {
+        if (this.config.windows[window_index].streams === undefined) {
+          Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to cycle`);
         } else {
-          this.killMPlayer(i);
+          this.killMPlayer(window_index);
         }
-        this.currentStreamIndex[i] = -1;
+        this.currentStreamIndex[window_index] = -1;
       }
       this.streamSwitcher = null;
     }
   },
 
-  // Switch the stream for the given window
-  switchStream: function(window) {
+  // Switch the stream for the given windowIndex
+  switchStream: function(windowIndex) {
     Log.debug(`[MMM-MPlayer] (switchStream) - killMPlayer & launchMPlayer`);
     Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
     Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
-    Log.debug(`[MMM-MPlayer] Switching stream for window-${window}`);
-    const windowStreams = this.config.windows[window].streams;
+    Log.debug(`[MMM-MPlayer] Switching stream for window-${windowIndex}`);
+    const windowStreams = this.config.windows[windowIndex].streams;
     Log.debug(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
-    const currentIndex = this.currentStreamIndex[window] === undefined ? -1 : this.currentStreamIndex[window];
+    const currentIndex = this.currentStreamIndex[windowIndex] === undefined ? -1 : this.currentStreamIndex[windowIndex];
     Log.debug(`[MMM-MPlayer] currentIndex: ${currentIndex}`);
     const nextIndex = (currentIndex + 1) % windowStreams.length;
     Log.debug(`[MMM-MPlayer] nextIndex: ${nextIndex}`);
 
     // Update stream index
-    this.currentStreamIndex[window] = nextIndex;
+    this.currentStreamIndex[windowIndex] = nextIndex;
 
     if (currentIndex != nextIndex) {
         // Kill the old mplayer process for the window using SIGTERM
-        this.killMPlayer(window);
+        this.killMPlayer(windowIndex);
 
         // Launch new mplayer process for the window
-        Log.log(`[MMM-MPlayer] launchMPlayer(${windowStreams[nextIndex]}, ${window})`);
-        this.launchMPlayer(windowStreams[nextIndex], window);
+        Log.log(`[MMM-MPlayer] launchMPlayer(${windowStreams[nextIndex]}, ${windowIndex})`);
+        this.launchMPlayer(windowStreams[nextIndex], windowIndex);
     }
   },
 
   // Kill any existing mplayer process for a window using SIGTERM
-  killMPlayer: function(window) {
+  killMPlayer: function(windowIndex) {
     Log.debug('[MMM-MPlayer] (killMPlayer) - Kill existing mplayer processes for a window using SIGTERM');
-    const mplayerProcess = this.mplayerProcesses[window];
+    const mplayerProcess = this.mplayerProcesses[windowIndex];
     if (mplayerProcess) {
-      Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${window} PID ${mplayerProcess.pid}`);
+      Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${windowIndex} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
-        Log.debug(`kill [${window}] stdout: ${data}`);
+        Log.debug(`kill [${windowIndex}] stdout: ${data}`);
       });
 
       killer.stderr.on('data', (data) => {
-        Log.error(`kill [${window}] stderr: ${data}`);
+        Log.error(`kill [${windowIndex}] stderr: ${data}`);
       });
 
       killer.on('close', (code) => {
-        Log.debug(`[MMM-MPlayer] killer process for ${window} exited with code ${code}`);
+        Log.debug(`[MMM-MPlayer] killer process for ${windowIndex} exited with code ${code}`);
       });
     }
   },
 
   // Launch a new mplayer process for the window using spawn
-  launchMPlayer: function(stream, window) {
-    Log.info(`[MMM-MPlayer] (launchMPlayer) - Launch mplayer process for window ${window} ...`);
+  launchMPlayer: function(stream, windowIndex) {
+    Log.info(`[MMM-MPlayer] (launchMPlayer) - Launch mplayer process for window-${windowIndex} ...`);
 
     // monitorAspect: 0, // -monitoraspect <ratio>
     // noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
@@ -187,39 +187,39 @@ module.exports = NodeHelper.create({
     // videoOutputDriver: "xv,gl,gl_nosw,vdpau,", // -vo <driver1[,driver2,...[,]> - Specify a priority list of video output drivers to be used.
     // mplayerOption: '', // user defined mplayer option.
 
-    for (let i=0; i < this.config.windows.length; i++) {
+    //for (let window_index=0; window_index < this.config.windows.length; window_index++) {
       layout = this.config.layout;
       monitorAspect = this.config.monitorAspect;
       monitorAspectValue = '';
-      noAspect = this.config.windows[i].noAspect || this.config.noAspect;
-      noBorder = this.config.windows[i].noBorder || this.config.noBorder;
-      rotate = this.config.windows[i].rotate || this.config.rotate;
+      noAspect = this.config.windows[windowIndex].noAspect || this.config.noAspect;
+      noBorder = this.config.windows[windowIndex].noBorder || this.config.noBorder;
+      rotate = this.config.windows[windowIndex].rotate || this.config.rotate;
       rotateValue = '';
-      windowPosition = this.config.windows[i].windowPosition || this.config.windowPosition;
+      windowPosition = this.config.windows[windowIndex].windowPosition || this.config.windowPosition;
       windowPositionValue = '';
       windowPositionValueX = '';
       windowPositionValueY = '';
-      windowSize = this.config.windows[i].windowSize || this.config.windowSize;
+      windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
       windowSizeX = '';
       windowSizeValueX = '';
       windowSizeY = '';
       windowSizeValueY = '';
-      windowWidth = this.config.windows[i].windowWidth || this.config.windowWidth;
+      windowWidth = this.config.windows[windowIndex].windowWidth || this.config.windowWidth;
       windowWidthValue = '';
-      windowWidthNoNewAspect = this.config.windows[i].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
+      windowWidthNoNewAspect = this.config.windows[windowIndex].windowWidthNoNewAspect || this.config.windowWidthNoNewAspect;
       windowWidthNoNewAspectValue = '';
-      windowHeightNoNewAspect = this.config.windows[i].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
+      windowHeightNoNewAspect = this.config.windows[windowIndex].windowHeightNoNewAspect || this.config.windowHeightNoNewAspect;
       windowHeightNoNewAspectValue = '';
-      rtspStreamOverTcp = this.config.windows[i].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
-      rtspStreamOverHttp = this.config.windows[i].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
-      preferIpv4 = this.config.windows[i].preferIpv4 || this.config.preferIpv4;
-      ipv4onlyProxy = this.config.windows[i].ipv4onlyProxy || this.config.ipv4onlyProxy;
-      videoOutputDriver = this.config.windows[i].videoOutputDriver || this.config.videoOutputDriver;
+      rtspStreamOverTcp = this.config.windows[windowIndex].rtspStreamOverTcp || this.config.rtspStreamOverTcp;
+      rtspStreamOverHttp = this.config.windows[windowIndex].rtspStreamOverHttp || this.config.rtspStreamOverHttp;
+      preferIpv4 = this.config.windows[windowIndex].preferIpv4 || this.config.preferIpv4;
+      ipv4onlyProxy = this.config.windows[windowIndex].ipv4onlyProxy || this.config.ipv4onlyProxy;
+      videoOutputDriver = this.config.windows[windowIndex].videoOutputDriver || this.config.videoOutputDriver;
       videoOutputDriverValue = '';
-      noSound = this.config.windows[i].noSound || this.config.noSound;
-      mplayerOption = this.config.windows[i].mplayerOption || this.config.mplayerOption;
+      noSound = this.config.windows[windowIndex].noSound || this.config.noSound;
+      mplayerOption = this.config.windows[windowIndex].mplayerOption || this.config.mplayerOption;
       mplayerOptionValue = '';
-      stream = this.config.windows[i].streams;
+      stream = this.config.windows[windowIndex].streams;
       
       // Map module configuration option name / values to mplayer option name / values
       if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
@@ -276,7 +276,7 @@ module.exports = NodeHelper.create({
       if (rtspStreamOverTcp) {
         rtspStreamOverHttp = '';
       }
-    }
+    //}
 
     // Print log information
     Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
@@ -329,22 +329,22 @@ module.exports = NodeHelper.create({
     const env = { ...process.env, DISPLAY: ':0' };
     const mplayerProcess = spawn(`mplayer`, mplayerArgumentsArrayFilter, {env: env});
 
-    Log.info(`[MMM-MPlayer] Launched mplayer process for window ${window} with PID ${mplayerProcess.pid}`);
+    Log.info(`[MMM-MPlayer] Launched mplayer process for window ${windowIndex} with PID ${mplayerProcess.pid}`);
     Log.info(`[MMM-MPlayer] DISPLAY=:0 mplayer ${mplayerArgumentsString}`);
 
     // Track the process for future termination
-    this.mplayerProcesses[window] = mplayerProcess;
+    this.mplayerProcesses[windowIndex] = mplayerProcess;
 
     // Handle standard output and error
     mplayerProcess.stdout.on('data', (data) => {
-      Log.debug(`mplayer [window-${window}] stdout: ${data}`);
+      Log.debug(`mplayer [window-${windowIndex}] stdout: ${data}`);
     });
 
     mplayerProcess.stderr.on('data', (data) => {
     });
 
     mplayerProcess.on('close', (code) => {
-      Log.info(`[MMM-MPlayer] mplayer process for window-${window} exited with code ${code}`);
+      Log.info(`[MMM-MPlayer] mplayer process for window-${windowIndex} exited with code ${code}`);
     });
   },
 
@@ -354,40 +354,40 @@ module.exports = NodeHelper.create({
 /*     if ((layout === 'column') || (layout === 'row')) {
       // Calculate position for each window automatically based on the prior window
       Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
-      for (let i=0; i < this.config.windows.length; i++) {
-        Log.info(`[MMM-MPlayer] i = ${i} - length = ${this.config.windows.length}`);
-        if ( i == 0 ) {
-          this.config.windows[i].windowPosition = windowPosition;
-          Log.info(`[MMM-MPlayer] windowPosition = ${this.config.windows[i].windowPosition}`);
+      for (let window_index=0; window_index < this.config.windows.length; window_index++) {
+        Log.info(`[MMM-MPlayer] window_index = ${window_index} - length = ${this.config.windows.length}`);
+        if ( window_index == 0 ) {
+          this.config.windows[window_index].windowPosition = windowPosition;
+          Log.info(`[MMM-MPlayer] windowPosition = ${this.config.windows[window_index].windowPosition}`);
         }
         else if (layout === 'column') {          
-          this.config.windows[i].windowPosition = {
-            x: this.config.windows[i-1].windowPositionValueX,  // Same x position
-            y: this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
+          this.config.windows[window_index].windowPosition = {
+            x: this.config.windows[window_index-1].windowPositionValueX,  // Same x position
+            y: this.config.windows[window_index-1].windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
           };
-          Log.info(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX}`);
-          Log.info(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY + windowSizeValueY + 5}`);
+          Log.info(`[MMM-MPlayer] x = ${this.config.windows[window_index-1].windowPositionValueX}`);
+          Log.info(`[MMM-MPlayer] y = ${this.config.windows[window_index-1].windowPositionValueY + windowSizeValueY + 5}`);
         }
         else if (layout === 'row') {
-          this.config.windows[i].windowPosition = {
-            x: this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
-            y: this.config.windows[i-1].windowPositionValueY  // Same y position
+          this.config.windows[window_index].windowPosition = {
+            x: this.config.windows[window_index-1].windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
+            y: this.config.windows[window_index-1].windowPositionValueY  // Same y position
           };
-          Log.info(`[MMM-MPlayer] x = ${this.config.windows[i-1].windowPositionValueX + windowSizeValueX + 5}`);
-          Log.info(`[MMM-MPlayer] y = ${this.config.windows[i-1].windowPositionValueY}`);
+          Log.info(`[MMM-MPlayer] x = ${this.config.windows[window_index-1].windowPositionValueX + windowSizeValueX + 5}`);
+          Log.info(`[MMM-MPlayer] y = ${this.config.windows[window_index-1].windowPositionValueY}`);
         }
-        Log.info(`[MMM-MPlayer] layout: ${layout}, window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
+        Log.info(`[MMM-MPlayer] layout: ${layout}, window-${window_index}: ${this.config.windows[window_index].windowPositionValueX}:${this.config.windows[window_index].windowPositionValueY}`);
       }
     } else {
         Log.info(`[MMM-MPlayer] layout is not column or row, so expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
-        //for (let i=0; i < this.config.windows.length; i++) {
+        //for (let window_index=0; window_index < this.config.windows.length; window_index++) {
 
           //Log.info(`[MMM-MPlayer] windowPositionValue = ${windowPositionValue} - windowPositionValueX = ${windowPositionValueX} windowPositionValueY = ${windowPositionValueY}`);
           //Log.info(`[MMM-MPlayer] windowSizeValueX = ${windowSizeValueX} - windowSizeValueY = ${windowSizeValueY}`);   
 
-          //Log.info(`[MMM-MPlayer] adjustWindowPosition - window-${i}: ${this.config.windows[i].windowPositionValueX}:${this.config.windows[i].windowPositionValueY}`);
-          //Log.info(`[MMM-MPlayer] adjustWindowPosition - window-${i}: ${this.config.windows[i].windowPosition}`);
-          //Log.info(`[MMM-MPlayer] window-${i} windowPosition: ${windowPosition} windowPositionValue: ${windowPositionValue}`);
+          //Log.info(`[MMM-MPlayer] adjustWindowPosition - window-${window_index}: ${this.config.windows[window_index].windowPositionValueX}:${this.config.windows[window_index].windowPositionValueY}`);
+          //Log.info(`[MMM-MPlayer] adjustWindowPosition - window-${window_index}: ${this.config.windows[window_index].windowPosition}`);
+          //Log.info(`[MMM-MPlayer] window-${window_index} windowPosition: ${windowPosition} windowPositionValue: ${windowPositionValue}`);
         //}
     } */
   }
