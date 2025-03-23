@@ -308,8 +308,8 @@ module.exports = NodeHelper.create({
       Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
 
       prev_windowPositionValue = windowPositionValues.get(windowIndex);
-      prev_windowPositionValueX = prev_windowPositionValue.split(":")[0];
-      prev_windowPositionValueY = prev_windowPositionValue.split(":")[1];
+      prev_windowPositionValueX = Number(prev_windowPositionValue.split(":")[0]);
+      prev_windowPositionValueY = Number(prev_windowPositionValue.split(":")[1]);
       Log.info(`[MMM-MPlayer] prev_windowPositionValue: ${prev_windowPositionValue}`);
       Log.info(`[MMM-MPlayer] prev_windowPositionValueX: ${prev_windowPositionValueX}`);
       Log.info(`[MMM-MPlayer] prev_windowPositionValueY: ${prev_windowPositionValueY}`);
