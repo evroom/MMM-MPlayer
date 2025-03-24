@@ -134,15 +134,15 @@ module.exports = NodeHelper.create({
   // Switch the stream for the given windowIndex
   switchStream: function(windowIndex) {
     Log.info(`[MMM-MPlayer] (switchStream) - killMPlayer & launchMPlayer`);
-    Log.info(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
-    Log.info(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
+    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
+    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
     Log.info(`[MMM-MPlayer] Switching stream for window-${windowIndex}`);
     const windowStreams = this.config.windows[windowIndex].streams;
-    Log.info(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
+    Log.debug(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
     const currentIndex = this.currentStreamIndex[windowIndex] === undefined ? -1 : this.currentStreamIndex[windowIndex];
-    Log.info(`[MMM-MPlayer] currentIndex: ${currentIndex}`);
+    Log.debug(`[MMM-MPlayer] currentIndex: ${currentIndex}`);
     const nextIndex = (currentIndex + 1) % windowStreams.length;
-    Log.info(`[MMM-MPlayer] nextIndex: ${nextIndex}`);
+    Log.debug(`[MMM-MPlayer] nextIndex: ${nextIndex}`);
 
     // Update stream index
     this.currentStreamIndex[windowIndex] = nextIndex;
@@ -314,15 +314,15 @@ module.exports = NodeHelper.create({
         saved_windowPositionValue = windowPositionValues.get(windowIndex - 1);
         saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
         saved_windowPositionValueY = Number(saved_windowPositionValue.split(":")[1]);
-        Log.info(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
-        Log.info(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
-        Log.info(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`);
+        Log.debug(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
+        Log.debug(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
+        Log.debug(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`);
         saved_windowSizeValue = windowSizeValues.get(windowIndex - 1);
         saved_windowSizeValueX = Number(saved_windowSizeValue.split(":")[0]);
         saved_windowSizeValueY = Number(saved_windowSizeValue.split(":")[1]);
-        Log.info(`[MMM-MPlayer] saved_windowSizeValue: ${saved_windowSizeValue}`);
-        Log.info(`[MMM-MPlayer] saved_windowSizeValueX: ${saved_windowSizeValueX}`);
-        Log.info(`[MMM-MPlayer] saved_windowSizeValueY: ${saved_windowSizeValueY}`);
+        Log.debug(`[MMM-MPlayer] saved_windowSizeValue: ${saved_windowSizeValue}`);
+        Log.debug(`[MMM-MPlayer] saved_windowSizeValueX: ${saved_windowSizeValueX}`);
+        Log.debug(`[MMM-MPlayer] saved_windowSizeValueY: ${saved_windowSizeValueY}`);
         new_windowPositionValue = {
           x: saved_windowPositionValueX, // Same x position
           y: saved_windowPositionValueY + saved_windowSizeValueY + 5 // y position of previous window plus previous height plus buffer
@@ -337,15 +337,15 @@ module.exports = NodeHelper.create({
         saved_windowPositionValue = windowPositionValues.get(windowIndex - 1);
         saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
         saved_windowPositionValueY = Number(saved_windowPositionValue.split(":")[1]);
-        Log.info(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
-        Log.info(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
-        Log.info(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`);
+        Log.debug(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
+        Log.debug(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
+        Log.debug(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`);
         saved_windowSizeValue = windowSizeValues.get(windowIndex - 1);
         saved_windowSizeValueX = Number(saved_windowSizeValue.split(":")[0]);
         saved_windowSizeValueY = Number(saved_windowSizeValue.split(":")[1]);
-        Log.info(`[MMM-MPlayer] saved_windowSizeValue: ${saved_windowSizeValue}`);
-        Log.info(`[MMM-MPlayer] saved_windowSizeValueX: ${saved_windowSizeValueX}`);
-        Log.info(`[MMM-MPlayer] saved_windowSizeValueY: ${saved_windowSizeValueY}`);
+        Log.debug(`[MMM-MPlayer] saved_windowSizeValue: ${saved_windowSizeValue}`);
+        Log.debug(`[MMM-MPlayer] saved_windowSizeValueX: ${saved_windowSizeValueX}`);
+        Log.debug(`[MMM-MPlayer] saved_windowSizeValueY: ${saved_windowSizeValueY}`);
         new_windowPositionValue = {
           x: saved_windowPositionValueX + saved_windowSizeValueX + 5, // x position of previous window plus previous width and buffer
           y: saved_windowPositionValueY  // Same y position
