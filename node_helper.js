@@ -1,5 +1,5 @@
 /* MagicMirror Module: MMM-MPlayer.js
- * Version: 2.0.1
+ * Version: 2.0.1 dev
  */
 
 const NodeHelper = require('node_helper');
