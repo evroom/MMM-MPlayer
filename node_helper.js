@@ -329,7 +329,6 @@ module.exports = NodeHelper.create({
           y: saved_windowPositionValueY + saved_windowSizeValueY + 5 // y position of previous window plus previous height plus buffer
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
-        //windowSizeValue = [new_windowSizeValue.x, new_windowSizeValue.y].join(':');
         windowPositionValues.set(windowIndex, windowPositionValue);
         windowSizeValues.set(windowIndex, windowSizeValue);
         Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
@@ -353,7 +352,6 @@ module.exports = NodeHelper.create({
           y: saved_windowPositionValueY  // Same y position
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
-        //windowSizeValue = [new_windowSizeValue.x, new_windowSizeValue.y].join(':');
         windowPositionValues.set(windowIndex, windowPositionValue);
         windowSizeValues.set(windowIndex, windowSizeValue);
         Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
