@@ -66,36 +66,36 @@ module.exports = NodeHelper.create({
     switch(notification) {
       case 'SET_CONFIG':
          // Set the configuration after receiving the notification
-        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received SET_CONFIG');
+        Log.info('[MMM-MPlayer] (socketNotificationReceived) - Received SET_CONFIG');
 
         this.config = payload;
         const payloadJson = JSON.stringify(payload);
-        Log.debug(`[MMM-MPlayer] ${payloadJson}`);
+        Log.info(`[MMM-MPlayer] ${payloadJson}`);
         
         // Set the parameters
         this.setConfig();
         break;
       case 'START_STREAM_CYCLE':
         // Start the stream cycle after receiving the notification
-        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received START_STREAM_CYCLE');
+        Log.info('[MMM-MPlayer] (socketNotificationReceived) - Received START_STREAM_CYCLE');
         this.cycleStreams();
         break;
       case 'STOP_STREAM_CYCLE':
         // Stop the stream cycle after receiving the notification
-        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received STOP_STREAM_CYCLE');
+        Log.info('[MMM-MPlayer] (socketNotificationReceived) - Received STOP_STREAM_CYCLE');
         this.stopStreams();
     }
   },
 
   // Start or refresh the streams
   cycleStreams: function() {
-    Log.debug('[MMM-MPlayer] (cycleStreams) - Start or refresh the stream(s)');
+    Log.info('[MMM-MPlayer] (cycleStreams) - Start or refresh the stream(s)');
     // Start the stream(s) immediately
     for (let window_index=0; window_index < this.config.windows.length; window_index++) {
       if (this.config.windows[window_index].streams === undefined) {
-        Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
+        Log.info(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
       } else {
-        Log.debug(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
+        Log.info(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
         this.switchStream(window_index);
       }
     }
@@ -104,9 +104,9 @@ module.exports = NodeHelper.create({
       this.streamSwitcher = setInterval(() => {
         for (let window_index=0; window_index < this.config.windows.length; window_index++) {
           if (this.config.windows[window_index].streams === undefined) {
-            Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
+            Log.info(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
           } else {
-            Log.debug(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
+            Log.info(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
             this.switchStream(window_index);
           }
         }
@@ -116,12 +116,12 @@ module.exports = NodeHelper.create({
   },
 
   stopStreams: function() {
-    Log.debug('[MMM-MPlayer] (stopStreams) - killMPlayer');
+    Log.info('[MMM-MPlayer] (stopStreams) - killMPlayer');
     if (this.streamSwitcher != null) {
       clearInterval(this.streamSwitcher);
       for (let window_index=0; window_index < this.config.windows.length; window_index++) {
         if (this.config.windows[window_index].streams === undefined) {
-          Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to cycle`);
+          Log.info(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to cycle`);
         } else {
           this.killMPlayer(window_index);
         }
@@ -133,16 +133,16 @@ module.exports = NodeHelper.create({
 
   // Switch the stream for the given windowIndex
   switchStream: function(windowIndex) {
-    Log.debug(`[MMM-MPlayer] (switchStream) - killMPlayer & launchMPlayer`);
-    Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
-    Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
-    Log.debug(`[MMM-MPlayer] Switching stream for window-${windowIndex}`);
+    Log.info(`[MMM-MPlayer] (switchStream) - killMPlayer & launchMPlayer`);
+    Log.info(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
+    Log.info(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
+    Log.info(`[MMM-MPlayer] Switching stream for window-${windowIndex}`);
     const windowStreams = this.config.windows[windowIndex].streams;
-    Log.debug(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
+    Log.info(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
     const currentIndex = this.currentStreamIndex[windowIndex] === undefined ? -1 : this.currentStreamIndex[windowIndex];
-    Log.debug(`[MMM-MPlayer] currentIndex: ${currentIndex}`);
+    Log.info(`[MMM-MPlayer] currentIndex: ${currentIndex}`);
     const nextIndex = (currentIndex + 1) % windowStreams.length;
-    Log.debug(`[MMM-MPlayer] nextIndex: ${nextIndex}`);
+    Log.info(`[MMM-MPlayer] nextIndex: ${nextIndex}`);
 
     // Update stream index
     this.currentStreamIndex[windowIndex] = nextIndex;
@@ -158,14 +158,14 @@ module.exports = NodeHelper.create({
 
   // Kill any existing mplayer process for a window using SIGTERM
   killMPlayer: function(windowIndex) {
-    Log.debug('[MMM-MPlayer] (killMPlayer) - Kill existing mplayer processes for a window using SIGTERM');
+    Log.info('[MMM-MPlayer] (killMPlayer) - Kill existing mplayer processes for a window using SIGTERM');
     const mplayerProcess = this.mplayerProcesses[windowIndex];
     if (mplayerProcess) {
-      Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${windowIndex} PID ${mplayerProcess.pid}`);
+      Log.info(`[MMM-MPlayer] Killing mplayer process for window-${windowIndex} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
-        Log.debug(`kill [${windowIndex}] stdout: ${data}`);
+        Log.info(`kill [${windowIndex}] stdout: ${data}`);
       });
 
       killer.stderr.on('data', (data) => {
@@ -173,7 +173,7 @@ module.exports = NodeHelper.create({
       });
 
       killer.on('close', (code) => {
-        Log.debug(`[MMM-MPlayer] killer process for ${windowIndex} exited with code ${code}`);
+        Log.info(`[MMM-MPlayer] killer process for ${windowIndex} exited with code ${code}`);
       });
     }
   },
@@ -230,7 +230,6 @@ module.exports = NodeHelper.create({
     noSound = this.config.windows[windowIndex].noSound || this.config.noSound;
     mplayerOption = this.config.windows[windowIndex].mplayerOption || this.config.mplayerOption;
     mplayerOptionValue = '';
-    //stream = this.config.windows[windowIndex].streams;
       
     // Map module configuration option name / values to mplayer option name / values
     if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
