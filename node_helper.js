@@ -4,7 +4,6 @@
 
 const NodeHelper = require('node_helper');
 const { spawn } = require('child_process');
-const { os } = require('os');
 const Log = require('logger');  // Import the Log module from MagicMirror
 
 let layout;

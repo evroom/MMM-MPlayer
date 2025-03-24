@@ -116,7 +116,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
   disabled: false,
   position: "top_left",
   config: {
-    layout: "",
+    layout: '',
     streamInterval: 30 * 1000,
     monitorAspect: 0,
     noAspect: false,
@@ -133,7 +133,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
     ipv4onlyProxy: false,
     videoOutputDriver: 'xv,gl,gl_nosw,vdpau,',
     noSound: false,
-    mplayerOption: "",
+    mplayerOption: '',
     windows: [
       {
         windowPosition: { x: 5, y: 225 },
