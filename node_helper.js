@@ -165,11 +165,11 @@ module.exports = NodeHelper.create({
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
-        Log.debug(`kill [${windowIndex}] stdout: ${data}`);
+        Log.debug(`[MMM-MPlayer] kill [${windowIndex}] stdout: ${data}`);
       });
 
       killer.stderr.on('data', (data) => {
-        Log.error(`kill [${windowIndex}] stderr: ${data}`);
+        Log.error(`[MMM-MPlayer] kill [${windowIndex}] stderr: ${data}`);
       });
 
       killer.on('close', (code) => {
