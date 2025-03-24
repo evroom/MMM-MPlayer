@@ -66,7 +66,7 @@ module.exports = NodeHelper.create({
     switch(notification) {
       case 'SET_CONFIG':
          // Set the configuration after receiving the notification
-        Log.info('[MMM-MPlayer] (socketNotificationReceived) - Received SET_CONFIG');
+        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received SET_CONFIG');
 
         this.config = payload;
         const payloadJson = JSON.stringify(payload);
@@ -77,25 +77,25 @@ module.exports = NodeHelper.create({
         break;
       case 'START_STREAM_CYCLE':
         // Start the stream cycle after receiving the notification
-        Log.info('[MMM-MPlayer] (socketNotificationReceived) - Received START_STREAM_CYCLE');
+        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received START_STREAM_CYCLE');
         this.cycleStreams();
         break;
       case 'STOP_STREAM_CYCLE':
         // Stop the stream cycle after receiving the notification
-        Log.info('[MMM-MPlayer] (socketNotificationReceived) - Received STOP_STREAM_CYCLE');
+        Log.debug('[MMM-MPlayer] (socketNotificationReceived) - Received STOP_STREAM_CYCLE');
         this.stopStreams();
     }
   },
 
   // Start or refresh the streams
   cycleStreams: function() {
-    Log.info('[MMM-MPlayer] (cycleStreams) - Start or refresh the stream(s)');
+    Log.debug('[MMM-MPlayer] (cycleStreams) - Start or refresh the stream(s)');
     // Start the stream(s) immediately
     for (let window_index=0; window_index < this.config.windows.length; window_index++) {
       if (this.config.windows[window_index].streams === undefined) {
-        Log.info(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
+        Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
       } else {
-        Log.info(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
+        Log.debug(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
         this.switchStream(window_index);
       }
     }
@@ -104,9 +104,9 @@ module.exports = NodeHelper.create({
       this.streamSwitcher = setInterval(() => {
         for (let window_index=0; window_index < this.config.windows.length; window_index++) {
           if (this.config.windows[window_index].streams === undefined) {
-            Log.info(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
+            Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to start`);
           } else {
-            Log.info(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
+            Log.debug(`[MMM-MPlayer] streams window-${window_index}: ${this.config.windows[window_index].streams}`);
             this.switchStream(window_index);
           }
         }
@@ -116,12 +116,12 @@ module.exports = NodeHelper.create({
   },
 
   stopStreams: function() {
-    Log.info('[MMM-MPlayer] (stopStreams) - killMPlayer');
+    Log.debug('[MMM-MPlayer] (stopStreams) - killMPlayer');
     if (this.streamSwitcher != null) {
       clearInterval(this.streamSwitcher);
       for (let window_index=0; window_index < this.config.windows.length; window_index++) {
         if (this.config.windows[window_index].streams === undefined) {
-          Log.info(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to cycle`);
+          Log.debug(`[MMM-MPlayer] streams window-${window_index} is undefined - no stream to cycle`);
         } else {
           this.killMPlayer(window_index);
         }
@@ -133,10 +133,10 @@ module.exports = NodeHelper.create({
 
   // Switch the stream for the given windowIndex
   switchStream: function(windowIndex) {
-    Log.info(`[MMM-MPlayer] (switchStream) - killMPlayer & launchMPlayer`);
+    Log.debug(`[MMM-MPlayer] (switchStream) - killMPlayer & launchMPlayer`);
     Log.debug(`[MMM-MPlayer] currentStreamIndex - ${JSON.stringify(this.currentStreamIndex)}`);
     Log.debug(`[MMM-MPlayer] mplayerProcesses - ${JSON.stringify(this.mplayerProcesses)}`);
-    Log.info(`[MMM-MPlayer] Switching stream for window-${windowIndex}`);
+    Log.debug(`[MMM-MPlayer] Switching stream for window-${windowIndex}`);
     const windowStreams = this.config.windows[windowIndex].streams;
     Log.debug(`[MMM-MPlayer] windowStreams: ${windowStreams}`);
     const currentIndex = this.currentStreamIndex[windowIndex] === undefined ? -1 : this.currentStreamIndex[windowIndex];
@@ -158,14 +158,14 @@ module.exports = NodeHelper.create({
 
   // Kill any existing mplayer process for a window using SIGTERM
   killMPlayer: function(windowIndex) {
-    Log.info('[MMM-MPlayer] (killMPlayer) - Kill existing mplayer processes for a window using SIGTERM');
+    Log.debug('[MMM-MPlayer] (killMPlayer) - Kill existing mplayer processes for a window using SIGTERM');
     const mplayerProcess = this.mplayerProcesses[windowIndex];
     if (mplayerProcess) {
-      Log.info(`[MMM-MPlayer] Killing mplayer process for window-${windowIndex} PID ${mplayerProcess.pid}`);
+      Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${windowIndex} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
-        Log.info(`kill [${windowIndex}] stdout: ${data}`);
+        Log.debug(`kill [${windowIndex}] stdout: ${data}`);
       });
 
       killer.stderr.on('data', (data) => {
@@ -173,7 +173,7 @@ module.exports = NodeHelper.create({
       });
 
       killer.on('close', (code) => {
-        Log.info(`[MMM-MPlayer] killer process for ${windowIndex} exited with code ${code}`);
+        Log.debug(`[MMM-MPlayer] killer process for ${windowIndex} exited with code ${code}`);
       });
     }
   },
@@ -306,10 +306,10 @@ module.exports = NodeHelper.create({
     // The layout value needs to be column or row.
     // Only necessary for windows where windowPosition is not set in the windows array.
     if ((layout === 'column') || (layout === 'row')) {
-      Log.info(`[MMM-MPlayer] layout is ${layout}, calculate windowSize and windowPosition for each window.`);
-      Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
+      Log.debug(`[MMM-MPlayer] layout is ${layout}, calculate windowSize and windowPosition for each window.`);
+      Log.debug(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
       if ( windowIndex == 0 ) {
-        Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
+        Log.debug(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
       } else if (layout === 'column') {
         saved_windowPositionValue = windowPositionValues.get(windowIndex - 1);
         saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
@@ -330,9 +330,9 @@ module.exports = NodeHelper.create({
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
         windowPositionValues.set(windowIndex, windowPositionValue);
         windowSizeValues.set(windowIndex, windowSizeValue);
-        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
-        Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
-        Log.info(`[MMM-MPlayer] new windowSizeValue: ${windowSizeValue}`);
+        Log.debug(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
+        Log.debug(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
+        Log.debug(`[MMM-MPlayer] new windowSizeValue: ${windowSizeValue}`);
       } else if (layout === 'row') {
         saved_windowPositionValue = windowPositionValues.get(windowIndex - 1);
         saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
@@ -353,33 +353,33 @@ module.exports = NodeHelper.create({
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
         windowPositionValues.set(windowIndex, windowPositionValue);
         windowSizeValues.set(windowIndex, windowSizeValue);
-        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
-        Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
-        Log.info(`[MMM-MPlayer] new windowSizeValue: ${windowSizeValue}`);
+        Log.debug(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
+        Log.debug(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
+        Log.debug(`[MMM-MPlayer] new windowSizeValue: ${windowSizeValue}`);
       }
     } else {
-      Log.info(`[MMM-MPlayer] layout is not column or row, expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
+      Log.debug(`[MMM-MPlayer] layout is not column or row, expecting windowSize and windowPosition in each window config object to be set already with no adjustments.`);
     }
 
     // Print parameters to log 
-    Log.info(`[MMM-MPlayer] Options and option values (after evaluation):`);
-    Log.info(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
-    Log.info(`[MMM-MPlayer] noAspect: ${noAspect}`);
-    Log.info(`[MMM-MPlayer] noBorder: ${noBorder}`);
-    Log.info(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
-    Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
-    Log.info(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
-    Log.info(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
-    Log.info(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
-    Log.info(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
-    Log.info(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
-    Log.info(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
-    Log.info(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
-    Log.info(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
-    Log.info(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
-    Log.info(`[MMM-MPlayer] noSound: ${noSound}`);
-    Log.info(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
-    Log.info(`[MMM-MPlayer] stream: ${stream}`);
+    Log.debug(`[MMM-MPlayer] Options and option values (after evaluation):`);
+    Log.debug(`[MMM-MPlayer] monitorAspect: ${monitorAspect} ${monitorAspectValue}`);
+    Log.debug(`[MMM-MPlayer] noAspect: ${noAspect}`);
+    Log.debug(`[MMM-MPlayer] noBorder: ${noBorder}`);
+    Log.debug(`[MMM-MPlayer] rotate: ${rotate} ${rotateValue}`);
+    Log.debug(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue}`);
+    Log.debug(`[MMM-MPlayer] windowSize: ${windowSizeX} ${windowSizeValueX} ${windowSizeY} ${windowSizeValueY}`);
+    Log.debug(`[MMM-MPlayer] windowWidth: ${windowWidth} ${windowWidthValue}`);
+    Log.debug(`[MMM-MPlayer] windowWidthNoNewAspect: ${windowWidthNoNewAspect} ${windowWidthNoNewAspectValue}`);
+    Log.debug(`[MMM-MPlayer] windowHeightNoNewAspect: ${windowHeightNoNewAspect} ${windowHeightNoNewAspectValue}`);
+    Log.debug(`[MMM-MPlayer] rtspStreamOverTcp: ${rtspStreamOverTcp}`);
+    Log.debug(`[MMM-MPlayer] rtspStreamOverHttp: ${rtspStreamOverHttp}`);
+    Log.debug(`[MMM-MPlayer] preferIpv4: ${preferIpv4}`);
+    Log.debug(`[MMM-MPlayer] ipv4onlyProxy: ${ipv4onlyProxy}`);
+    Log.debug(`[MMM-MPlayer] videoOutputDriver: ${videoOutputDriver} ${videoOutputDriverValue}`);
+    Log.debug(`[MMM-MPlayer] noSound: ${noSound}`);
+    Log.debug(`[MMM-MPlayer] mplayerOption: ${mplayerOption} ${mplayerOptionValue}`);
+    Log.debug(`[MMM-MPlayer] stream: ${stream}`);
 
     // Discard empty arguments
     const mplayerArgumentsArray = [
@@ -431,13 +431,13 @@ module.exports = NodeHelper.create({
     });
 
     mplayerProcess.on('close', (code) => {
-      Log.info(`[MMM-MPlayer] mplayer process for window-${windowIndex} exited with code ${code}`);
+      Log.debug(`[MMM-MPlayer] mplayer process for window-${windowIndex} exited with code ${code}`);
     });
   },
 
   // Adjust windowPosition based on windowSize
   setConfig: function() {
-    Log.info('[MMM-MPlayer] (setConfig) - Set configuration parameters ...');
-    Log.info('[MMM-MPlayer] No need for setting configuration parameters prior to launchMPlayer()');
+    Log.debug('[MMM-MPlayer] (setConfig) - Set configuration parameters ...');
+    Log.debug('[MMM-MPlayer] No need for setting configuration parameters prior to launchMPlayer()');
   }
 });
