@@ -230,7 +230,7 @@ module.exports = NodeHelper.create({
     noSound = this.config.windows[windowIndex].noSound || this.config.noSound;
     mplayerOption = this.config.windows[windowIndex].mplayerOption || this.config.mplayerOption;
     mplayerOptionValue = '';
-    stream = this.config.windows[windowIndex].streams;
+    //stream = this.config.windows[windowIndex].streams;
       
     // Map module configuration option name / values to mplayer option name / values
     if (monitorAspect >= 0) { monitorAspectValue = monitorAspect; monitorAspect = "-monitoraspect"; } else { monitorAspect = ''; monitorAspectValue = ''; }
