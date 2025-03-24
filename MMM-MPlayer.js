@@ -1,5 +1,5 @@
 /* MagicMirror Module: MMM-MPlayer.js
- * Version: 2.0.0
+ * Version: 2.0.1
  * This script communicates with the backend (node_helper.js) to control mplayer window streaming
  * It starts the stream cycle process only after the DOM is fully loaded.
  */
@@ -7,8 +7,8 @@
 Module.register('MMM-MPlayer', {
     // Define the module's defaults
     defaults: {
-      layout: '',
-      streamInterval: 30000,
+      streamInterval: 30000, // Cycle interval (in milliseconds),
+      layout: '', // '', 'row', 'column'
       monitorAspect: 0, // -monitoraspect <ratio>
       noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
       noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.
@@ -28,6 +28,8 @@ Module.register('MMM-MPlayer', {
       windows:[
         {
           rotate: -1, // -vf rotate[=<0-7>]
+          noAspect: false, // -noaspect - Disable automatic movie aspect ratio compensation.
+          noBorder: true, // -border - Play movie with window border and decorations. Since this is on by default, use -noborder to disable this.    
           windowPosition: { x: 5, y: 225 }, // -geometry x[%][:y[%]] - Adjust where the output is on the screen initially.
           windowSize: { width: 640, height: 360 }, // -x <x> and // -y <y> - Scale image to width <x> and height <y> - Disables aspect calculations.
           windowWidth: 640, // -xy <value> - Set width to value and calculate height to keep correct aspect ratio.
