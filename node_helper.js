@@ -70,7 +70,7 @@ module.exports = NodeHelper.create({
 
         this.config = payload;
         const payloadJson = JSON.stringify(payload);
-        Log.info(`[MMM-MPlayer] ${payloadJson}`);
+        Log.debug(`[MMM-MPlayer] ${payloadJson}`);
         
         // Set the parameters
         this.setConfig();
@@ -420,10 +420,14 @@ module.exports = NodeHelper.create({
 
     // Handle standard output and error
     mplayerProcess.stdout.on('data', (data) => {
-      Log.debug(`mplayer [window-${windowIndex}] stdout: ${data}`);
+      if (data.includes("VO")) {
+        Log.info(`[MMM-MPlayer] [window-${windowIndex}] stdout: ${data}`);
+      }
+      //Log.debug(`[MMM-MPlayer] [window-${windowIndex}] stdout: ${data}`);
     });
 
     mplayerProcess.stderr.on('data', (data) => {
+      //Log.debug(`[MMM-MPlayer] [window-${windowIndex}] stderr: ${data}`);
     });
 
     mplayerProcess.on('close', (code) => {
