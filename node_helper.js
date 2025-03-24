@@ -20,7 +20,6 @@ let windowPositionValueX ;
 let windowPositionValueY;
 let new_windowPositionValue;
 const windowPositionValues = new Map();
-let saved_windowIndex;
 let saved_windowPositionValue;
 let saved_windowPositionValueX;
 let saved_windowPositionValueY;
@@ -67,7 +66,7 @@ module.exports = NodeHelper.create({
         Log.debug(`[MMM-MPlayer] ${payloadJson}`);
         
         // Set the parameters
-        this.adjustWindowPosition();
+        this.setConfig();
         break;
       case 'START_STREAM_CYCLE':
         // Start the stream cycle after receiving the notification
@@ -204,10 +203,6 @@ module.exports = NodeHelper.create({
     windowPositionValueX = '';
     windowPositionValueY = '';
     new_windowPositionValue = '';
-    //saved_windowIndex = '';
-    //saved_windowPositionValue = '';
-    //saved_windowPositionValueX = '';
-    //saved_windowPositionValueY= '';
     windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
     windowSizeX = '';
     windowSizeValueX = '';
@@ -244,7 +239,6 @@ module.exports = NodeHelper.create({
       }
       windowPosition = "-geometry";
     } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; }
-      //saved_windowPositionValue = ''; saved_windowPositionValueX = ''; saved_windowPositionValueX = '';
     if (windowSize) {
       windowSizeValueX = windowSize.width;
       windowSizeValueY = windowSize.height;
@@ -298,14 +292,6 @@ module.exports = NodeHelper.create({
     if ((layout === 'column') || (layout === 'row')) {
       Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
       Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
-
-/*       saved_windowPositionValue = windowPositionValues.get(windowIndex);
-      saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
-      saved_windowPositionValueY = Number(saved_windowPositionValue.split(":")[1]);
-      Log.info(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
-      Log.info(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
-      Log.info(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`); */
-
       if ( windowIndex == 0 ) {
         Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
       } else if (layout === 'column') {
@@ -414,7 +400,8 @@ module.exports = NodeHelper.create({
   },
 
   // Adjust windowPosition based on windowSize
-  adjustWindowPosition: function() {
-    Log.info('[MMM-MPlayer] (adjustWindowPosition) - Adjust windowPosition ...');
+  setConfig: function() {
+    Log.info('[MMM-MPlayer] (setConfig) - Set configuration parameters ...');
+    Log.info('[MMM-MPlayer] No need for setting configuration parameters prior to launchMPlayer()');
   }
 });
