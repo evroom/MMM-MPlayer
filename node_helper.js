@@ -431,7 +431,7 @@ module.exports = NodeHelper.create({
     });
 
     mplayerProcess.on('close', (code) => {
-      Log.debug(`[MMM-MPlayer] mplayer process for window-${windowIndex} exited with code ${code}`);
+      Log.info(`[MMM-MPlayer] mplayer process for window-${windowIndex} exited with code ${code}`);
     });
   },
 
