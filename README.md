@@ -99,7 +99,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | `rtspStreamOverHttp`  | Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.<br>**Possible values:** `true` \| `false`<br>**Default value:** `false` |
 | `preferIpv4`  | Use IPv4 on network connections. Falls back on IPv6 automatically.<br>**Possible values:** `true` \| `false`<br>**Default value:** `false` |
 | `ipv4onlyProxy`  | Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.<br>**Possible values:** `true` \| `false`<br>**Default value:** `false` |
-| `videoOutputDriver`  | Specify a priority list of video output drivers to be used.<br>Use 'mplayer -vo help' for more info.<br>**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `videoOutputDriver`  | Specify a priority list of video output drivers to be used.<br>**Possible values:** `see 'mplayer -vo help' for more info.`<br>**Default value:** `'xv,gl,gl_nosw,vdpau,'` |
 | `noSound`  | Do not play/encode sound.<br>**Possible values:** `true` \| `false`<br>**Default value:** `false` |
 | `mplayerOption`  | Use additional mplayer option.<br>This option is to experiment with the mplayer options.<br>**Possible values:** see 'man mplayer' for the possible options.<br>**Example value:** `'-flip'`<br>**Default value:** `''` |
 | `windows`  | Array of window objects with individual configuration |
