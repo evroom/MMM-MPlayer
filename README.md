@@ -2,9 +2,8 @@
 This is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that uses MPlayer to display various video files and RTSP streams.
 
 ## Work In Progress
-This module is currently being modified.<br>
-The main branch contains the original code (version 1).<br>
-The dev branch contains the new code (version 2).
+The main branch contains the new code (version 2).<br>
+Testing on my 
 
 ## Screenshot
 ![Screenshot](screenshot.png)
@@ -89,7 +88,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>**Example values:** `16:9` \| `'1.7777'` \| `4:3` \| `'1.3333'`<br>**Default value:** `0` |
 | `noAspect`  | Disable automatic movie aspect ratio compensation.<br>**Possible values:** `true` \| `false`<br>**Default value:** `false` |
 | `noBorder`  | Disable playing movie with window border and decorations.<br>**Possible values:** `true` \| `false`<br>**Default value:** `false` |
-| `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip.<br>**Possible values:** `-1` \| `'0'` \| `'1'` \| `'2'`<br>**Default value:** `-1` |
+| `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip.<br>**Possible values:** `-1` \| `0` \| `1` \| `2`<br>**Default value:** `-1` |
 | `windowPosition`  | Position of the first window (window-0).<br>The other windows will be either 5px below or to the right of this window, depending on `layout`value.<br>Can be left empty as it can be set in the `windows` object.<br>**Default value:** `{ x: 5, y: 225 }` |
 | `windowSize`  | Window size for the windows.<br>Can be left empty as it can be set in the `windows` object.<br>**Default value:** `{ width: 640, height: 360 }` |
 | `windowWidthNoNewAspect`  | Scale image to width <x> - disables aspect calculations.<br>**Example value:** `640`<br>**Default value:** `''` |
@@ -117,6 +116,12 @@ These public streams can be used for testing:
 ## Test environment
 This procedure has been tested on:
 
+Test environment:
+- MagicMirror version: v2.30.0
+- Raspberry Pi 3 Model B Plus Rev 1.3 (1 GB RAM)
+- Raspbian GNU/Linux 12 (bookworm)
+
+Production environment:
 - Raspberry Pi 4 Model B Rev 1.5 with 8 GB RAM
 - Debian GNU/Linux 12 (bookworm)
 - MagicMirror version: 2.30.0
@@ -132,26 +137,25 @@ It will start and stop the video stream based on the notifications:
 - SHOW_HIDDEN_PAGE
 - LEAVE_HIDDEN_PAGE
 
-If payload == 0 then START_STREAM_CYCLE else STOP_STREAM_CYCLE.
+If payload == 0 then START_STREAM_CYCLE else STOP_STREAM_CYCLE.<br>
 Requirement for the moment, is that MMM-MPlayer needs to have page index 0, so it needs to be the first page in the config.
 
+As it takes time before mplayer actually starts streaming, it can come to unwanted behaviour when the rotationTime is too short.
+
 ## Known issues
-- When streaming a network camera using RTSP, it has been reported that the stream may lag or even freeze. It is not clear yet if this is a limitation of the Raspberry Pi or that the RTSP stream is causing this.
+- When streaming a network camera using RTSP, it has been reported that the stream may lag or even freeze. It is not clear yet if this is a limitation of the Raspberry Pi or that the RTSP stream is causing this. One can try setting `rtspStreamOverTcp` or `rtspStreamOverHttp` to `true` to see if this improves streaming.
 
 ## Known bugs
-- When using 1 stream in 1 window, the positioning is not always correct. Restart of MM may be necessary.
-- When using 2 streams in 1 window, the positioning is not correct when cycling through the streams.
-- When using 2 streams in 2 windows, the positioning is not correct when cycling through the streams.
-
-All 3 issues seem to be more related to mplayer then to the module.
+- None
 
 ## Opening Issues
 Opening an Issue is possible, but I cannot promise to be able to do something about it.<br>
 The code for the module was inherited and many stuff heavily depends on the MPlayer code (the latest MPlayer release is 1.5, created on 2022-02-27).
 
-When opening an issue, be sure to include you config, a good description of the issue and [MMM-MPlayer] entries you might find in the log(s).
+When opening an issue, be sure to include you config, a good description of the issue and [MMM-MPlayer] entries you might find in the log(s). Activating the `logLevel` `DEBUG` will give extra information.
 
-It is always recommended to try one of the public streams for testing, to see if streaming is possible at all.
+It is always recommended to first try if the stream will open in, for example, VLC Player and/or to use one of the public streams for testing, to see if streaming is possible at all.<br>
+One can also copy / paste the `DISPLAY=:0 mplayer ...` string to the SSH terminal to see what happens and make adaptations to the mplayer command without the need of changing the MMM-MPlayer settings in the config.js file.
 
 ## Data gathering
 Raspberry Pi (Debian) based, but might apply for other platforms as well.
