@@ -165,15 +165,15 @@ module.exports = NodeHelper.create({
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
-        Log.debug(`[MMM-MPlayer] kill [${windowIndex}] stdout: ${data}`);
+        Log.debug(`[MMM-MPlayer] kill [window-${windowIndex}] stdout: ${data}`);
       });
 
       killer.stderr.on('data', (data) => {
-        Log.error(`[MMM-MPlayer] kill [${windowIndex}] stderr: ${data}`);
+        Log.error(`[MMM-MPlayer] kill [window-${windowIndex}] stderr: ${data}`);
       });
 
       killer.on('close', (code) => {
-        Log.debug(`[MMM-MPlayer] killer process for ${windowIndex} exited with code ${code}`);
+        Log.debug(`[MMM-MPlayer] killer process for window-${windowIndex} exited with code ${code}`);
       });
     }
   },
@@ -412,7 +412,7 @@ module.exports = NodeHelper.create({
     const env = { ...process.env, DISPLAY: ':0' };
     const mplayerProcess = spawn(`mplayer`, mplayerArgumentsArrayFilter, {env: env});
 
-    Log.info(`[MMM-MPlayer] Launched mplayer process for window ${windowIndex} with PID ${mplayerProcess.pid}`);
+    Log.info(`[MMM-MPlayer] Launched mplayer process for window-${windowIndex} with PID ${mplayerProcess.pid}`);
     Log.info(`[MMM-MPlayer] DISPLAY=:0 mplayer ${mplayerArgumentsString}`);
 
     // Track the process for future termination
