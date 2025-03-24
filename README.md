@@ -164,9 +164,9 @@ Test environment:
 - Raspbian GNU/Linux 12 (bookworm)
 
 Production environment:
+- MagicMirror version: v2.30.0
 - Raspberry Pi 4 Model B Rev 1.5 with 8 GB RAM
 - Debian GNU/Linux 12 (bookworm)
-- MagicMirror version: 2.30.0
 
 ## Support for MMM-pages
 [Still under development]<br>
