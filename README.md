@@ -83,30 +83,30 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 ```
 ## Configuration Options 
 ###
-| Option | Description | Default |
-| ------------- | ------------- | ------------- |
-| `layout`  | Can be '', 'row' or 'column'.<br>If not set to row or column, an explicit `windowPosition` entry is expected in the `windows` object | "" |
-| `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>Examples:<br>16:9 or 1.7777<br>4:3 or 1.3333<br> | 0 |
-| `noAspect`  | Disable automatic movie aspect ratio compensation. | false |
-| `noBorder`  | Disable playing movie with window border and decorations. | false |
-| `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip. | -1 |
-| `windowPosition`  | Position of the first window (window-0).<br>[window-1 is either 5px below or to the right of this window, depending on layout].<br>OPTIONAL  as it can be set in the `windows` object. | { x: 5, y: 225 } |
-| `windowSize`  | Window size for the windows.<br>OPTIONAL as it can be set in the `windows` object. | { width: 640, height: 360 } |
-| `windowWidthNoNewAspect`  | Scale image to width <x> - Disables aspect calculations. | '' |
-| `windowHeightNoNewAspect`  | Scale image to height <y> - Disables aspect calculations. | '' |
-| `windowWidth`  | Set width to value and calculate height to keep correct aspect ratio. | '' |
-| `rtspStreamOverTcp`  | Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP. | false |
-| `rtspStreamOverHttp`  | Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP. | false |
-| `preferIpv4`  | Use IPv4 on network connections. Falls back on IPv6 automatically. | false |
-| `ipv4onlyProxy`  | Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections. | false |
-| `videoOutputDriver`  | Specify a priority list of video output drivers to be used.<br>Use 'mplayer -vo help' for more info. | false |
-| `noSound`  | Do not play/encode sound. | false |
-| `mplayerOption`  | Use additional mplayer option .<br>See 'man mplayer' for the possible options.<br>This option is to experiment with the mplayer options.<br>Example: "-flip". | "" |
-| `streamInterval`  | Cycles the streams defined in `windows` after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos). | 30000 |
-| `windows`  | Array of window objects with individual configuration |  |
-| &emsp; `windowSize`  | Window size.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { width: 640, height: 360 } |
-| &emsp; `windowPosition`  | Position of the window.<br>OPTIONAL but required when `layout` is not 'row' or 'column' | { x: 5, y: 225 } |
-| &emsp; `streams`  | URL of the stream(s) [ mp4 , rtsp ] | 'http://stream1.example.com/video1' |
+| Option | Description |
+| ------------- | ------------- |
+| `layout`  | Place windows in a row or a column.<br>If not set to row or column, an explicit `windowPosition` entry is expected in the `windows` object.<br>**Possible values:** `''` \| `'row'` \| `'column'`<br>**Default value:** `''` |
+| `monitorAspect`  | Set the aspect ratio of your monitor or TV screen.<br>**Example values:** `16:9` \| `'1.7777'` \| `4:3` \| `'1.3333'`<br>**Default value:** `0` |
+| `noAspect`  | Disable automatic movie aspect ratio compensation.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `noBorder`  | Disable playing movie with window border and decorations.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `rotate`  | Rotate window.<br>-1: Do not rotate (default).<br>0: Rotate by 90 degrees clockwise and flip.<br>1: Rotate by 90 degrees clockwise.<br>2: Rotate by 90 degrees counterclockwise.<br>3: Rotate by 90 degrees counterclockwise and flip.**Possible values:** `-1` \| `'0'` \| `'1'` \| `'2'`<br>**Default value:** `-1` |
+| `windowPosition`  | Position of the first window (window-0).<br>The other windows will be either 5px below or to the right of this window, depending on layout.<br>Can be left empty as it can be set in the `windows` object.<br>**Default value:** `{ x: 5, y: 225 }` |
+| `windowSize`  | Window size for the windows.<br>Can be left empty as it can be set in the `windows` object.<br>**Default value:** `{ width: 640, height: 360 }` |
+| `windowWidthNoNewAspect`  | Scale image to width <x> - Disables aspect calculations.<br>**Example value:** `640`<br>**Default value:** `''` |
+| `windowHeightNoNewAspect`  | Scale image to height <y> - Disables aspect calculations.<br>**Example value:** `360`<br>**Default value:** `''` |
+| `windowWidth`  | Set width to value and calculate height to keep correct aspect ratio.<br>**Example value:** `640`<br>**Default value:** `''` |
+| `rtspStreamOverTcp`  | Used with 'rtsp://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over TCP.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `rtspStreamOverHttp`  | Used with 'http://' URLs to specify that the resulting incoming RTP and RTCP packets be streamed over HTTP.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `preferIpv4`  | Use IPv4 on network connections. Falls back on IPv6 automatically.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `ipv4onlyProxy`  | Skip the proxy for IPv6 addresses. It will still be used for IPv4 connections.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `videoOutputDriver`  | Specify a priority list of video output drivers to be used.<br>Use 'mplayer -vo help' for more info.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `noSound`  | Do not play/encode sound.**Possible values:** `true` \| `'false'`<br>**Default value:** `false` |
+| `mplayerOption`  | Use additional mplayer option.<br>This option is to experiment with the mplayer options.**Possible values:** see 'man mplayer' for the possible options.<br>**Example value:** `'-flip'`<br>**Default value:** `''` |
+| `streamInterval`  | Cycles the streams defined in `windows` after the provided interval (in milliseconds).<br>Where applicable, the streams will start from the beginning again (for example for mp4 videos).<br>**Default value:** `30000` |
+| `windows`  | Array of window objects with individual configuration |
+| &emsp; `windowSize`  | Window size.<br>Can be left empty but is required when `layout` is not 'row' or 'column'.<br>**Default value:** `{ width: 640, height: 360 }` |
+| &emsp; `windowPosition`  | Position of the window.<br>Can be left empty but is required when `layout` is not 'row' or 'column'.<br>**Default value:** `{ x: 5, y: 225 }` |
+| &emsp; `streams`  | URL of the mp4 or rtsp stream(s).<br>**Default value:**'http://stream1.example.com/video1' |
 
 ### Streams for testing
 These public streams can be used for testing:
