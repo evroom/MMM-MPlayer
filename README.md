@@ -108,6 +108,47 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
 | &emsp; other options  | All options, except for `streamInterval`, `layout` and `monitorAspect` can be used on the `windows` window objects. |
 | &emsp; `streams`  | URL of the mp4 or rtsp stream(s).<br>**Default value:**'http://stream1.example.com/video1' |
 
+### Config example for a single window, single RTSP stream
+```javascript
+{
+  module: 'MMM-MPlayer',
+  header: "SECURIY CAM",
+  disabled: false,
+  position: "top_left",
+  config: {
+    layout: "",
+    streamInterval: 30 * 1000,
+    monitorAspect: 0,
+    noAspect: false,
+    noBorder: true,
+    rotate: -1,
+    windowPosition: '',
+    windowSize: '',
+    windowWidthNoNewAspect: false,
+    windowHeightNoNewAspect: false,
+    windowWidth: '',
+    rtspStreamOverTcp: false,
+    rtspStreamOverHttp: false,
+    preferIpv4: false,
+    ipv4onlyProxy: false,
+    videoOutputDriver: 'xv,gl,gl_nosw,vdpau,',
+    noSound: false,
+    mplayerOption: "",
+    windows: [
+      {
+        windowPosition: { x: 5, y: 225 },
+        windowSize: { width: 640, height: 360 },
+        rtspStreamOverTcp: true,
+        noSound: true,
+        streams: [
+          'rtsp://user:password@192.168.178.55/axis-media/media.amp?streamprofile=ACC_Low'
+        ]
+      }
+    ]
+  }
+},
+```
+
 ### Streams for testing
 These public streams can be used for testing:
 - http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
