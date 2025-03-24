@@ -55,8 +55,8 @@ module.exports = NodeHelper.create({
   start: function() {
     Log.log('Starting MMM-MPlayer module ...');
     this.streams = {};
-    this.currentStreamIndex = {};
-    this.mplayerProcesses = {};
+    this.currentStreamIndex = { window1: -1, window2: -1 };
+    this.mplayerProcesses = { window1: null, window2: null }; // Track mplayer processes for each window
     this.streamInterval = 30000;
     this.streamSwitcher = null;
   },
@@ -99,7 +99,6 @@ module.exports = NodeHelper.create({
         this.switchStream(window_index);
       }
     }
-    
     if (this.streamSwitcher == null) {
       this.streamSwitcher = setInterval(() => {
         for (let window_index=0; window_index < this.config.windows.length; window_index++) {
@@ -128,6 +127,7 @@ module.exports = NodeHelper.create({
         this.currentStreamIndex[window_index] = -1;
       }
       this.streamSwitcher = null;
+      this.currentStreamIndex = { window1: -1, window2: -1 };
     }
   },
 
@@ -163,6 +163,7 @@ module.exports = NodeHelper.create({
     if (mplayerProcess) {
       Log.debug(`[MMM-MPlayer] Killing mplayer process for window-${windowIndex} PID ${mplayerProcess.pid}`);
       const killer = spawn(`kill`, [`${mplayerProcess.pid}`]);
+
       // Handle standard output and error
       killer.stdout.on('data', (data) => {
         Log.debug(`[MMM-MPlayer] kill [window-${windowIndex}] stdout: ${data}`);
@@ -414,7 +415,6 @@ module.exports = NodeHelper.create({
 
     Log.info(`[MMM-MPlayer] Launched mplayer process for window-${windowIndex} with PID ${mplayerProcess.pid}`);
     Log.info(`[MMM-MPlayer] DISPLAY=:0 mplayer ${mplayerArgumentsString}`);
-
     // Track the process for future termination
     this.mplayerProcesses[windowIndex] = mplayerProcess;
 
