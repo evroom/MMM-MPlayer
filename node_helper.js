@@ -239,7 +239,9 @@ module.exports = NodeHelper.create({
       windowPositionValue = [windowPosition.x, windowPosition.y].join(':');
       windowPositionValueX = windowPosition.x;
       windowPositionValueY = windowPosition.y;
-      windowPositionValues.set(windowIndex, windowPositionValue)
+      if (windowIndex == 0) { // Only save windowPositionValue on first pass
+        windowPositionValues.set(windowIndex, windowPositionValue);
+      }
       windowPosition = "-geometry";
     } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; }
       //saved_windowPositionValue = ''; saved_windowPositionValueX = ''; saved_windowPositionValueX = '';
@@ -318,6 +320,7 @@ module.exports = NodeHelper.create({
           y: saved_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
+        windowPositionValues.set(windowIndex, windowPositionValue);
         Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       } else if (layout === 'row') {
@@ -333,6 +336,7 @@ module.exports = NodeHelper.create({
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
         Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
+        windowPositionValues.set(windowIndex, windowPositionValue);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       }
     } else {
