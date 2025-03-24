@@ -20,10 +20,10 @@ let windowPositionValueX ;
 let windowPositionValueY;
 let new_windowPositionValue;
 const windowPositionValues = new Map();
-let prev_windowIndex;
-let prev_windowPositionValue;
-let prev_windowPositionValueX;
-let prev_windowPositionValueY;
+let saved_windowIndex;
+let saved_windowPositionValue;
+let saved_windowPositionValueX;
+let saved_windowPositionValueY;
 let windowSize;
 let windowSizeX;
 let windowSizeValueX;
@@ -204,10 +204,10 @@ module.exports = NodeHelper.create({
     windowPositionValueX = '';
     windowPositionValueY = '';
     new_windowPositionValue = '';
-    //prev_windowIndex = '';
-    //prev_windowPositionValue = '';
-    //prev_windowPositionValueX = '';
-    //prev_windowPositionValueY= '';
+    //saved_windowIndex = '';
+    //saved_windowPositionValue = '';
+    //saved_windowPositionValueX = '';
+    //saved_windowPositionValueY= '';
     windowSize = this.config.windows[windowIndex].windowSize || this.config.windowSize;
     windowSizeX = '';
     windowSizeValueX = '';
@@ -240,20 +240,9 @@ module.exports = NodeHelper.create({
       windowPositionValueX = windowPosition.x;
       windowPositionValueY = windowPosition.y;
       windowPositionValues.set(windowIndex, windowPositionValue)
-      //prev_windowPositionValue = {
-      //  index: windowIndex,
-      //  x: windowPosition.x,
-      //  y: windowPosition.y
-      //}
-      //this.config.window[windowIndex].prev_windowPositionValue = windowPositionValue;
-      //this.config.window[windowIndex].prev_windowPositionValueX = windowPositionValueX;
-      //this.config.window[windowIndex].prev_windowPositionValueY = windowPositionValueY;
-      //prev_windowPositionValue = windowPositionValue;
-      //prev_windowPositionValueX = windowPosition.x;
-      //prev_windowPositionValueY = windowPosition.y;
       windowPosition = "-geometry";
     } else { windowPosition = ''; windowPositionValue = ''; windowPositionValueX = ''; windowPositionValueY = ''; }
-      //prev_windowPositionValue = ''; prev_windowPositionValueX = ''; prev_windowPositionValueX = '';
+      //saved_windowPositionValue = ''; saved_windowPositionValueX = ''; saved_windowPositionValueX = '';
     if (windowSize) {
       windowSizeValueX = windowSize.width;
       windowSizeValueY = windowSize.height;
@@ -302,35 +291,48 @@ module.exports = NodeHelper.create({
     }
 
     // Calculate position for the windows with windowIndex > 0, based on the prior window.
+    // The layout value needs to be column or row.
     // Only necessary for windows where windowPosition is not set in the windows array.
     if ((layout === 'column') || (layout === 'row')) {
       Log.info(`[MMM-MPlayer] layout is ${layout}, so need to calculate windowSize and windowPosition for each window.`);
       Log.info(`[MMM-MPlayer] windowIndex = ${windowIndex} of ${this.config.windows.length - 1}`);
 
-      prev_windowPositionValue = windowPositionValues.get(windowIndex);
-      prev_windowPositionValueX = Number(prev_windowPositionValue.split(":")[0]);
-      prev_windowPositionValueY = Number(prev_windowPositionValue.split(":")[1]);
-      Log.info(`[MMM-MPlayer] prev_windowPositionValue: ${prev_windowPositionValue}`);
-      Log.info(`[MMM-MPlayer] prev_windowPositionValueX: ${prev_windowPositionValueX}`);
-      Log.info(`[MMM-MPlayer] prev_windowPositionValueY: ${prev_windowPositionValueY}`);
+/*       saved_windowPositionValue = windowPositionValues.get(windowIndex);
+      saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
+      saved_windowPositionValueY = Number(saved_windowPositionValue.split(":")[1]);
+      Log.info(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
+      Log.info(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
+      Log.info(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`); */
 
       if ( windowIndex == 0 ) {
         Log.info(`[MMM-MPlayer] windowPosition: ${windowPosition} ${windowPositionValue} `);
       } else if (layout === 'column') {
+        saved_windowPositionValue = windowPositionValues.get(windowIndex - 1);
+        saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
+        saved_windowPositionValueY = Number(saved_windowPositionValue.split(":")[1]);
+        Log.info(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
+        Log.info(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
+        Log.info(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`);
         new_windowPositionValue = {
-          x: prev_windowPositionValueX, // Same x position
-          y: prev_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
+          x: saved_windowPositionValueX, // Same x position
+          y: saved_windowPositionValueY + windowSizeValueY + 5 // y position of previous window plus height and buffer
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
-        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${prev_windowPositionValue}`);
+        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       } else if (layout === 'row') {
+        saved_windowPositionValue = windowPositionValues.get(windowIndex - 1);
+        saved_windowPositionValueX = Number(saved_windowPositionValue.split(":")[0]);
+        saved_windowPositionValueY = Number(saved_windowPositionValue.split(":")[1]);
+        Log.info(`[MMM-MPlayer] saved_windowPositionValue: ${saved_windowPositionValue}`);
+        Log.info(`[MMM-MPlayer] saved_windowPositionValueX: ${saved_windowPositionValueX}`);
+        Log.info(`[MMM-MPlayer] saved_windowPositionValueY: ${saved_windowPositionValueY}`);
         new_windowPositionValue = {
-          x: prev_windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
-          y: prev_windowPositionValueY  // Same y position
+          x: saved_windowPositionValueX + windowSizeValueX + 5, // x position of previous window plus width and buffer
+          y: saved_windowPositionValueY  // Same y position
         };
         windowPositionValue = [new_windowPositionValue.x, new_windowPositionValue.y].join(':');
-        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${prev_windowPositionValue}`);
+        Log.info(`[MMM-MPlayer] previous windowPosition: ${windowPosition} ${saved_windowPositionValue}`);
         Log.info(`[MMM-MPlayer] new windowPosition: ${windowPosition} ${windowPositionValue}`);
       }
     } else {
