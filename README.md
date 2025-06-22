@@ -58,7 +58,7 @@ Edit the file `~/MagicMirror/config/config.js` to add or modify the module.
     ipv4onlyProxy: false,
     videoOutputDriver: 'xv,gl,gl_nosw,vdpau,',
     noSound: false,
-    mplayerOptions: '',  
+    mplayerOption: '',  
     windows: [
       {
         windowSize: { width: 640, height: 360 },
